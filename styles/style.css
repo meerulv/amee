@@ -1,0 +1,373 @@
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #eee;
+}
+
+body.dark-mode a {
+  color: #90caf9;
+}
+
+body.dark-mode .post-card {
+  border-color: #333;
+  background: #1e1e1e;
+}
+
+/* --- Padding --- */
+.p-0 {
+  padding: 0;
+}
+
+.p-1 {
+  padding: calc(var(--pico-spacing) * 0.25);
+}
+
+.p-2 {
+  padding: calc(var(--pico-spacing) * 0.5);
+}
+
+.p-3 {
+  padding: calc(var(--pico-spacing) * 0.75);
+}
+
+.p-4 {
+  padding: var(--pico-spacing);
+}
+
+.p-5 {
+  padding: calc(var(--pico-spacing) * 1.5);
+}
+
+.pt-0 {
+  padding-top: 0;
+}
+
+.pt-1 {
+  padding-top: calc(var(--pico-spacing) * 0.25);
+}
+
+.pt-2 {
+  padding-top: calc(var(--pico-spacing) * 0.5);
+}
+
+.pt-3 {
+  padding-top: calc(var(--pico-spacing) * 0.75);
+}
+
+.pt-4 {
+  padding-top: var(--pico-spacing);
+}
+
+.pt-5 {
+  padding-top: calc(var(--pico-spacing) * 1.5);
+}
+
+.pb-0 {
+  padding-bottom: 0;
+}
+
+.pb-1 {
+  padding-bottom: calc(var(--pico-spacing) * 0.25);
+}
+
+.pb-2 {
+  padding-bottom: calc(var(--pico-spacing) * 0.5);
+}
+
+.pb-3 {
+  padding-bottom: calc(var(--pico-spacing) * 0.75);
+}
+
+.pb-4 {
+  padding-bottom: var(--pico-spacing);
+}
+
+.pb-5 {
+  padding-bottom: calc(var(--pico-spacing) * 1.5);
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pl-1 {
+  padding-left: calc(var(--pico-spacing) * 0.25);
+}
+
+.pl-2 {
+  padding-left: calc(var(--pico-spacing) * 0.5);
+}
+
+.pl-3 {
+  padding-left: calc(var(--pico-spacing) * 0.75);
+}
+
+.pl-4 {
+  padding-left: var(--pico-spacing);
+}
+
+.pl-5 {
+  padding-left: calc(var(--pico-spacing) * 1.5);
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
+.pr-1 {
+  padding-right: calc(var(--pico-spacing) * 0.25);
+}
+
+.pr-2 {
+  padding-right: calc(var(--pico-spacing) * 0.5);
+}
+
+.pr-3 {
+  padding-right: calc(var(--pico-spacing) * 0.75);
+}
+
+.pr-4 {
+  padding-right: var(--pico-spacing);
+}
+
+.pr-5 {
+  padding-right: calc(var(--pico-spacing) * 1.5);
+}
+
+/* Shorthand horizontal/vertical */
+.px-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.px-1 {
+  padding-left: calc(var(--pico-spacing) * 0.25);
+  padding-right: calc(var(--pico-spacing) * 0.25);
+}
+
+.px-2 {
+  padding-left: calc(var(--pico-spacing) * 0.5);
+  padding-right: calc(var(--pico-spacing) * 0.5);
+}
+
+.px-3 {
+  padding-left: calc(var(--pico-spacing) * 0.75);
+  padding-right: calc(var(--pico-spacing) * 0.75);
+}
+
+.px-4 {
+  padding-left: var(--pico-spacing);
+  padding-right: var(--pico-spacing);
+}
+
+.px-5 {
+  padding-left: calc(var(--pico-spacing) * 1.5);
+  padding-right: calc(var(--pico-spacing) * 1.5);
+}
+
+.py-0 {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.py-1 {
+  padding-top: calc(var(--pico-spacing) * 0.25);
+  padding-bottom: calc(var(--pico-spacing) * 0.25);
+}
+
+.py-2 {
+  padding-top: calc(var(--pico-spacing) * 0.5);
+  padding-bottom: calc(var(--pico-spacing) * 0.5);
+}
+
+.py-3 {
+  padding-top: calc(var(--pico-spacing) * 0.75);
+  padding-bottom: calc(var(--pico-spacing) * 0.75);
+}
+
+.py-4 {
+  padding-top: var(--pico-spacing);
+  padding-bottom: var(--pico-spacing);
+}
+
+.py-5 {
+  padding-top: calc(var(--pico-spacing) * 1.5);
+  padding-bottom: calc(var(--pico-spacing) * 1.5);
+}
+
+/* --- Margin --- */
+/* same as padding but with margin instead */
+.m-0 {
+  margin: 0;
+}
+
+.m-1 {
+  margin: calc(var(--pico-spacing) * 0.25);
+}
+
+.m-2 {
+  margin: calc(var(--pico-spacing) * 0.5);
+}
+
+.m-3 {
+  margin: calc(var(--pico-spacing) * 0.75);
+}
+
+.m-4 {
+  margin: var(--pico-spacing);
+}
+
+.m-5 {
+  margin: calc(var(--pico-spacing) * 1.5);
+}
+
+/* mt, mb, ml, mr, mx, my same pattern as padding */
+.mt-0 {
+  margin-top: 0;
+}
+
+.mt-1 {
+  margin-top: calc(var(--pico-spacing) * 0.25);
+}
+
+/* Height (relative to spacing scale or arbitrary values) */
+.h-0 {
+  height: 0;
+}
+
+.h-1 {
+  height: calc(var(--pico-spacing) * 0.25);
+}
+
+.h-2 {
+  height: calc(var(--pico-spacing) * 0.5);
+}
+
+.h-3 {
+  height: calc(var(--pico-spacing) * 0.75);
+}
+
+.h-4 {
+  height: var(--pico-spacing);
+}
+
+.h-5 {
+  height: calc(var(--pico-spacing) * 1.5);
+}
+
+/* Full or screen-based heights */
+.h-full {
+  height: 100%;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+/* Width (relative to spacing scale) */
+.w-0 {
+  width: 0;
+}
+
+.w-1 {
+  width: calc(var(--pico-spacing) * 0.25);
+}
+
+.w-2 {
+  width: calc(var(--pico-spacing) * 0.5);
+}
+
+.w-3 {
+  width: calc(var(--pico-spacing) * 0.75);
+}
+
+.w-4 {
+  width: var(--pico-spacing);
+}
+
+.w-5 {
+  width: calc(var(--pico-spacing) * 1.5);
+}
+
+/* Full / percentage / screen */
+.w-full {
+  width: 100%;
+}
+
+.w-screen {
+  width: 100vw;
+}
+
+/* Min / Max width */
+.min-w-0 {
+  min-width: 0;
+}
+
+.min-w-xs {
+  min-width: 20rem;
+}
+
+/* example Tailwind sizes */
+.min-w-sm {
+  min-width: 24rem;
+}
+
+.min-w-md {
+  min-width: 28rem;
+}
+
+.min-w-lg {
+  min-width: 32rem;
+}
+
+.min-w-xl {
+  min-width: 36rem;
+}
+
+.min-w-2xl {
+  min-width: 42rem;
+}
+
+.max-w-xs {
+  max-width: 20rem;
+}
+
+.max-w-sm {
+  max-width: 24rem;
+}
+
+.max-w-md {
+  max-width: 28rem;
+}
+
+.max-w-lg {
+  max-width: 32rem;
+}
+
+.max-w-xl {
+  max-width: 36rem;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.max-w-full {
+  max-width: 100%;
+}
+
+/* Minimum height utilities */
+.min-h-0 {
+  min-height: 0;
+}
+
+.min-h-full {
+  min-height: 100%;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
