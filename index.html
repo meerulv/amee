@@ -60,7 +60,7 @@
       })
       .catch(error => console.error("Error loading footer:", error));
 
-    fetch("../_partials/_navbar.html")
+    fetch("_partials/_navbar.html")
       .then(response => response.text())
       .then(data => {
         document.getElementById("navbar").innerHTML = data;
