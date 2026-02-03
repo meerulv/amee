@@ -155,10 +155,10 @@
   </div>
 
   <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12" x-data="blogSystem()">
-    <div class="glass min-h-screen rounded-[2.5rem] border-slate-800/40 shadow-2xl overflow-hidden p-8 lg:p-12">
+    <div class="min-h-screen overflow-hidden p-8 lg:p-12">
       <header class="mb-16">
         <h1 class="text-4xl lg:text-6xl font-serif font-bold tracking-tight mb-6">My Notes</h1>
-        <p class="text-xl text-slate-400 max-w-2xl">
+        <p class="text-xl text-slate-400 max-w-4xl">
           Short-form thoughts and long-form guides. Filter by tag to explore specific topics.
         </p>
       </header>
@@ -166,13 +166,30 @@
       <div class="flex flex-col md:flex-row gap-4 mb-12">
         <div class="grow max-w-xs">
           <label for="tagFilter" class="sr-only">Filter by tag</label>
-          <select id="tagFilter" x-model="selectedTag"
-            class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
-            <option value="">All Topics</option>
-            <template x-for="tag in allTags" :key="tag">
-              <option :value="tag" x-text="tag"></option>
-            </template>
-          </select>
+<div class="relative">
+  <select
+    id="tagFilter"
+    x-model="selectedTag"
+    class="w-full appearance-none bg-slate-900 border border-slate-800 rounded-xl px-4 pr-12 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+  >
+    <option>All Topics</option>
+    <template x-for="tag in allTags" :key="tag">
+      <option :value="tag" x-text="tag"></option>
+    </template>
+  </select>
+
+  <!-- Arrow -->
+  <svg
+    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+      d="M19 9l-7 7-7-7" />
+  </svg>
+</div>
+
         </div>
       </div>
 

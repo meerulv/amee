@@ -2,7 +2,8 @@
         mobileMenuOpen: false, 
         scrolled: false 
     }" @scroll.window="scrolled = (window.pageYOffset > 20)">
-    <header :class="scrolled ? 'glass border-slate-800/50 shadow-lg' : 'bg-transparent border-transparent'"
+    <header
+        :class="(scrolled || mobileMenuOpen) ? 'glass border-slate-800/50 shadow-lg' : 'bg-transparent border-transparent'"
         class="max-w-7xl mx-auto rounded-3xl border transition-all duration-300 overflow-hidden">
         <nav class="flex items-center justify-between px-6 py-4">
             <div class="flex items-center">
