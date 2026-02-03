@@ -138,10 +138,44 @@
     .animation-delay-4000 {
       animation-delay: 4s;
     }
+
+    [x-cloak] {
+      display: none !important;
+    }
   </style>
 </head>
 
 <body class="bg-slate-950 text-slate-100 antialiased selection:bg-indigo-900">
+  <!-- Maintenance Banner -->
+  <div id="maintenance-banner"
+    class="fixed bottom-0 left-0 w-full z-50 bg-indigo-950/80 backdrop-blur-md border-t border-indigo-500/20 text-white px-4 py-3 shadow-lg transform transition-transform duration-300 translate-y-0">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="flex p-1.5 rounded-lg bg-indigo-500/20 text-indigo-300 animate-pulse">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path
+              d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+          </svg>
+        </span>
+        <p class="text-sm font-medium text-indigo-100">
+          <span class="font-bold text-white">Maintenance Mode:</span> Site is currently under maintenance. Are you
+          hiring? <a href="https://my.linkedin.com/in/ameerul-arif-mohd-azni" target="_blank"
+            class="underline underline-offset-4 decoration-indigo-300 hover:decoration-indigo-600 transition-colors">
+            Let's connect
+          </a>
+        </p>
+      </div>
+      <button onclick="document.getElementById('maintenance-banner').style.transform='translateY(100%)'"
+        class="p-1 rounded-md hover:bg-white/10 text-indigo-200 hover:text-white transition-colors cursor-pointer"
+        aria-label="Dismiss">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
   <div id="navbar"></div>
 
   <!-- Background Animated Blobs -->
@@ -166,29 +200,21 @@
       <div class="flex flex-col md:flex-row gap-4 mb-12">
         <div class="grow max-w-xs">
           <label for="tagFilter" class="sr-only">Filter by tag</label>
-<div class="relative">
-  <select
-    id="tagFilter"
-    x-model="selectedTag"
-    class="w-full appearance-none bg-slate-900 border border-slate-800 rounded-xl px-4 pr-12 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
-  >
-    <option>All Topics</option>
-    <template x-for="tag in allTags" :key="tag">
-      <option :value="tag" x-text="tag"></option>
-    </template>
-  </select>
+          <div class="relative">
+            <select id="tagFilter" x-model="selectedTag"
+              class="w-full appearance-none bg-slate-900 border border-slate-800 rounded-xl px-4 pr-12 py-3 text-sm focus:ring-2 focus:ring-indigo-500 outline-none transition-all">
+              <option>All Topics</option>
+              <template x-for="tag in allTags" :key="tag">
+                <option :value="tag" x-text="tag"></option>
+              </template>
+            </select>
 
-  <!-- Arrow -->
-  <svg
-    class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-  >
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-      d="M19 9l-7 7-7-7" />
-  </svg>
-</div>
+            <!-- Arrow -->
+            <svg class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
 
         </div>
       </div>
@@ -285,11 +311,19 @@
       try {
         const footerRes = await fetch("../_partials/_footer.html");
         const footerTxt = await footerRes.text();
-        document.getElementById("footer").innerHTML = footerTxt.replace(/href="(?!http|#)/g, 'href="../');
+        const footerEl = document.getElementById("footer");
+        footerEl.innerHTML = footerTxt.replace(/href="(?!http|#)/g, 'href="../');
 
         const navbarRes = await fetch("../_partials/_navbar.html");
         const navbarTxt = await navbarRes.text();
-        document.getElementById("navbar").innerHTML = navbarTxt.replace(/href="(?!http|#)/g, 'href="../');
+        const navbarEl = document.getElementById("navbar");
+        navbarEl.innerHTML = navbarTxt.replace(/href="(?!http|#)/g, 'href="../');
+
+        // Initialize Alpine on the new content if Alpine is already loaded
+        if (window.Alpine) {
+          Alpine.initTree(footerEl);
+          Alpine.initTree(navbarEl);
+        }
       } catch (error) {
         console.error("Error loading partials:", error);
       }
