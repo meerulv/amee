@@ -346,11 +346,11 @@
             </p>
             <div class="mt-auto flex flex-wrap gap-2">
               <span
-                class="px-2 py-1 rounded-md bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-400">Laravel</span>
+                class="px-2 py-1 rounded-md bg-slate-800 text-sm font-bold uppercase tracking-widest text-slate-400">Laravel</span>
               <span
-                class="px-2 py-1 rounded-md bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-400">Vue.js</span>
+                class="px-2 py-1 rounded-md bg-slate-800 text-sm font-bold uppercase tracking-widest text-slate-400">Vue.js</span>
               <span
-                class="px-2 py-1 rounded-md bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-400">MySQL</span>
+                class="px-2 py-1 rounded-md bg-slate-800 text-sm font-bold uppercase tracking-widest text-slate-400">MySQL</span>
             </div>
           </div>
 
@@ -370,10 +370,10 @@
             </p>
             <div class="mt-auto flex flex-wrap gap-2">
               <span
-                class="px-2 py-1 rounded-md bg-indigo-900/40 text-[10px] font-bold uppercase tracking-widest text-indigo-400">TALL
+                class="px-2 py-1 rounded-md bg-indigo-900/40 text-sm font-bold uppercase tracking-widest text-indigo-400">TALL
                 Stack</span>
               <span
-                class="px-2 py-1 rounded-md bg-indigo-900/40 text-[10px] font-bold uppercase tracking-widest text-indigo-400">AWS</span>
+                class="px-2 py-1 rounded-md bg-indigo-900/40 text-sm font-bold uppercase tracking-widest text-indigo-400">AWS</span>
             </div>
           </a>
 
@@ -393,21 +393,21 @@
             </p>
             <div class="mt-auto flex flex-wrap gap-2">
               <span
-                class="px-2 py-1 rounded-md bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-400">Laravel</span>
+                class="px-2 py-1 rounded-md bg-slate-800 text-sm font-bold uppercase tracking-widest text-slate-400">Laravel</span>
               <span
-                class="px-2 py-1 rounded-md bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-400">Docker</span>
+                class="px-2 py-1 rounded-md bg-slate-800 text-sm font-bold uppercase tracking-widest text-slate-400">Docker</span>
             </div>
           </div>
         </div>
       </section>
 
       <!-- Latest Notes (Mini-blog) Section -->
-      <section class="mx-6 lg:mx-12 py-16 bg-slate-900/20 rounded-3xl">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8 px-6">
+      <section class="mx-6 lg:mx-12 py-16">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8">
           <div>
             <h2 class="text-4xl font-serif font-bold mb-4 text-slate-200">Latest Notes</h2>
-            <p class="text-slate-400 max-w-xl">
-              I write about TALL stack, DevOps, and small things I learn every day. Minimalist, but useful.
+            <p class="text-slate-400 max-w-3xl">
+              I write about the small things I learn every day.
             </p>
           </div>
           <a href="blog/blog.html" class="btn btn-ghost border border-slate-800">
@@ -428,27 +428,27 @@
           class="flex flex-wrap justify-center gap-4 md:gap-8 grayscale hover:grayscale-0 transition-all duration-500">
           <div class="flex flex-col items-center">
             <span class="font-bold text-lg">Laravel</span>
-            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Fullstack</span>
+            <span class="text-sm uppercase tracking-tighter text-slate-400">Fullstack</span>
           </div>
           <div class="flex flex-col items-center border-l border-slate-800 pl-8">
             <span class="font-bold text-lg">Livewire</span>
-            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Dynamic UI</span>
+            <span class="text-sm uppercase tracking-tighter text-slate-400">Dynamic UI</span>
           </div>
           <div class="flex flex-col items-center border-l border-slate-800 pl-8">
             <span class="font-bold text-lg">Tailwind 4</span>
-            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Styles</span>
+            <span class="text-sm uppercase tracking-tighter text-slate-400">Styles</span>
           </div>
           <div class="flex flex-col items-center border-l border-slate-800 pl-8">
             <span class="font-bold text-lg">Alpine.js</span>
-            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Behavior</span>
+            <span class="text-sm uppercase tracking-tighter text-slate-400">Behavior</span>
           </div>
           <div class="flex flex-col items-center border-l border-slate-800 pl-8">
             <span class="font-bold text-lg">Docker</span>
-            <span class="text-[10px] uppercase tracking-tighter text-slate-500">DevOps</span>
+            <span class="text-sm uppercase tracking-tighter text-slate-400">DevOps</span>
           </div>
           <div class="flex flex-col items-center border-l border-slate-800 pl-8 pr-8">
             <span class="font-bold text-lg">MySQL</span>
-            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Database</span>
+            <span class="text-sm uppercase tracking-tighter text-slate-400">Database</span>
           </div>
         </div>
       </section>
@@ -529,9 +529,9 @@
         fallbackPosts.forEach(post => {
           latestNotesContainer.innerHTML += `
             <a href="${post.folder}" class="glass p-6 rounded-2xl group hover:-translate-y-1 transition-all duration-300">
-                <div class="text-xs font-semibold text-indigo-500 mb-2 uppercase tracking-widest">${post.date}</div>
+                <div class="text-xs font-semibold text-indigo-300 mb-2 uppercase tracking-widest">${post.date}</div>
                 <h3 class="text-xl font-bold mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${post.title}</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">${post.excerpt}</p>
+                <p class="text-base text-slate-300 line-clamp-2 leading-relaxed">${post.excerpt}</p>
             </a>
           `;
         });
