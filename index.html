@@ -1,138 +1,566 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Amee - Fullstack Developer Portfolio</title>
+  <title>Amee - Fullstack Developer & DevOps</title>
   <meta name="description"
-    content="Portfolio of Amee, a TALL Stack developer with DevOps experience. Explore my company projects, side projects, skills, and get in touch.">
+    content="Full-Stack developer specializing in Laravel, with experience in React and React Native. I go beyond building features by turning business needs into scalable, and reliable applications.">
   <meta name="keywords"
-    content="fullstack developer, TALL stack, Laravel, Livewire, TailwindCSS, AlpineJS, MySQL, Docker, DevOps, portfolio, contact, side projects, company projects">
-  <meta name="author" content="Amee">
-  <link rel="canonical" href="https://amee.my">
-  <meta property="og:title" content="Amee - Fullstack Developer Portfolio">
-  <meta property="og:description"
-    content="Portfolio of Amee, a TALL Stack developer with DevOps experience. Explore my company projects, side projects, skills, and get in touch.">
-  <meta property="og:url" content="https://amee.my">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Amee - Fullstack Developer Portfolio">
-  <meta name="twitter:description"
-    content="Portfolio of Amee, a TALL Stack developer with DevOps experience. Explore my company projects, side projects, skills, and get in touch.">
+    content="Laravel Developer, TALL Stack, Full Stack Developer, DevOps, React, PHP, Open to Work, Malaysia, Software Engineer">
+
+  <!-- JSON-LD Structured Data for SEO & Recruitment -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Amee",
-    "jobTitle": "Fullstack Developer",
-    "description": "A TALL Stack developer with some DevOps experience, hungry to join a team where I can level up my skills, share knowledge, contribute solid code, and genuinely make a difference every day!",
+    "name": "Ameerul Arif Mohd Azni",
     "url": "https://amee.my",
-    "sameAs": [
-      "https://my.linkedin.com/in/ameerul-arif-mohd-azni"
-    ]
+    "jobTitle": "Full Stack Developer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Open to New Opportunities"
+    },
+    "knowsAbout": ["Laravel", "TALL Stack", "DevOps", "React", "Docker", "AWS", "CI/CD"],
+    "description": "A TALL stack developer and DevOps enthusiast based in Malaysia, actively looking for new opportunities to build scalable digital products."
   }
   </script>
-  <link rel="stylesheet" href="styles/pico.slate.min.css">
-  <link rel="stylesheet" href="styles/style.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@700&display=swap"
+    rel="stylesheet">
+
+  <!-- Scripts -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+  <style type="text/css">
+    @theme {
+      --color-primary-50: oklch(0.966 0.007 247.896);
+      --color-primary-100: oklch(0.928 0.014 249.357);
+      --color-primary-200: oklch(0.859 0.029 252.196);
+      --color-primary-300: oklch(0.785 0.043 255.708);
+      --color-primary-400: oklch(0.707 0.059 259.731);
+      --color-primary-500: oklch(0.622 0.076 264.402);
+      --color-primary-600: oklch(0.519 0.101 268.329);
+      --color-primary-700: oklch(0.435 0.113 270.801);
+      --color-primary-800: oklch(0.352 0.106 272.95);
+      --color-primary-900: oklch(0.284 0.089 274.557);
+      --color-primary-950: oklch(0.184 0.064 276.536);
+      --color-indigo-600: oklch(0.519 0.101 268.329);
+      --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      --font-serif: "Outfit", ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+    }
+
+    /* Base Styles */
+    body {
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #f8fafc;
+      color: #0f172a;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .dark body {
+      background-color: #020617;
+      color: #f1f5f9;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: var(--font-serif) !important;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #0f172a;
+    }
+
+    .dark h1,
+    .dark h2,
+    .dark h3,
+    .dark h4,
+    .dark h5,
+    .dark h6 {
+      color: #f1f5f9;
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background-color: rgba(255, 255, 255, 0.9);
+      /* Increased opacity for light mode readability */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      /* Stronger border for separation */
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      /* Softer shadow */
+    }
+
+    .dark .glass {
+      background-color: rgba(15, 23, 42, 0.6);
+      /* Slightly more transparent in dark mode */
+      border-color: rgba(51, 65, 85, 0.4);
+    }
+
+    .card {
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      cursor: pointer;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+
+    .btn-primary {
+      background-color: #4f46e5 !important;
+      color: white !important;
+    }
+
+    .btn-primary:hover {
+      background-color: #4338ca !important;
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+
+    .dark .btn-ghost {
+      color: #94a3b8;
+      border-color: #1e293b;
+    }
+
+    .btn-ghost:hover {
+      background-color: #f1f5f9;
+    }
+
+    .dark .btn-ghost:hover {
+      background-color: #1e293b;
+    }
+
+    /* Animated Blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      mix-blend-mode: multiply;
+      filter: blur(80px);
+      opacity: 0.15;
+      /* Reduced opacity for light mode */
+      animation: blob-anim 7s infinite;
+    }
+
+    .dark .blob {
+      opacity: 0.3;
+    }
+
+    @keyframes blob-anim {
+      0% {
+        transform: translate(0px, 0px) scale(1);
+      }
+
+      33% {
+        transform: translate(30px, -50px) scale(1.1);
+      }
+
+      66% {
+        transform: translate(-20px, 20px) scale(0.9);
+      }
+
+      100% {
+        transform: translate(0px, 0px) scale(1);
+      }
+    }
+
+    .animation-delay-2000 {
+      animation-delay: 2s;
+    }
+
+    .animation-delay-4000 {
+      animation-delay: 4s;
+    }
+  </style>
+
+  <script>
+    // Theme initialization
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  </script>
 </head>
 
-<body>
-  <div class="min-h-screen">
-    <div id="navbar"></div>
+<body
+  class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 antialiased selection:bg-indigo-100 dark:selection:bg-indigo-900 selection:text-indigo-700 dark:selection:text-indigo-300">
 
-    <main class="container">
-      <section>
-        <h1>Hi. I am Amee.</h1>
-        <p>A TALL Stack developer with some DevOps experience, hungry to join a team where I can level up my skills,
-          share knowledge, contribute solid code, and genuinely make a difference every day!</p>
-      </section>
+  <div id="navbar"></div>
 
-      <section class="py-4">
-        <h2>Contact</h2>
-        <p>Feel free to reach me via <a href="https://my.linkedin.com/in/ameerul-arif-mohd-azni" target="_blank"
-            class="contrast">LinkedIn</a>.</p>
-      </section>
-
-      <section class="py-4">
-        <h2>Projects at Companies I Worked With</h2>
-        <ol>
-          <li>Reservation Management System - Brief description of the project, technologies used, and impact.</li>
-          <li>Customer Membership Management System with Full Coupon Management System capibility - Brief description of
-            the project, technologies used, and impact.</li>
-          <li>Ticketing Management System</li>
-        </ol>
-      </section>
-
-      <section class="py-4">
-        <h2>Fun Projects</h2>
-        <ol>
-          <li>
-            <a href="https://ajakme.com" target="_blank" class="contrast">AjakMe.com</a> – The ultimate event management
-            and digital invitation platform in Malaysia, currently focusing on wedding invitations with RSVP
-            functionality.
-          </li>
-          <li>
-            <a href="https://ajakme.com" target="_blank" class="contrast">Musica</a> – A music-focused project (you can
-            add a short description if you want to highlight its purpose or tech stack).
-          </li>
-          <li>
-            <a href="https://ajakme.com" target="_blank" class="contrast">DengarLah</a> – An audio streaming or podcast
-            platform (add a brief explanation of what makes it interesting or unique).
-          </li>
-        </ol>
-      </section>
-
-      <section class="py-4">
-        <h2>Skills</h2>
-        <ul role="group">
-          <li><strong>Laravel 12</strong> & Livewire 3</li>
-          <li>Tailwind CSS 4 & AlpineJS</li>
-          <li>MySQL & database design</li>
-          <li>Docker & containerization</li>
-          <li>DevOps practices & deployment</li>
-        </ul>
-      </section>
-
-    </main>
-
-    <div id="footer"></div>
+  <!-- Background Animated Blobs -->
+  <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <div class="blob w-96 h-96 bg-indigo-400 opacity-20" style="top: -10%; left: -10%;"></div>
+    <div class="blob w-[30rem] h-[30rem] bg-fuchsia-400 opacity-20 animation-delay-2000" style="top: 10%; right: -10%;">
+    </div>
+    <div class="blob w-96 h-96 bg-cyan-400 opacity-20 animation-delay-4000" style="bottom: -10%; left: 10%;"></div>
+    <div class="blob w-[25rem] h-[25rem] bg-indigo-300 opacity-20 animation-delay-2000"
+      style="bottom: 10%; right: 10%;"></div>
   </div>
 
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+    <div class="min-h-screen overflow-hidden">
+      <!-- Hero Section -->
+      <section class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-32 px-6 lg:px-12">
+        <div class="relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+          <!-- Text Content -->
+          <div class="max-w-2xl">
+            <h1 class="text-5xl lg:text-7xl font-serif font-bold tracking-tight mb-8 leading-tight">
+              Building digital products with <span class="text-indigo-600 dark:text-indigo-400">purpose</span>.
+            </h1>
+            <p class="text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed">
+              Hi, I'm <span class="font-semibold text-slate-900 dark:text-white">Amee</span>. A TALL stack developer and
+              DevOps enthusiast based in Malaysia. I thrive on building tools that solve real problems and crafting
+              elegant code.
+            </p>
+            <div class="flex flex-wrap items-center gap-4">
+              <a href="https://my.linkedin.com/in/ameerul-arif-mohd-azni" target="_blank"
+                class="btn btn-primary h-12 shadow-lg shadow-indigo-500/25">
+                Let's connect
+              </a>
+              <a href="#projects" class="btn btn-ghost h-12 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+                View my work
+              </a>
+            </div>
+          </div>
+
+          <!-- Photo Placeholder -->
+          <div class="relative flex justify-center lg:justify-end">
+            <!-- Placeholder Container -->
+            <div class="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+              <!-- Decorative blob behind photo -->
+              <!--
+              <div class="absolute inset-0 bg-indigo-500 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+              -->
+
+              <!-- Rotating Border Ring -->
+              <div
+                class="absolute -inset-1 bg-gradient-to-tr from-indigo-500 to-fuchsia-500 rounded-[2.5rem] opacity-75 blur-sm animate-blob">
+              </div>
+
+              <!-- Photo/Placeholder Area -->
+              <div
+                class="relative h-full w-full bg-slate-100 dark:bg-slate-800 rounded-[2.25rem] border border-white/50 dark:border-slate-700 overflow-hidden flex items-center justify-center group">
+
+                <img src="/images/amee.jpg" alt="Amee"
+                  class="w-full h-full object-cover object-top transform transition-transform duration-500 group-hover:scale-105" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Now Section -->
+      <section class="px-6 lg:px-12 py-10">
+        <div class="glass card p-8 lg:p-12 relative overflow-hidden group">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8 relative z-10">
+            <div class="max-w-xl">
+              <div
+                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400 mb-4 uppercase tracking-wider">
+                Working on now
+              </div>
+              <h2 class="text-3xl font-serif font-bold mb-4">Current Focus</h2>
+              <p class="text-slate-600 dark:text-slate-400 mb-6">
+                I'm always learning and building. Here is what is keeping me busy at the moment:
+              </p>
+              <ul class="grid sm:grid-cols-2 gap-4">
+                <li class="flex items-start space-x-3">
+                  <span class="text-indigo-600 mt-1">🚀</span>
+                  <span class="text-sm font-medium">Scaling <a href="https://ajakme.com" target="_blank"
+                      class="underline underline-offset-4 decoration-indigo-300 hover:decoration-indigo-600 transition-colors">AjakMe.com</a></span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-indigo-600 mt-1">🛠️</span>
+                  <span class="text-sm font-medium">Mastering Laravel 12 & Tailwind 4</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-indigo-600 mt-1">🐳</span>
+                  <span class="text-sm font-medium">Optimizing DevOps workflows</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                  <span class="text-indigo-600 mt-1">📖</span>
+                  <span class="text-sm font-medium">Exploring advanced Livewire patterns</span>
+                </li>
+              </ul>
+            </div>
+            <div class="hidden lg:block">
+              <div
+                class="w-64 h-64 bg-indigo-600/5 dark:bg-indigo-400/5 rounded-full flex items-center justify-center relative">
+                <div class="w-48 h-48 bg-indigo-600/10 dark:bg-indigo-400/10 rounded-full animate-pulse"></div>
+                <svg class="absolute w-12 h-12 text-indigo-600 dark:text-indigo-400 opacity-20" fill="none"
+                  viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects" class="px-6 lg:px-12 py-16">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+          <div>
+            <h2 class="text-4xl font-serif font-bold mb-4">Selected Work</h2>
+            <p class="text-slate-600 dark:text-slate-400 max-w-xl">
+              A collection of projects I've built, ranging from large-scale enterprise systems to passion-driven side
+              projects.
+            </p>
+          </div>
+          <a href="https://github.com/ameerul-arif" target="_blank"
+            class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline inline-flex items-center">
+            View all on GitHub
+            <svg class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Project Card 1 -->
+          <div class="group h-full flex flex-col">
+            <div class="aspect-[16/9] bg-slate-200 dark:bg-slate-800 rounded-2xl mb-6 overflow-hidden relative">
+              <!-- Simulated image placeholder -->
+              <div class="absolute inset-0 flex items-center justify-center text-slate-400 font-serif text-2xl italic">
+                RMS
+              </div>
+              <div class="absolute inset-0 bg-indigo-600/0 group-hover:bg-indigo-600/10 transition-colors duration-300">
+              </div>
+            </div>
+            <h3
+              class="text-xl font-bold mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              Reservation Management System</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">
+              Enterprise-level management system for handling complex reservation flows and schedules.
+            </p>
+            <div class="mt-auto flex flex-wrap gap-2">
+              <span
+                class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400">Laravel</span>
+              <span
+                class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400">Vue.js</span>
+              <span
+                class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400">MySQL</span>
+            </div>
+          </div>
+
+          <!-- Project Card 2 (AjakMe) -->
+          <a href="https://ajakme.com" target="_blank" class="group h-full flex flex-col">
+            <div class="aspect-[16/9] bg-indigo-100 dark:bg-indigo-900/30 rounded-2xl mb-6 overflow-hidden relative">
+              <div class="absolute inset-0 flex items-center justify-center">
+                <span class="text-indigo-600 dark:text-indigo-400 font-serif text-3xl font-bold">AjakMe</span>
+              </div>
+              <div class="absolute inset-0 bg-indigo-600/0 group-hover:bg-indigo-600/10 transition-colors duration-300">
+              </div>
+            </div>
+            <h3
+              class="text-xl font-bold mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              AjakMe.com</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">
+              Digital event invitation platform with real-time RSVP tracking and dynamic customization.
+            </p>
+            <div class="mt-auto flex flex-wrap gap-2">
+              <span
+                class="px-2 py-1 rounded-md bg-indigo-50 dark:bg-indigo-900/40 text-[10px] font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">TALL
+                Stack</span>
+              <span
+                class="px-2 py-1 rounded-md bg-indigo-50 dark:bg-indigo-900/40 text-[10px] font-bold uppercase tracking-widest text-indigo-600 dark:text-indigo-400">AWS</span>
+            </div>
+          </a>
+
+          <!-- Project Card 3 -->
+          <div class="group h-full flex flex-col">
+            <div class="aspect-[16/9] bg-slate-200 dark:bg-slate-800 rounded-2xl mb-6 overflow-hidden relative">
+              <div class="absolute inset-0 flex items-center justify-center text-slate-400 font-serif text-2xl italic">
+                TMS
+              </div>
+              <div class="absolute inset-0 bg-indigo-600/0 group-hover:bg-indigo-600/10 transition-colors duration-300">
+              </div>
+            </div>
+            <h3
+              class="text-xl font-bold mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              Ticketing Management System</h3>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">
+              Support ticketing solution focusing on workflow automation and team collaboration.
+            </p>
+            <div class="mt-auto flex flex-wrap gap-2">
+              <span
+                class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400">Laravel</span>
+              <span
+                class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-[10px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400">Docker</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Latest Notes (Mini-blog) Section -->
+      <section class="mx-6 lg:mx-12 py-16 bg-slate-100/30 dark:bg-slate-900/20 rounded-3xl">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-8 px-6">
+          <div>
+            <h2 class="text-4xl font-serif font-bold mb-4 text-slate-800 dark:text-slate-200">Latest Notes</h2>
+            <p class="text-slate-600 dark:text-slate-400 max-w-xl">
+              I write about TALL stack, DevOps, and small things I learn every day. Minimalist, but useful.
+            </p>
+          </div>
+          <a href="blog/blog.html" class="btn btn-ghost border border-slate-200 dark:border-slate-800">
+            Read all notes
+          </a>
+        </div>
+
+        <!-- This part will be dynamic eventually, for now mock the latest 2-3 -->
+        <div class="grid md:grid-cols-2 gap-8" id="latest-notes">
+          <p class="text-sm text-slate-400 animate-pulse">Loading latest thoughts...</p>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section class="px-6 lg:px-12 py-16 text-center">
+        <h2 class="text-3xl font-serif font-bold mb-12">Toolkit & Technologies</h2>
+        <div
+          class="flex flex-wrap justify-center gap-4 md:gap-8 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+          <div class="flex flex-col items-center">
+            <span class="font-bold text-lg">Laravel</span>
+            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Fullstack</span>
+          </div>
+          <div class="flex flex-col items-center border-l border-slate-200 dark:border-slate-800 pl-8">
+            <span class="font-bold text-lg">Livewire</span>
+            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Dynamic UI</span>
+          </div>
+          <div class="flex flex-col items-center border-l border-slate-200 dark:border-slate-800 pl-8">
+            <span class="font-bold text-lg">Tailwind 4</span>
+            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Styles</span>
+          </div>
+          <div class="flex flex-col items-center border-l border-slate-200 dark:border-slate-800 pl-8">
+            <span class="font-bold text-lg">Alpine.js</span>
+            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Behavior</span>
+          </div>
+          <div class="flex flex-col items-center border-l border-slate-200 dark:border-slate-800 pl-8">
+            <span class="font-bold text-lg">Docker</span>
+            <span class="text-[10px] uppercase tracking-tighter text-slate-500">DevOps</span>
+          </div>
+          <div class="flex flex-col items-center border-l border-slate-200 dark:border-slate-800 pl-8 pr-8">
+            <span class="font-bold text-lg">MySQL</span>
+            <span class="text-[10px] uppercase tracking-tighter text-slate-500">Database</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
   <script type="text/javascript">
-    fetch("_partials/_footer.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("footer").innerHTML = data;
-      })
-      .catch(error => console.error("Error loading footer:", error));
+    // Load components
+    async function loadPartials() {
+      try {
+        const footerRes = await fetch("_partials/_footer.html");
+        document.getElementById("footer").innerHTML = await footerRes.text();
 
-    fetch("_partials/_navbar.html")
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById("navbar").innerHTML = data;
+        const navbarRes = await fetch("_partials/_navbar.html");
+        document.getElementById("navbar").innerHTML = await navbarRes.text();
+      } catch (error) {
+        console.error("Error loading partials:", error);
+      }
+    }
 
-        // Fix relative links if we're in a subfolder
-        const depth = location.pathname.split("/").length - 2; // how deep we are
-        const prefix = depth > 0 ? "../".repeat(depth) : "";
+    // Load latest 2 posts for the home feed
+    async function loadLatestPosts() {
+      try {
+        const res = await fetch("posts/");
+        const txt = await res.text();
+        const parser = new DOMParser();
+        const html = parser.parseFromString(txt, "text/html");
+        const links = Array.from(html.querySelectorAll("a"))
+          .map(a => a.getAttribute("href"))
+          .filter(h => h && h.endsWith("/") && h.length > 1 && !h.includes("://") && h !== "../" && h !== "./")
+          .reverse(); // Get latest folders
 
-        document.querySelectorAll("#navbar a").forEach(a => {
-          if (!a.getAttribute("href").startsWith("http") && !a.getAttribute("href").startsWith("/")) {
-            a.href = prefix + a.getAttribute("href");
-          }
-        });
+        const latestNotesContainer = document.getElementById("latest-notes");
+        latestNotesContainer.innerHTML = "";
 
-        // Attach dark mode listener
-        const toggle = document.getElementById("darkToggle");
-        if (toggle) {
-          toggle.addEventListener("click", () => {
-            document.body.classList.toggle("dark-mode");
-          });
+        // Limit to 2 for home page
+        const foldersToPreload = links.slice(0, 2);
+
+        if (foldersToPreload.length === 0) {
+          throw new Error("No posts found");
         }
-      })
-      .catch(error => console.error("Error loading navbar:", error));
 
+        for (const folder of foldersToPreload) {
+          const r = await fetch(`posts/${folder}index.html`);
+          const t = await r.text();
+          const d = parser.parseFromString(t, "text/html");
+          const title = d.querySelector("h1")?.textContent?.trim() || folder.replace("/", "");
+          const date = d.querySelector(".secondary")?.textContent?.trim() || "Unknown date";
+          const excerpt = d.querySelector("p:not(.secondary)")?.textContent?.trim() || "";
 
+          latestNotesContainer.innerHTML += `
+            <a href="posts/${folder}" class="glass p-6 rounded-2xl group hover:-translate-y-1 transition-all duration-300">
+                <div class="text-xs font-semibold text-indigo-500 mb-2 uppercase tracking-widest">${date}</div>
+                <h3 class="text-xl font-bold mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${title}</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">${excerpt}</p>
+            </a>
+          `;
+        }
+      } catch (e) {
+        console.warn("Using fallback data for Latest Notes.");
+        const fallbackPosts = [
+          { folder: "mock-note-1", title: "Mastering the TALL Stack", date: "2025-11-15", excerpt: "How I built a scalable invitation system using Tailwind, Alpine, Laravel, and Livewire." },
+          { folder: "mock-note-2", title: "The Future of DevOps", date: "2025-11-10", excerpt: "Exploring how automated CI/CD pipelines are changing the game for solo developers." }
+        ];
+        const latestNotesContainer = document.getElementById("latest-notes");
+        latestNotesContainer.innerHTML = "";
+        fallbackPosts.forEach(post => {
+          latestNotesContainer.innerHTML += `
+            <a href="${post.folder}" class="glass p-6 rounded-2xl group hover:-translate-y-1 transition-all duration-300">
+                <div class="text-xs font-semibold text-indigo-500 mb-2 uppercase tracking-widest">${post.date}</div>
+                <h3 class="text-xl font-bold mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">${post.title}</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">${post.excerpt}</p>
+            </a>
+          `;
+        });
+      }
+    }
+
+    loadPartials();
+    loadLatestPosts();
+
+    // Easter Egg for Recruiters 🥚
+    console.log(
+      "%c✨ Hello there! Looking for a developer? ✨",
+      "color: #6366f1; font-weight: bold; font-size: 14px; padding: 10px;"
+    );
+    console.log(
+      "%cI see you peeking at the code. I like your style! \nI'm currently open to new opportunities. Let's build something awesome together.",
+      "color: #1e293b; font-size: 12px; line-height: 1.5;"
+    );
+    console.log(
+      "%c📫 Reach out: https://www.linkedin.com/in/ameerul-arif-mohd-azni",
+      "color: #0ea5e9; font-weight: bold; font-size: 12px;"
+    );
   </script>
 </body>
 
