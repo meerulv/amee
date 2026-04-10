@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Amee - Fullstack Developer & DevOps</title>
+  <title>Amee - Laravel Fullstack Developer & DevOps</title>
   <meta name="description"
     content="Full-Stack developer specializing in Laravel, with experience in React and React Native. I go beyond building features by turning business needs into scalable, and reliable applications.">
   <meta name="keywords"
@@ -38,7 +38,8 @@
     @theme {
       --color-primary: #000000;
       --color-secondary: #444444;
-      --color-accent: #059669; /* Emergency/Status Green */
+      --color-accent: #142a24;
+      /* Emergency/Status Green */
       --font-sans: "Inter", system-ui, -apple-system, sans-serif;
       --font-mono: "IBM Plex Mono", "SF Mono", "Fira Code", monospace;
     }
@@ -54,30 +55,37 @@
       line-height: 1.5;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       font-weight: 700;
       letter-spacing: -0.05em;
       color: #000000;
       text-transform: uppercase;
     }
-    
+
     .hero-title {
-        font-size: clamp(2.5rem, 8vw, 5rem);
-        line-height: 0.9;
-        font-weight: 900;
+      font-size: clamp(2.5rem, 8vw, 5rem);
+      line-height: 0.9;
+      font-weight: 900;
     }
 
     .section-title {
-        font-size: clamp(1.5rem, 5vw, 3rem);
-        line-height: 1;
-        font-weight: 800;
+      font-size: clamp(1.5rem, 5vw, 3rem);
+      line-height: 1;
+      font-weight: 800;
     }
 
-    .mono { font-family: var(--font-mono); font-size: 0.75rem; }
+    .mono {
+      font-family: var(--font-mono);
+    }
 
     /* Architecture Grid */
     .grid-paper {
-      background-image: 
+      background-image:
         linear-gradient(#f0f0f0 1px, transparent 1px),
         linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
       background-size: 20px 20px;
@@ -120,11 +128,14 @@
       width: 100%;
       border-collapse: collapse;
     }
-    .tech-table th, .tech-table td {
+
+    .tech-table th,
+    .tech-table td {
       border: 1px solid #e5e7eb;
       padding: 0.75rem;
       text-align: left;
     }
+
     .tech-table th {
       background-color: #f9fafb;
       font-family: var(--font-mono);
@@ -133,27 +144,26 @@
       letter-spacing: 0.1em;
     }
 
-    [x-cloak] { display: none !important; }
+    [x-cloak] {
+      display: none !important;
+    }
 
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: #ffffff; }
-    ::-webkit-scrollbar-thumb { background: #000000; }
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #000000;
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
 <body class="bg-white">
-
-  <!-- Architectural Release Banner -->
-  <div class="bg-black text-white px-4 py-2 flex flex-col sm:flex-row sm:items-center justify-between mono text-[9px] tracking-widest border-b border-black gap-2">
-    <div class="flex items-center gap-4">
-      <span class="text-emerald-400">●</span>
-      <span>SYSTEM_RELEASE: v2.4.0-STABLE</span>
-    </div>
-    <div class="opacity-50 sm:opacity-100">
-      <span class="hidden md:inline">BUILD_INTEGRITY: [VERIFIED] // </span>LOGIC_DOMAIN: DISTRIBUTED_SYSTEMS
-    </div>
-  </div>
 
   <div id="navbar"></div>
 
@@ -165,118 +175,111 @@
       <!-- System Overview -->
       <section class="pt-8 pb-12 border-b border-black">
         <div class="flex flex-col lg:flex-row items-start justify-between gap-12">
-          <div class="max-w-3xl">
+          <div class="max-w-7xl">
             <div class="flex items-center gap-4 mb-8">
               <span class="status-dot"></span>
-              <span class="mono text-black font-bold tracking-widest uppercase text-[10px]">Architectural Context: Available for Consultation</span>
+              <span class="mono text-black font-bold tracking-widest uppercase text-sm">Status: Open To Work</span>
             </div>
-            
-            <h1 class="hero-title mb-8">Ameerul Arif Mohd Azni</h1>
-            <p class="text-sm md:text-base text-secondary max-w-xl leading-relaxed mb-8">
-                Senior Systems Engineer specializing in high-concurrency Laravel architectures, DevOps automation, and scalable distributed systems. Engineering for reliability since 2018.
+
+            <h1 class="hero-title mb-8">Ameerul Arif <span class="text-gray-400">Mohd Azni</span></h1>
+            <p class="text-sm md:text-base text-secondary max-w-7xl leading-relaxed mb-8">
+              Full-Stack developer specializing in Laravel, with experience in DevOps, VueJS, ReactJS/NextJS and React
+              Native. I go beyond building features by turning business needs into scalable, and reliable application.
             </p>
-            
+
             <div class="flex gap-4">
               <a href="https://my.linkedin.com/in/ameerul-arif-mohd-azni" target="_blank" class="btn">Connect</a>
-              <a href="#inventory" class="btn">Full Registry</a>
+              <a href="Ameerul_Arif_Mohd_Azni_CV.pdf" target="_blank" class="btn">Download CV</a>
             </div>
           </div>
-          
-          <div class="border-blueprint p-4 bg-[#f8fafc] w-full md:w-80 shadow-sm relative overflow-hidden group">
-            <div class="flex items-center gap-1.5 mb-4 border-b border-black pb-2">
-                <div class="w-2 h-2 rounded-full bg-gray-200"></div>
-                <div class="w-2 h-2 rounded-full bg-gray-200"></div>
-                <div class="w-2 h-2 rounded-full bg-gray-200"></div>
-                <span class="mono text-[8px] text-gray-400 ml-2">AbstractArchitecture.php</span>
-            </div>
-            <pre class="mono text-[10px] text-black leading-tight overflow-x-auto"><code><span class="text-emerald-700">abstract class</span> <span class="text-blue-700">System</span> {
-  <span class="text-emerald-700">protected function</span> <span class="text-blue-700">optimize</span>() {
-    <span class="text-gray-500">// Engineering logic depth</span>
-    <span class="text-emerald-700">while</span> (<span class="text-blue-700">$this</span>->redundancy) {
-      <span class="text-blue-700">$this</span>->decouple();
-      <span class="text-blue-700">$this</span>->validate();
-    }
-  }
-}</code></pre>
-            <div class="absolute bottom-0 right-0 p-1 mono text-[8px] text-gray-300 pointer-events-none uppercase">Source Ref. 0x01</div>
-          </div>
+
         </div>
       </section>
 
       <!-- Architecture Stack (Modern High Density) -->
       <section class="py-12 border-b border-black">
-        <h2 class="mono font-black mb-10 text-[10px] uppercase tracking-widest">// 01. Engineering Domains</h2>
+        <h2 class="mono font-black mb-10 text-lg uppercase tracking-widest">// 01. Engineering Domains</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-black border border-black">
           <div class="bg-white p-6">
             <h3 class="mono font-bold text-black mb-2">Backend</h3>
-            <p class="text-xs text-secondary leading-tight">PHP/Laravel, GoLang, Node.js, REST/GraphQL</p>
+            <p class="text-sm text-secondary leading-tight">PHP/Laravel, NextJS</p>
           </div>
           <div class="bg-white p-6">
             <h3 class="mono font-bold text-black mb-2">Platform</h3>
-            <p class="text-xs text-secondary leading-tight">AWS, Vapor, Docker, Kubernetes, Terraform</p>
+            <p class="text-sm text-secondary leading-tight">AWS, Laravel Vapor, Docker</p>
           </div>
           <div class="bg-white p-6">
             <h3 class="mono font-bold text-black mb-2">Database</h3>
-            <p class="text-xs text-secondary leading-tight">MySQL, PostgreSQL, Redis, DynamoDB</p>
+            <p class="text-sm text-secondary leading-tight">MySQL, Redis, SQLite, AWS DynamoDB, AWS RDS</p>
           </div>
           <div class="bg-white p-6">
             <h3 class="mono font-bold text-black mb-2">UI Systems</h3>
-            <p class="text-xs text-secondary leading-tight">React, Livewire, Alpine.js, TailwindCSS 4</p>
+            <p class="text-sm text-secondary leading-tight">React, Livewire, Alpine.js, TailwindCSS 4, JQuery</p>
           </div>
         </div>
       </section>
 
       <!-- Registry: Selected Projects -->
       <section id="inventory" class="py-12 border-b border-black">
-        <div class="flex items-end justify-between mb-8">
-            <h2 class="mono font-black text-[10px]">// 02. Project Artifacts</h2>
-            <a href="https://github.com/ameerul-arif" target="_blank" class="mono text-[10px] underline">Open Source Index</a>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="mono font-black text-lg uppercase tracking-widest">// 02. Projects</h2>
+          <a href="https://github.com/ameerul-arif" target="_blank" class="mono text-sm underline">View Projects</a>
         </div>
-        
+
         <div class="overflow-x-auto pb-4 -mx-4 px-4 sm:mx-0 sm:px-0">
-            <table class="tech-table min-w-[600px] sm:min-w-full">
-                <thead>
-                    <tr>
-                        <th>Identifier</th>
-                        <th>Classification</th>
-                        <th>Substrate</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="font-bold">Reservation Engine</td>
-                        <td class="text-xs">SaaS / Management</td>
-                        <td class="mono text-[10px]">Laravel + Vapor</td>
-                        <td class="mono text-[10px] text-green-600">Active</td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold">AjakMe Ecosystem</td>
-                        <td class="text-xs">Event Platform</td>
-                        <td class="mono text-[10px]">PHP + Livewire</td>
-                        <td class="mono text-[10px] text-green-600">Active</td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold">Cloud Infrastructure</td>
-                        <td class="text-xs">DevOps Tooling</td>
-                        <td class="mono text-[10px]">AWS + Terraform</td>
-                        <td class="mono text-[10px] text-slate-400">Stable</td>
-                    </tr>
-                </tbody>
-            </table>
+          <table class="tech-table min-w-[600px] sm:min-w-full">
+            <thead>
+              <tr>
+                <th>Identifier</th>
+                <th>Classification</th>
+                <th>Tech Stack</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-bold">AjakMe</td>
+                <td class="text-sm">Digital Wedding Planner & Invitation</td>
+                <td class="mono text-xs">Laravel, Livewire, AlpineJS, MySQL, Redis, Supervisord, Nginx</td>
+                <td class="mono text-xs text-green-800">Active</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Reservation Management System</td>
+                <td class="text-sm"><a href="https://accea.com.my" target="_blank" class="bold">ACCEA</a> 's Meeting
+                  Room Management</td>
+                <td class="mono text-xs">Laravel, Livewire, AlpineJS, MySQL, Redis, Supervisord, Nginx</td>
+                <td class="mono text-xs text-green-800">Active</td>
+              </tr>
+              <tr>
+                <td class="font-bold">Customer Membership Management System</td>
+                <td class="text-sm"><a href="https://accea.com.my" target="_blank" class="bold">ACCEA</a> 's
+                  Membership Management, <br /> Campaigns & Coupons Management</td>
+                <td class="mono text-xs">Laravel, Livewire, AlpineJS, MySQL, Redis, Supervisord, Nginx</td>
+                <td class="mono text-xs text-green-800">Active</td>
+              </tr>
+              <tr>
+                <td class="font-bold">altHR - The Super App for Companies</td>
+                <td class="text-sm"><a href="https://celcomdigi.com.my" target="_blank" class="bold">CelcomDigi</a> 's
+                  HR Management System</td>
+                <td class="mono text-xs">Laravel, Livewire, AlpineJS, MySQL, Redis, Supervisord, Nginx</td>
+                <td class="mono text-xs text-green-800">Active</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="sm:hidden mt-2 mono text-[8px] text-gray-400 uppercase text-right tracking-[0.2em]">← Swipe for architecture details →</div>
+        <div class="sm:hidden mt-2 mono text-[8px] text-gray-400 uppercase text-right tracking-[0.2em]">← Swipe for
+          architecture details →</div>
       </section>
 
       <!-- Log: Software Documentation -->
       <section class="py-12">
-        <div class="flex items-end justify-between mb-8">
-            <h2 class="mono font-black text-[10px]">// 03. Architecture Logs</h2>
-            <a href="blog/blog.html" class="mono text-[10px] underline">Access Full Library</a>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="mono font-black text-lg uppercase tracking-widest">// 03. Notes</h2>
+          <a href="blog/blog.html" class="mono text-sm underline">Access Full Library</a>
         </div>
-        
+
         <div class="border border-black bg-white" id="latest-notes">
-          <p class="p-8 mono text-[10px] animate-pulse">Establishing connection to datastore...</p>
+          <p class="p-8 mono text-sm animate-pulse">Establishing connection to datastore...</p>
         </div>
       </section>
 
@@ -343,9 +346,9 @@
             <a href="blog/posts/${folder}" class="flex items-center justify-between p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors">
                 <div class="flex flex-col">
                     <h3 class="font-bold text-black mb-1">${title}</h3>
-                    <p class="text-xs text-secondary line-clamp-1">${excerpt}</p>
+                    <p class="text-sm text-secondary line-clamp-1">${excerpt}</p>
                 </div>
-                <div class="mono text-[10px] text-slate-400 whitespace-nowrap ml-4">${date}</div>
+                <div class="mono text-sm text-slate-400 whitespace-nowrap ml-4">${date}</div>
             </a>
           `;
         }
@@ -362,9 +365,9 @@
             <a href="blog/posts/${post.folder}index.html" class="flex items-center justify-between p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors group">
                 <div class="flex flex-col">
                     <h3 class="font-bold text-black mb-1 group-hover:underline">${post.title}</h3>
-                    <p class="text-xs text-secondary line-clamp-1">${post.excerpt}</p>
+                    <p class="text-sm text-secondary line-clamp-1">${post.excerpt}</p>
                 </div>
-                <div class="mono text-[10px] text-slate-400 whitespace-nowrap ml-4">${post.date}</div>
+                <div class="mono text-sm text-slate-400 whitespace-nowrap ml-4">${post.date}</div>
             </a>
           `;
         });
