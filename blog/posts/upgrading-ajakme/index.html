@@ -102,11 +102,11 @@
       <h1 class="mb-6">Upgrading AjakMe Architecture</h1>
       <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-12">
         <div>
-          <span class="mono text-sm text-gray-400 uppercase tracking-widest block mb-1">Published_On</span>
+          <span class="mono text-sm text-gray-400 uppercase tracking-widest block mb-1">Date</span>
           <span class="mono font-bold text-black secondary">2026-03-28</span>
         </div>
         <div>
-          <span class="mono text-sm text-gray-400 uppercase tracking-widest block mb-1">Architecture_Tags</span>
+          <span class="mono text-sm text-gray-400 uppercase tracking-widest block mb-1">Tags</span>
           <div class="flex gap-2 tags">
             <span class="mono font-bold text-black text-sm uppercase">Infrastructure</span>
             <span class="mono font-bold text-black text-sm uppercase">Refactoring</span>
@@ -116,9 +116,7 @@
     </header>
 
     <article class="prose">
-      <h2>Migration Goals</h2>
-      <p>The primary objective for the 2.0 release of AjakMe was to transition from a monolithic architecture to a
-        modular substrate that can handle horizontal scaling across multiple regions.</p>
+      <p>The main goal for AjakMe 2.0 was to move from a single large system to a more modular setup that can easily handle more users across different regions.</p>
 
       <ul>
         <li>Implementing a unified event-driven dispatcher.</li>
@@ -126,9 +124,8 @@
         <li>Optimization of database query patterns for high-concurrency environments.</li>
       </ul>
 
-      <h2>Current Progress</h2>
-      <p>I am currently focused on the decoupled domain logic, ensuring that each module operates with zero-knowledge of
-        its surrounding environment, communicating solely through strict interface protocols.</p>
+      <h2>Current Focus</h2>
+      <p>Right now, I'm working on making sure each part of the system works independently and communicates clearly with others.</p>
 
       <h2>Challenges</h2>
       <p>The main bottleneck remains the legacy dataset migration, requiring careful ETL processes to ensure

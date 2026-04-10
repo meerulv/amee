@@ -120,14 +120,14 @@
       <header class="mb-12 md:mb-16 pt-8">
         <h1 class="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter mb-6 text-black leading-none">Notes</h1>
         <p class="mono text-sm text-secondary uppercase tracking-[0.4em] font-bold">
-          Formal technical records and software architecture analysis.
+          Technical notes and logs on software development.
         </p>
       </header>
 
       <div class="mb-12">
         <div class="inline-block relative">
           <select id="tagFilter" x-model="selectedTag" class="filter-select">
-            <option value="">Module Classifications</option>
+            <option value="">All Tags</option>
             <template x-for="tag in allTags" :key="tag">
               <option :value="tag" x-text="tag"></option>
             </template>
