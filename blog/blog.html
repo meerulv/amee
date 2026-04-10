@@ -9,8 +9,9 @@
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
   <style type="text/css">
     @theme {
       --color-primary: #000000;
@@ -30,18 +31,26 @@
       line-height: 1.5;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       font-weight: 700;
       letter-spacing: -0.05em;
       color: #000000;
       text-transform: uppercase;
     }
 
-    .mono { font-family: var(--font-mono); font-size: 0.75rem; }
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
 
     /* Architecture Grid */
     .grid-paper {
-      background-image: 
+      background-image:
         linear-gradient(#f0f0f0 1px, transparent 1px),
         linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
       background-size: 20px 20px;
@@ -68,20 +77,34 @@
       border-bottom: 1px solid #e5e7eb;
       transition: background-color 0.1s;
     }
+
     @media (min-width: 768px) {
-        .post-row {
-            grid-template-cols: 100px 1fr 120px;
-            gap: 2rem;
-            padding: 1.5rem 1rem;
-        }
+      .post-row {
+        grid-template-cols: 100px 1fr 120px;
+        gap: 2rem;
+        padding: 1.5rem 1rem;
+      }
     }
-    .post-row:hover { background-color: #f9fafb; }
 
-    [x-cloak] { display: none !important; }
+    .post-row:hover {
+      background-color: #f9fafb;
+    }
 
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: #ffffff; }
-    ::-webkit-scrollbar-thumb { background: #000000; }
+    [x-cloak] {
+      display: none !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #ffffff;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #000000;
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 </head>
@@ -96,8 +119,8 @@
     <div class="min-h-screen overflow-hidden p-4 sm:p-8 lg:p-12">
       <header class="mb-12 md:mb-16 pt-8">
         <h1 class="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter mb-6 text-black leading-none">Notes</h1>
-        <p class="mono text-[10px] text-secondary uppercase tracking-[0.4em] font-bold">
-            Formal technical records and software architecture analysis.
+        <p class="mono text-sm text-secondary uppercase tracking-[0.4em] font-bold">
+          Formal technical records and software architecture analysis.
         </p>
       </header>
 
@@ -109,7 +132,8 @@
               <option :value="tag" x-text="tag"></option>
             </template>
           </select>
-          <svg class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-black" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
             <path d="M19 9l-7 7-7-7" stroke-width="1.5" />
           </svg>
         </div>
@@ -119,40 +143,38 @@
       <div id="posts-list" class="border-t border-black">
         <template x-for="post in paginatedPosts" :key="post.folder">
           <a :href="'../posts/' + post.folder" class="post-row group">
-            <div class="mono text-[10px] text-gray-400 py-1" x-text="post.date"></div>
+            <div class="mono text-sm text-gray-400 py-1" x-text="post.date"></div>
             <div class="col-span-1 md:col-span-1">
               <h2 class="text-base sm:text-lg font-bold mb-1 group-hover:underline" x-text="post.title"></h2>
               <div class="flex flex-wrap gap-2">
                 <template x-for="tag in post.tags" :key="tag">
-                  <span class="mono text-[8px] text-gray-400 uppercase tracking-widest" x-text="tag"></span>
+                  <span class="mono text-sm text-gray-400 uppercase tracking-widest" x-text="tag"></span>
                 </template>
               </div>
             </div>
             <div class="hidden md:flex justify-end items-center">
-              <span class="mono text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">READ_LOG →</span>
+              <span class="mono text-sm opacity-0 group-hover:opacity-100 transition-opacity">READ_LOG →</span>
             </div>
           </a>
         </template>
         <div x-show="paginatedPosts.length === 0" class="py-40 text-center border-b border-black">
-          <p class="mono text-[10px] text-gray-400 uppercase tracking-widest">No matching logs found.</p>
+          <p class="mono text-sm text-gray-400 uppercase tracking-widest">No matching logs found.</p>
         </div>
       </div>
 
       <!-- Simple Pagination -->
       <nav x-show="totalPages > 1" class="mt-16 flex justify-center items-center gap-4">
-        <button 
-          @click="currentPage > 1 && currentPage--" 
+        <button @click="currentPage > 1 && currentPage--"
           :class="currentPage === 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-black hover:text-white'"
-          class="mono text-[10px] border border-black px-4 py-2 transition-colors">← NEWER_LOGS</button>
-        
-        <div class="mono text-[10px] font-bold text-black uppercase tracking-widest px-8">
-            Archive Page <span x-text="currentPage"></span> / <span x-text="totalPages"></span>
+          class="mono text-sm border border-black px-4 py-2 transition-colors">← NEWER_LOGS</button>
+
+        <div class="mono text-sm font-bold text-black uppercase tracking-widest px-8">
+          Archive Page <span x-text="currentPage"></span> / <span x-text="totalPages"></span>
         </div>
 
-        <button 
-          @click="currentPage < totalPages && currentPage++" 
+        <button @click="currentPage < totalPages && currentPage++"
           :class="currentPage === totalPages ? 'opacity-30 cursor-not-allowed' : 'hover:bg-black hover:text-white'"
-          class="mono text-[10px] border border-black px-4 py-2 transition-colors">OLDER_LOGS →</button>
+          class="mono text-sm border border-black px-4 py-2 transition-colors">OLDER_LOGS →</button>
       </nav>
     </div>
   </main>

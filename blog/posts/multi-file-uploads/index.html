@@ -9,8 +9,10 @@
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+
   <style type="text/css">
     @theme {
       --color-primary: #000000;
@@ -27,7 +29,12 @@
       line-height: 1.6;
     }
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       font-weight: 900;
       letter-spacing: -0.05em;
       color: #000000;
@@ -36,28 +43,49 @@
       margin-bottom: 1rem;
     }
 
-    h1 { 
-        font-size: clamp(2.25rem, 8vw, 4rem);
-        line-height: 1; 
-        margin-top: 0; 
+    h1 {
+      font-size: clamp(2.25rem, 8vw, 4rem);
+      line-height: 1;
+      margin-top: 0;
     }
-    h2 { font-size: 1.5rem; border-bottom: 1px solid #000000; padding-bottom: 0.5rem; }
-    h3 { font-size: 1.1rem; }
 
-    .mono { font-family: var(--font-mono); font-size: 0.75rem; }
+    h2 {
+      font-size: 1.5rem;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 0.5rem;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
 
     .grid-paper {
-      background-image: 
+      background-image:
         linear-gradient(#f0f0f0 1px, transparent 1px),
         linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
       background-size: 20px 20px;
     }
 
     /* Implementation Log Specifics */
-    .prose p { margin-bottom: 1.5rem; }
-    .prose ul { list-style: square; padding-left: 1.5rem; margin-bottom: 1.5rem; }
-    .prose li { margin-bottom: 0.5rem; }
-    
+    .prose p {
+      margin-bottom: 1.5rem;
+    }
+
+    .prose ul {
+      list-style: square;
+      padding-left: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .prose li {
+      margin-bottom: 0.5rem;
+    }
+
     .code-block {
       border: 1px solid #000000;
       background-color: #f8fafc;
@@ -65,13 +93,14 @@
       padding: 1.25rem;
       position: relative;
     }
+
     @media (min-width: 640px) {
-        .code-block {
-            margin: 2rem 0;
-            padding: 1.5rem;
-        }
+      .code-block {
+        margin: 2rem 0;
+        padding: 1.5rem;
+      }
     }
-    
+
     .code-header {
       border-bottom: 1px solid #000000;
       padding-bottom: 0.75rem;
@@ -81,9 +110,16 @@
       gap: 0.5rem;
     }
 
-    pre { font-family: var(--font-mono); font-size: 0.8rem; overflow-x: auto; color: #1e293b; }
+    pre {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      overflow-x: auto;
+      color: #1e293b;
+    }
 
-    [x-cloak] { display: none !important; }
+    [x-cloak] {
+      display: none !important;
+    }
   </style>
 </head>
 
@@ -92,20 +128,20 @@
   <div class="fixed inset-0 z-0 pointer-events-none grid-paper opacity-50"></div>
 
   <main class="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-24">
-    <a href="/blog/blog.html" class="mono text-[10px] underline mb-12 inline-block">← BACK_TO_ARCHIVE</a>
-    
+    <a href="/blog/blog.html" class="mono text-sm underline mb-12 inline-block">← BACK_TO_ARCHIVE</a>
+
     <header class="mb-12 md:mb-20">
       <h1 class="mb-6">Multi-File Uploads in Laravel Vapor</h1>
       <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-12">
         <div>
-          <span class="mono text-[8px] text-gray-400 uppercase tracking-widest block mb-1">Published_On</span>
+          <span class="mono text-sm text-gray-400 uppercase tracking-widest block mb-1">Published_On</span>
           <span class="mono font-bold text-black secondary">2026-04-10</span>
         </div>
         <div>
-          <span class="mono text-[8px] text-gray-400 uppercase tracking-widest block mb-1">Architecture_Tags</span>
+          <span class="mono text-sm text-gray-400 uppercase tracking-widest block mb-1">Architecture_Tags</span>
           <div class="flex gap-2 tags">
-            <span class="mono font-bold text-black text-[10px] uppercase">Laravel</span>
-            <span class="mono font-bold text-black text-[10px] uppercase">AWS Vapor</span>
+            <span class="mono font-bold text-black text-sm uppercase">Laravel</span>
+            <span class="mono font-bold text-black text-sm uppercase">AWS Vapor</span>
           </div>
         </div>
       </div>
@@ -133,7 +169,7 @@
           <div class="w-2 h-2 rounded-full bg-gray-200"></div>
           <div class="w-2 h-2 rounded-full bg-gray-200"></div>
           <div class="w-2 h-2 rounded-full bg-gray-200"></div>
-          <span class="mono text-[8px] text-gray-400 ml-2">upload_template.blade.php</span>
+          <span class="mono text-sm text-gray-400 ml-2">upload_template.blade.php</span>
         </div>
         <pre><code>&lt;!-- Input file --&gt;
 &lt;input multiple @click.self="openError = false" type="file" id="fileUploads" name="files[]" class="..." /&gt;
@@ -152,8 +188,8 @@
       <h3>2. Client-Side JavaScript Logic</h3>
       <div class="code-block">
         <div class="code-header">
-            <div class="w-2 h-2 rounded-full bg-gray-200"></div>
-            <span class="mono text-[8px] text-gray-400 ml-2">UploadHandler.js</span>
+          <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+          <span class="mono text-sm text-gray-400 ml-2">UploadHandler.js</span>
         </div>
         <pre><code>async function handleFileUpload() {
     const files = /* get files from input */; 
@@ -175,7 +211,8 @@
       </div>
 
       <h2>Summary</h2>
-      <p>By utilizing frontend-to-S3 streaming, we bypass Lambda payload limits and ensure a scalable upload architecture suitable for high-concurrency environments.</p>
+      <p>By utilizing frontend-to-S3 streaming, we bypass Lambda payload limits and ensure a scalable upload
+        architecture suitable for high-concurrency environments.</p>
     </article>
   </main>
 
@@ -199,4 +236,5 @@
     loadPartials();
   </script>
 </body>
+
 </html>
