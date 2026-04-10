@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architecture Log | Amee</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style type="text/css">
+    @theme {
+      --color-primary: #000000;
+      --color-secondary: #444444;
+      --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+      --font-mono: "IBM Plex Mono", "SF Mono", "Fira Code", monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: #ffffff;
+      color: #111111;
+      cursor: crosshair;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: #000000;
+      text-transform: uppercase;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    h1 { 
+        font-size: clamp(2.25rem, 8vw, 4rem);
+        line-height: 1; 
+        margin-top: 0; 
+    }
+    h2 { font-size: 1.5rem; border-bottom: 1px solid #000000; padding-bottom: 0.5rem; }
+    h3 { font-size: 1.1rem; }
+
+    .mono { font-family: var(--font-mono); font-size: 0.75rem; }
+
+    .grid-paper {
+      background-image: 
+        linear-gradient(#f0f0f0 1px, transparent 1px),
+        linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+
+    /* Implementation Log Specifics */
+    .prose p { margin-bottom: 1.5rem; }
+    .prose ul { list-style: square; padding-left: 1.5rem; margin-bottom: 1.5rem; }
+    .prose li { margin-bottom: 0.5rem; }
+    
+    .code-block {
+      border: 1px solid #000000;
+      background-color: #f8fafc;
+      margin: 1.5rem -1.5rem;
+      padding: 1.25rem;
+      position: relative;
+    }
+    @media (min-width: 640px) {
+        .code-block {
+            margin: 2rem 0;
+            padding: 1.5rem;
+        }
+    }
+    
+    .code-header {
+      border-bottom: 1px solid #000000;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    pre { font-family: var(--font-mono); font-size: 0.8rem; overflow-x: auto; color: #1e293b; }
+
+    [x-cloak] { display: none !important; }
+  </style>
+</head>
+
+<body class="bg-white">
+  <div id="navbar"></div>
+  <div class="fixed inset-0 z-0 pointer-events-none grid-paper opacity-50"></div>
+
+  <main class="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-24">
+    <a href="/blog/blog.html" class="mono text-[10px] underline mb-12 inline-block">← BACK_TO_ARCHIVE</a>
+    
+    <header class="mb-12 md:mb-20">
+      <h1 class="mb-6">Multi-File Uploads in Laravel Vapor</h1>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-12">
+        <div>
+          <span class="mono text-[8px] text-gray-400 uppercase tracking-widest block mb-1">Published_On</span>
+          <span class="mono font-bold text-black secondary">2026-04-10</span>
+        </div>
+        <div>
+          <span class="mono text-[8px] text-gray-400 uppercase tracking-widest block mb-1">Architecture_Tags</span>
+          <div class="flex gap-2 tags">
+            <span class="mono font-bold text-black text-[10px] uppercase">Laravel</span>
+            <span class="mono font-bold text-black text-[10px] uppercase">AWS Vapor</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <article class="prose">
+      <h2>Requirements</h2>
+      <ul>
+        <li>TALL Stack (Laravel 11)</li>
+        <li>Laravel Vapor</li>
+        <li>AWS S3</li>
+        <li>AWS RDS (Optional)</li>
+      </ul>
+
+      <h2>Challenges</h2>
+      <p>1. <strong>AWS S3</strong>: Doesn't natively support multiple file uploads as a single stream.</p>
+      <p>2. <strong>AWS Lambda</strong>: 4.5MB payload size limitation for synchronous invocations.</p>
+
+      <h2>Approach: Frontend-First Upload to S3</h2>
+      <p>Upload files directly from the frontend to S3, then notify the backend.</p>
+
+      <h3>1. Upload Trigger (HTML)</h3>
+      <div class="code-block">
+        <div class="code-header">
+          <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+          <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+          <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+          <span class="mono text-[8px] text-gray-400 ml-2">upload_template.blade.php</span>
+        </div>
+        <pre><code>&lt;!-- Input file --&gt;
+&lt;input multiple @click.self="openError = false" type="file" id="fileUploads" name="files[]" class="..." /&gt;
+
+&lt;!-- Or Button --&gt;
+&lt;button id="fileUploads" type="submit" @click="handleFileUpload()" class="..."&gt;
+    &lt;svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+        stroke="currentColor" class="h-5 w-5"&gt;
+        &lt;path stroke-linecap="round" stroke-linejoin="round"
+            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /&gt;
+    &lt;/svg&gt;
+    &lt;span&gt;Upload&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+      </div>
+
+      <h3>2. Client-Side JavaScript Logic</h3>
+      <div class="code-block">
+        <div class="code-header">
+            <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+            <span class="mono text-[8px] text-gray-400 ml-2">UploadHandler.js</span>
+        </div>
+        <pre><code>async function handleFileUpload() {
+    const files = /* get files from input */; 
+    if (!files || files.length === 0) return;
+
+    let filesData = [];
+    for (const file of files) {
+        try {
+            const uploadedFileDetails = await vaporUpload(file);
+            filesData.push(uploadedFileDetails);
+        } catch (error) {
+            console.error(`Upload failed for ${file.name}:`, error);
+        }
+    }
+    if (filesData.length > 0) {
+        await handlePostUpload(filesData);
+    }
+}</code></pre>
+      </div>
+
+      <h2>Summary</h2>
+      <p>By utilizing frontend-to-S3 streaming, we bypass Lambda payload limits and ensure a scalable upload architecture suitable for high-concurrency environments.</p>
+    </article>
+  </main>
+
+  <div id="footer"></div>
+
+  <script type="text/javascript">
+    async function loadPartials() {
+      try {
+        const base = "/";
+        const footerRes = await fetch(`${base}_partials/_footer.html`);
+        const footerEl = document.getElementById("footer");
+        footerEl.innerHTML = (await footerRes.text()).replace(/href="(?!http|#)/g, 'href="' + base);
+
+        const navbarRes = await fetch(`${base}_partials/_navbar.html`);
+        const navbarEl = document.getElementById("navbar");
+        navbarEl.innerHTML = (await navbarRes.text()).replace(/href="(?!http|#)/g, 'href="' + base);
+      } catch (error) {
+        console.error("Error loading partials:", error);
+      }
+    }
+    loadPartials();
+  </script>
+</body>
+</html>
