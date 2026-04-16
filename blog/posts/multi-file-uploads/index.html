@@ -123,12 +123,12 @@
   </style>
 </head>
 
-<body class="bg-white">
+<body class="bg-white w-full">
   <div id="navbar"></div>
   <div class="fixed inset-0 z-0 pointer-events-none grid-paper opacity-50"></div>
 
-  <main class="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-24">
-    <a href="/blog/blog.html" class="mono text-sm underline mb-12 inline-block">← BACK_TO_ARCHIVE</a>
+  <main class="relative z-10 max-w-7xl mx-auto py-24">
+    <a href="/blog/" class="mono text-sm underline mb-12 inline-block">← BACK TO NOTES</a>
 
     <header class="mb-12 md:mb-20">
       <h1 class="mb-6">Multi-File Uploads in Laravel Vapor</h1>
@@ -224,11 +224,11 @@
         const base = "/";
         const footerRes = await fetch(`${base}_partials/_footer.html`);
         const footerEl = document.getElementById("footer");
-        footerEl.innerHTML = (await footerRes.text()).replace(/href="(?!http|#)/g, 'href="' + base);
+        footerEl.innerHTML = (await footerRes.text()).replace(/href="(?!http|#|\/)/g, 'href="' + base);
 
         const navbarRes = await fetch(`${base}_partials/_navbar.html`);
         const navbarEl = document.getElementById("navbar");
-        navbarEl.innerHTML = (await navbarRes.text()).replace(/href="(?!http|#)/g, 'href="' + base);
+        navbarEl.innerHTML = (await navbarRes.text()).replace(/href="(?!http|#|\/)/g, 'href="' + base);
       } catch (error) {
         console.error("Error loading partials:", error);
       }

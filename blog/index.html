@@ -142,7 +142,7 @@
       <!-- Logs List -->
       <div id="posts-list" class="border-t border-black">
         <template x-for="post in paginatedPosts" :key="post.folder">
-          <a :href="'../posts/' + post.folder" class="post-row group">
+          <a :href="'posts/' + post.folder" class="post-row group">
             <div class="mono text-sm text-gray-400 py-1" x-text="post.date"></div>
             <div class="col-span-1 md:col-span-1">
               <h2 class="text-base sm:text-lg font-bold mb-1 group-hover:underline" x-text="post.title"></h2>
@@ -191,34 +191,19 @@
         itemsPerPage: 30,
         async init() {
           try {
-            const res = await fetch("./posts/");
-            const txt = await res.text();
-            const parser = new DOMParser();
-            const html = parser.parseFromString(txt, "text/html");
-            const links = Array.from(html.querySelectorAll("a"))
-              .map(a => a.getAttribute("href"))
-              .filter(h => h && h.endsWith("/") && h.length > 1 && !h.includes("://") && h !== "../" && h !== "./")
-              .reverse();
-
+            const res = await fetch("./posts/posts.json");
+            this.posts = await res.json();
+            
             const tagSet = new Set();
-            if (links.length === 0) throw new Error("No posts found");
-
-            for (const folder of links) {
-              const r = await fetch(`./posts/${folder}index.html`);
-              const t = await r.text();
-              const d = parser.parseFromString(t, "text/html");
-              const title = d.querySelector("h1")?.textContent?.trim() || folder.replace("/", "");
-              const date = d.querySelector(".secondary")?.textContent?.trim() || "Unknown";
-              const excerpt = d.querySelector("p:not(.secondary)")?.textContent?.trim() || "";
-              const tags = Array.from(d.querySelectorAll(".tags span")).map(s => s.textContent.trim());
-              tags.forEach(tag => tagSet.add(tag));
-              this.posts.push({ folder, title, date, excerpt, tags });
-            }
+            this.posts.forEach(post => {
+              post.tags.forEach(tag => tagSet.add(tag));
+            });
             this.allTags = Array.from(tagSet).sort();
           } catch (e) {
+            console.error("Error loading posts:", e);
             this.posts = [
-              { folder: "mock-1", title: "Domain Driven Design in Laravel", date: "2025-11-15", excerpt: "Implementation patterns for complex business logic.", tags: ["Laravel", "Architecture"] },
-              { folder: "mock-2", title: "Go Microservices at Scale", date: "2025-11-10", excerpt: "Exploring concurrency and robustness in production Go.", tags: ["Go", "Distributed Systems"] }
+              { folder: "multi-file-uploads", title: "Multi-File Uploads in Laravel Vapor", date: "2026-04-10", excerpt: "Implementation patterns for scalable S3 streaming.", tags: ["Laravel", "AWS Vapor"] },
+              { folder: "upgrading-ajakme", title: "Upgrading AjakMe Architecture", date: "2026-03-28", excerpt: "Transitioning to a modular distributed architecture.", tags: ["Infrastructure", "Refactoring"] }
             ];
             const tagSet = new Set();
             this.posts.forEach(p => p.tags.forEach(t => tagSet.add(t)));
@@ -241,15 +226,16 @@
 
     async function loadPartials() {
       try {
-        const footerRes = await fetch("../_partials/_footer.html");
+        const base = "../";
+        const footerRes = await fetch(`${base}_partials/_footer.html`);
         const footerTxt = await footerRes.text();
         const footerEl = document.getElementById("footer");
-        footerEl.innerHTML = footerTxt.replace(/href="(?!http|#)/g, 'href="../');
+        footerEl.innerHTML = footerTxt.replace(/href="(?!http|#|\/)/g, 'href="' + base);
 
-        const navbarRes = await fetch("../_partials/_navbar.html");
+        const navbarRes = await fetch(`${base}_partials/_navbar.html`);
         const navbarTxt = await navbarRes.text();
         const navbarEl = document.getElementById("navbar");
-        navbarEl.innerHTML = navbarTxt.replace(/href="(?!http|#)/g, 'href="../');
+        navbarEl.innerHTML = navbarTxt.replace(/href="(?!http|#|\/)/g, 'href="' + base);
       } catch (error) {
         console.error("Error loading partials:", error);
       }

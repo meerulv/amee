@@ -22,8 +22,8 @@
       "@type": "Organization",
       "name": "Open to New Opportunities"
     },
-    "knowsAbout": ["Laravel", "TALL Stack", "DevOps", "React", "Docker", "AWS", "CI/CD"],
-    "description": "A TALL stack developer and DevOps enthusiast based in Malaysia, actively looking for new opportunities to build scalable digital products."
+    "knowsAbout": ["Laravel", "TALL Stack", "DevOps", "React", "Docker", "AWS", "CI/CD", "NextJS", "Nginx", "VueJS", "React Native", "Redux Saga"],
+    "description": "A Full-Stack developer specializing in Laravel, DevOps enthusiast, with experience in React and React Native. I go beyond building features by turning business needs into scalable, and reliable applications."
   }
   </script>
 
@@ -287,7 +287,7 @@
                     for Companies 🔗</a></td>
                 <td class="text-sm"><a href="https://celcomdigi.com.my" target="_blank" class="bold">CelcomDigi</a> 's
                   HR Management System</td>
-                <td class="mono text-xs">Laravel, Livewire, AlpineJS, MySQL, Redis, Supervisord, Nginx</td>
+                <td class="mono text-xs">Laravel, VueJS, React Native, Redis, AWS EC2/S3/ALB, Supervisord, Redux Saga, Nginx</td>
               </tr>
             </tbody>
           </table>
@@ -300,7 +300,7 @@
       <section class="py-12">
         <div class="flex items-center justify-between mb-8">
           <h2 class="mono font-black text-lg uppercase tracking-widest">// 03. Notes</h2>
-          <a href="blog/blog.html" class="mono text-sm underline">View Notes</a>
+          <a href="blog/" class="mono text-sm underline">View Notes</a>
         </div>
 
         <div class="border border-black bg-white" id="latest-notes">
@@ -337,48 +337,35 @@
       }
     }
 
-    // Load latest 2 posts for the home feed
+    // Load latest 2-3 posts for the home feed
     async function loadLatestPosts() {
       try {
-        const res = await fetch("blog/posts/");
-        const txt = await res.text();
-        const parser = new DOMParser();
-        const html = parser.parseFromString(txt, "text/html");
-        const links = Array.from(html.querySelectorAll("a"))
-          .map(a => a.getAttribute("href"))
-          .filter(h => h && h.endsWith("/") && h.length > 1 && !h.includes("://") && h !== "../" && h !== "./")
-          .reverse(); // Get latest folders
+        const res = await fetch("blog/posts/posts.json");
+        const posts = await res.json();
 
         const latestNotesContainer = document.getElementById("latest-notes");
         latestNotesContainer.innerHTML = "";
 
         // Limit to 3 for home page
-        const foldersToPreload = links.slice(0, 3);
+        const postsToShow = posts.slice(0, 3);
 
-        if (foldersToPreload.length === 0) {
+        if (postsToShow.length === 0) {
           throw new Error("No posts found");
         }
 
-        for (const folder of foldersToPreload) {
-          const r = await fetch(`blog/posts/${folder}index.html`);
-          const t = await r.text();
-          const d = parser.parseFromString(t, "text/html");
-          const title = d.querySelector("h1")?.textContent?.trim() || folder.replace("/", "");
-          const date = d.querySelector(".secondary")?.textContent?.trim() || "Unknown date";
-          const excerpt = d.querySelector("p:not(.secondary)")?.textContent?.trim() || "";
-
+        for (const post of postsToShow) {
           latestNotesContainer.innerHTML += `
-            <a href="blog/posts/${folder}" class="flex items-center justify-between p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors">
+            <a href="blog/posts/${post.folder}" class="flex items-center justify-between p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors group">
                 <div class="flex flex-col">
-                    <h3 class="font-bold text-black mb-1">${title}</h3>
-                    <p class="text-sm text-secondary line-clamp-1">${excerpt}</p>
+                    <h3 class="font-bold text-black mb-1 group-hover:underline">${post.title}</h3>
+                    <p class="text-sm text-secondary line-clamp-1">${post.excerpt}</p>
                 </div>
-                <div class="mono text-sm text-slate-400 whitespace-nowrap ml-4">${date}</div>
+                <div class="mono text-sm text-slate-400 whitespace-nowrap ml-4">${post.date}</div>
             </a>
           `;
         }
       } catch (e) {
-        console.warn("Using fallback data for Latest Notes.");
+        console.warn("Using fallback data for Latest Notes due to error:", e);
         const fallbackPosts = [
           { folder: "multi-file-uploads/", title: "Multi-File Uploads in Laravel Vapor", date: "2026-04-10", excerpt: "Implementation patterns for scalable S3 streaming." },
           { folder: "upgrading-ajakme/", title: "Upgrading AjakMe Architecture", date: "2026-03-28", excerpt: "Transitioning to a modular distributed substrate." },
