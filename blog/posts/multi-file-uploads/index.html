@@ -12,122 +12,14 @@
   <link
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-
-  <style type="text/css">
-    @theme {
-      --color-primary: #000000;
-      --color-secondary: #444444;
-      --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-      --font-mono: "IBM Plex Mono", "SF Mono", "Fira Code", monospace;
-    }
-
-    body {
-      font-family: var(--font-sans);
-      background-color: #ffffff;
-      color: #111111;
-      cursor: crosshair;
-      line-height: 1.6;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-weight: 900;
-      letter-spacing: -0.05em;
-      color: #000000;
-      text-transform: uppercase;
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      font-size: clamp(2.25rem, 8vw, 4rem);
-      line-height: 1;
-      margin-top: 0;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-      border-bottom: 1px solid #000000;
-      padding-bottom: 0.5rem;
-    }
-
-    h3 {
-      font-size: 1.1rem;
-    }
-
-    .mono {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-    }
-
-    .grid-paper {
-      background-image:
-        linear-gradient(#f0f0f0 1px, transparent 1px),
-        linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
-      background-size: 20px 20px;
-    }
-
-    /* Implementation Log Specifics */
-    .prose p {
-      margin-bottom: 1.5rem;
-    }
-
-    .prose ul {
-      list-style: square;
-      padding-left: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .prose li {
-      margin-bottom: 0.5rem;
-    }
-
-    .code-block {
-      border: 1px solid #000000;
-      background-color: #f8fafc;
-      margin: 1.5rem -1.5rem;
-      padding: 1.25rem;
-      position: relative;
-    }
-
-    @media (min-width: 640px) {
-      .code-block {
-        margin: 2rem 0;
-        padding: 1.5rem;
-      }
-    }
-
-    .code-header {
-      border-bottom: 1px solid #000000;
-      padding-bottom: 0.75rem;
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    pre {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      overflow-x: auto;
-      color: #1e293b;
-    }
-
-    [x-cloak] {
-      display: none !important;
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/css/notes.css">
 </head>
 
-<body class="bg-white w-full">
+<body class="bg-white w-full px-4 md:px-0">
   <div id="navbar"></div>
   <div class="fixed inset-0 z-0 pointer-events-none grid-paper opacity-50"></div>
 
-  <main class="relative z-10 max-w-7xl mx-auto py-32">
+  <main class="relative z-10 note-container py-32 max-w-3xl mx-auto">
     <a href="/blog/" class="mono text-sm underline mb-12 inline-block">← BACK TO NOTES</a>
 
     <header class="mb-12 md:mb-20">
@@ -191,7 +83,18 @@
           <div class="w-2 h-2 rounded-full bg-gray-200"></div>
           <span class="mono text-sm text-gray-400 ml-2">UploadHandler.js</span>
         </div>
-        <pre><code>async function handleFileUpload() {
+        <div class="technical-block">
+        <h3 class="mono mb-4">Frontend: S3 Stream Implementation</h3>
+        <div class="scroll-x">
+          <pre><code>// Frontend stream logic
+const uploadToS3 = async (file) => {
+    const stream = file.stream();
+    // ... custom S3 streaming logic ...
+};</code></pre>
+        </div>
+      </div>
+    </div>
+      <pre><code>async function handleFileUpload() {
     const files = /* get files from input */; 
     if (!files || files.length === 0) return;
 

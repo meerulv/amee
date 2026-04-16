@@ -17,89 +17,14 @@
     mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
   </script>
 
-  <style type="text/css">
-    @theme {
-      --color-primary: #000000;
-      --color-secondary: #444444;
-      --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-      --font-mono: "IBM Plex Mono", "SF Mono", "Fira Code", monospace;
-    }
-
-    body {
-      font-family: var(--font-sans);
-      background-color: #ffffff;
-      color: #111111;
-      cursor: crosshair;
-      line-height: 1.6;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-weight: 900;
-      letter-spacing: -0.05em;
-      color: #000000;
-      text-transform: uppercase;
-      margin-top: 2.5rem;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      font-size: clamp(2.25rem, 8vw, 4rem);
-      line-height: 1;
-      margin-top: 0;
-    }
-
-    h2 {
-      font-size: 1.5rem;
-      border-bottom: 1px solid #000000;
-      padding-bottom: 0.5rem;
-    }
-
-    h3 {
-      font-size: 1.1rem;
-    }
-
-    .mono {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-    }
-
-    .grid-paper {
-      background-image:
-        linear-gradient(#f0f0f0 1px, transparent 1px),
-        linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
-      background-size: 20px 20px;
-    }
-
-    .prose p {
-      margin-bottom: 1.5rem;
-    }
-
-    .prose ul {
-      list-style: square;
-      padding-left: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .prose li {
-      margin-bottom: 0.5rem;
-    }
-
-    [x-cloak] {
-      display: none !important;
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/css/notes.css">
 </head>
 
 <body class="bg-white">
   <div id="navbar"></div>
   <div class="fixed inset-0 z-0 pointer-events-none grid-paper opacity-50"></div>
 
-  <main class="relative z-10 max-w-7xl mx-auto py-32">
+  <main class="relative z-10 note-container py-32">
     <a href="/blog/" class="mono text-sm underline mb-12 inline-block">← BACK TO NOTES</a>
 
     <header class="mb-12 md:mb-20">
@@ -128,9 +53,10 @@
         <li>Optimization of database query patterns for high-concurrency environments.</li>
       </ul>
 
-      <div class="my-12 p-8 border border-black bg-gray-50">
+      <div class="technical-block">
         <h3 class="mono mb-6 text-center">Structural Substrate Transition</h3>
-        <pre class="mermaid bg-transparent flex justify-center">
+        <div class="scroll-x">
+          <pre class="mermaid bg-transparent flex justify-center">
 graph TD
     subgraph "Legacy Monolith"
         A[Single PHP Engine] --> B[(Monolithic DB)]
@@ -145,7 +71,8 @@ graph TD
 
     style C fill:#000,stroke:#000,color:#fff
     style G fill:#fff,stroke:#000
-        </pre>
+          </pre>
+        </div>
       </div>
 
       <h2>Current Focus</h2>

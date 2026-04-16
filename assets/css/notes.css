@@ -1,0 +1,133 @@
+/**
+ * Core Styles for Blog Posts (Notes)
+ * Ameerul Arif Portfolio
+ */
+
+:root {
+    --color-primary: #000000;
+    --color-secondary: #444444;
+    --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    --font-mono: "IBM Plex Mono", "SF Mono", "Fira Code", monospace;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: #ffffff;
+    color: #111111;
+    cursor: crosshair;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Typography - Mobile First */
+h1, h2, h3, h4 {
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: clamp(2rem, 10vw, 4rem);
+    line-height: 0.95;
+    margin-top: 0;
+}
+
+h2 {
+    font-size: clamp(1.25rem, 5vw, 1.75rem);
+    border-bottom: 1px solid var(--color-primary);
+    padding-bottom: 0.5rem;
+}
+
+h3 {
+    font-size: 1.1rem;
+}
+
+p {
+    margin-bottom: 1.5rem;
+}
+
+.mono {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+/* Layout - Mobile First */
+.note-container {
+    max-width: 1280px; /* 7xl equivalent */
+    margin: 0 auto;
+    padding: 0 1.5rem; /* Standard mobile gutter */
+}
+
+@media (min-width: 1024px) {
+    .note-container {
+        padding: 0 2rem;
+    }
+}
+
+.grid-paper {
+    background-image:
+        linear-gradient(#f0f0f0 1px, transparent 1px),
+        linear-gradient(90deg, #f0f0f0 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+/* Elements */
+.prose ul {
+    list-style: square;
+    padding-left: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.prose li {
+    margin-bottom: 0.5rem;
+}
+
+/* Technical Enhancements */
+.scroll-x {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+.technical-block {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border: 1px solid var(--color-primary);
+    background-color: #f9fafb;
+}
+
+@media (min-width: 768px) {
+    .technical-block {
+        padding: 2.5rem;
+    }
+}
+
+/* Code Blocks */
+pre, code {
+    font-family: var(--font-mono);
+}
+
+pre {
+    background: #fdfdfd;
+    padding: 1rem;
+    border: 1px solid #eee;
+    font-size: 0.8rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+}
+
+/* Mermaid Fixes */
+.mermaid {
+    min-width: 400px; /* Prevent it from being too tiny, let it scroll */
+    margin: 0 auto;
+}
+
+[x-cloak] {
+    display: none !important;
+}
