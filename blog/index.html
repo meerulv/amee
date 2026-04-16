@@ -181,66 +181,9 @@
 
   <div id="footer"></div>
 
+  <script src="../assets/js/app.js"></script>
   <script type="text/javascript">
-    function blogSystem() {
-      return {
-        posts: [],
-        allTags: [],
-        selectedTag: '',
-        currentPage: 1,
-        itemsPerPage: 30,
-        async init() {
-          try {
-            const res = await fetch("./posts/posts.json");
-            this.posts = await res.json();
-            
-            const tagSet = new Set();
-            this.posts.forEach(post => {
-              post.tags.forEach(tag => tagSet.add(tag));
-            });
-            this.allTags = Array.from(tagSet).sort();
-          } catch (e) {
-            console.error("Error loading posts:", e);
-            this.posts = [
-              { folder: "multi-file-uploads", title: "Multi-File Uploads in Laravel Vapor", date: "2026-04-10", excerpt: "Implementation patterns for scalable S3 streaming.", tags: ["Laravel", "AWS Vapor"] },
-              { folder: "upgrading-ajakme", title: "Upgrading AjakMe Architecture", date: "2026-03-28", excerpt: "Transitioning to a modular distributed architecture.", tags: ["Infrastructure", "Refactoring"] }
-            ];
-            const tagSet = new Set();
-            this.posts.forEach(p => p.tags.forEach(t => tagSet.add(t)));
-            this.allTags = Array.from(tagSet).sort();
-          }
-        },
-        get filteredPosts() {
-          if (!this.selectedTag) return this.posts;
-          return this.posts.filter(p => p.tags.includes(this.selectedTag));
-        },
-        get totalPages() {
-          return Math.ceil(this.filteredPosts.length / this.itemsPerPage);
-        },
-        get paginatedPosts() {
-          const start = (this.currentPage - 1) * this.itemsPerPage;
-          return this.filteredPosts.slice(start, start + this.itemsPerPage);
-        }
-      }
-    }
-
-    async function loadPartials() {
-      try {
-        const base = "../";
-        const footerRes = await fetch(`${base}_partials/_footer.html`);
-        const footerTxt = await footerRes.text();
-        const footerEl = document.getElementById("footer");
-        footerEl.innerHTML = footerTxt.replace(/href="(?!http|#|\/)/g, 'href="' + base);
-
-        const navbarRes = await fetch(`${base}_partials/_navbar.html`);
-        const navbarTxt = await navbarRes.text();
-        const navbarEl = document.getElementById("navbar");
-        navbarEl.innerHTML = navbarTxt.replace(/href="(?!http|#|\/)/g, 'href="' + base);
-      } catch (error) {
-        console.error("Error loading partials:", error);
-      }
-    }
-    loadPartials();
+    loadPartials("../");
   </script>
 </body>
 

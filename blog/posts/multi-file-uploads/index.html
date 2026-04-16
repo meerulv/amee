@@ -218,22 +218,9 @@
 
   <div id="footer"></div>
 
+  <script src="/assets/js/app.js"></script>
   <script type="text/javascript">
-    async function loadPartials() {
-      try {
-        const base = "/";
-        const footerRes = await fetch(`${base}_partials/_footer.html`);
-        const footerEl = document.getElementById("footer");
-        footerEl.innerHTML = (await footerRes.text()).replace(/href="(?!http|#|\/)/g, 'href="' + base);
-
-        const navbarRes = await fetch(`${base}_partials/_navbar.html`);
-        const navbarEl = document.getElementById("navbar");
-        navbarEl.innerHTML = (await navbarRes.text()).replace(/href="(?!http|#|\/)/g, 'href="' + base);
-      } catch (error) {
-        console.error("Error loading partials:", error);
-      }
-    }
-    loadPartials();
+    loadPartials("/");
   </script>
 </body>
 

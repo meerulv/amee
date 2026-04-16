@@ -12,6 +12,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+  </script>
 
   <style type="text/css">
     @theme {
@@ -124,6 +128,26 @@
         <li>Optimization of database query patterns for high-concurrency environments.</li>
       </ul>
 
+      <div class="my-12 p-8 border border-black bg-gray-50">
+        <h3 class="mono mb-6 text-center">Structural Substrate Transition</h3>
+        <pre class="mermaid bg-transparent flex justify-center">
+graph TD
+    subgraph "Legacy Monolith"
+        A[Single PHP Engine] --> B[(Monolithic DB)]
+    end
+    
+    subgraph "AjakMe 2.0 Modular Architecture"
+        C[Event Dispatcher] --> D[Auth Service]
+        C --> E[Invitation Service]
+        C --> F[Assets Service]
+        D & E & F --> G[(Distributed Data Layer)]
+    end
+
+    style C fill:#000,stroke:#000,color:#fff
+    style G fill:#fff,stroke:#000
+        </pre>
+      </div>
+
       <h2>Current Focus</h2>
       <p>Right now, I'm working on making sure each part of the system works independently and communicates clearly with others.</p>
 
@@ -135,22 +159,9 @@
 
   <div id="footer"></div>
 
+  <script src="/assets/js/app.js"></script>
   <script type="text/javascript">
-    async function loadPartials() {
-      try {
-        const base = "/";
-        const footerRes = await fetch(`${base}_partials/_footer.html`);
-        const footerEl = document.getElementById("footer");
-        footerEl.innerHTML = (await footerRes.text()).replace(/href="(?!http|#|\/)/g, 'href="' + base);
-
-        const navbarRes = await fetch(`${base}_partials/_navbar.html`);
-        const navbarEl = document.getElementById("navbar");
-        navbarEl.innerHTML = (await navbarRes.text()).replace(/href="(?!http|#|\/)/g, 'href="' + base);
-      } catch (error) {
-        console.error("Error loading partials:", error);
-      }
-    }
-    loadPartials();
+    loadPartials("/");
   </script>
 </body>
 

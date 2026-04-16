@@ -22,8 +22,8 @@
       "@type": "Organization",
       "name": "Open to New Opportunities"
     },
-    "knowsAbout": ["Laravel", "TALL Stack", "DevOps", "React", "Docker", "AWS", "CI/CD", "NextJS", "Nginx", "VueJS", "React Native", "Redux Saga"],
-    "description": "A Full-Stack developer specializing in Laravel, DevOps enthusiast, with experience in React and React Native. I go beyond building features by turning business needs into scalable, and reliable applications."
+    "knowsAbout": ["Laravel", "TALL Stack", "DevOps", "React", "Docker", "AWS", "CI/CD"],
+    "description": "A TALL stack developer and DevOps enthusiast based in Malaysia, actively looking for new opportunities to build scalable digital products."
   }
   </script>
 
@@ -33,6 +33,7 @@
   <!-- Scripts -->
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script src="/assets/js/app.js"></script>
 
   <style type="text/css">
     @theme {
@@ -314,46 +315,17 @@
   <div id="footer"></div>
 
   <script type="text/javascript">
-    // Load components
-    async function loadPartials() {
-      try {
-        const base = document.querySelector("base")?.href || "/";
+    loadPartials("/");
+    loadLatestPosts();
 
-        const footerRes = await fetch(`${base}_partials/_footer.html`);
-        const footerEl = document.getElementById("footer");
-        footerEl.innerHTML = await footerRes.text();
-
-        const navbarRes = await fetch(`${base}_partials/_navbar.html`);
-        const navbarEl = document.getElementById("navbar");
-        navbarEl.innerHTML = await navbarRes.text();
-
-        // Initialize Alpine on the new content if Alpine is already loaded
-        if (window.Alpine) {
-          Alpine.initTree(footerEl);
-          Alpine.initTree(navbarEl);
-        }
-      } catch (error) {
-        console.error("Error loading partials:", error);
-      }
-    }
-
-    // Load latest 2-3 posts for the home feed
     async function loadLatestPosts() {
       try {
-        const res = await fetch("blog/posts/posts.json");
-        const posts = await res.json();
-
+        const posts = await BlogData.getPosts();
         const latestNotesContainer = document.getElementById("latest-notes");
+        if (!latestNotesContainer) return;
+        
         latestNotesContainer.innerHTML = "";
-
-        // Limit to 3 for home page
-        const postsToShow = posts.slice(0, 3);
-
-        if (postsToShow.length === 0) {
-          throw new Error("No posts found");
-        }
-
-        for (const post of postsToShow) {
+        posts.slice(0, 3).forEach(post => {
           latestNotesContainer.innerHTML += `
             <a href="blog/posts/${post.folder}" class="flex items-center justify-between p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors group">
                 <div class="flex flex-col">
@@ -363,52 +335,11 @@
                 <div class="mono text-sm text-slate-400 whitespace-nowrap ml-4">${post.date}</div>
             </a>
           `;
-        }
-      } catch (e) {
-        console.warn("Using fallback data for Latest Notes due to error:", e);
-        const fallbackPosts = [
-          { folder: "multi-file-uploads/", title: "Multi-File Uploads in Laravel Vapor", date: "2026-04-10", excerpt: "Implementation patterns for scalable S3 streaming." },
-          { folder: "upgrading-ajakme/", title: "Upgrading AjakMe Architecture", date: "2026-03-28", excerpt: "Transitioning to a modular distributed substrate." },
-        ];
-        const latestNotesContainer = document.getElementById("latest-notes");
-        latestNotesContainer.innerHTML = "";
-        fallbackPosts.forEach(post => {
-          latestNotesContainer.innerHTML += `
-            <a href="blog/posts/${post.folder}index.html" class="flex items-center justify-between p-6 border-b border-gray-100 hover:bg-gray-50 transition-colors group">
-                <div class="flex flex-col">
-                    <h3 class="font-bold text-black mb-1 group-hover:underline">${post.title}</h3>
-                    <p class="text-sm text-secondary line-clamp-1">${post.excerpt}</p>
-                </div>
-                <div class="mono text-sm text-slate-400 whitespace-nowrap ml-4">${post.date}</div>
-            </a>
-          `;
         });
+      } catch (e) {
+        console.warn("Home feed sync failed.");
       }
     }
-
-    loadPartials();
-    loadLatestPosts();
-
-    // 🥚 Easter Egg unlocked
-    console.clear();
-
-    console.log(
-      `%c✨ Hey there! ✨
-
-If you're here, you probably care about code. Good news, so do I!
-
-I'm currently open to new opportunities.
-Let’s build something meaningful.
-
-🔗 linkedin.com/in/ameerul-arif-mohd-azni`,
-      `
-    color: #7dd3fc;
-    font-size: 12px;
-    line-height: 1.6;
-    font-weight: 500;
-  `
-    );
-
   </script>
 </body>
 
