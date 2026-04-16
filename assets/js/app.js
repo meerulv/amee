@@ -55,22 +55,25 @@ const BlogData = {
             return posts.filter(post => post.draft !== true);
         } catch (e) {
             console.warn("Using system fallbacks for documentation feed.");
-            return [
+            const fallbacks = [
                 { 
                     folder: "multi-file-uploads", 
                     title: "Multi-File Uploads in Laravel Vapor", 
-                    date: "2026-04-10", 
-                    excerpt: "Implementation patterns for scalable S3 streaming directly from the frontend to bypass Lambda payload limits.", 
-                    tags: ["Laravel", "AWS Vapor"] 
+                    date: "2024-04-10", 
+                    excerpt: "Implementation patterns for scalable S3 streaming directly from the frontend.", 
+                    tags: ["Laravel", "AWS Vapor"],
+                    draft: false 
                 },
                 { 
                     folder: "upgrading-ajakme", 
                     title: "Upgrading AjakMe Architecture", 
-                    date: "2026-03-28", 
-                    excerpt: "Transitioning AjakMe from a monolithic system to a modular, distributed architecture for improved scalability.", 
-                    tags: ["Infrastructure", "Refactoring"] 
+                    date: "2024-03-28", 
+                    excerpt: "Transitioning to a modular distributed architecture.", 
+                    tags: ["Infrastructure", "Refactoring"],
+                    draft: false
                 }
             ];
+            return fallbacks.filter(post => post.draft !== true);
         }
     }
 };

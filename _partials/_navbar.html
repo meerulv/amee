@@ -1,8 +1,16 @@
-<div class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-black px-4 sm:px-6 lg:px-8 py-2" x-data="{ 
+<div class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-black" x-data="{ 
         mobileMenuOpen: false, 
         scrolled: false 
     }" x-cloak>
-    <header class="max-w-7xl mx-auto flex items-center justify-between">
+    <!-- Maintenance Banner -->
+    <div class="bg-black text-white py-1.5 px-4 sm:px-6 lg:px-8 flex items-center justify-center gap-3 overflow-hidden border-b border-white/10">
+        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></span>
+        <span class="mono text-[10px] sm:text-xs uppercase tracking-[0.25em] font-bold text-gray-200">
+            Portfolio is being updated to showcase my latest work // Thank you for visiting!
+        </span>
+    </div>
+
+    <header class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-2">
         <nav class="flex items-center justify-between w-full">
             <div class="flex items-center gap-8">
                 <a href="/" class="flex items-center gap-2 py-2">
