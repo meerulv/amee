@@ -1,53 +1,48 @@
-<div class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-black" x-data="{ 
-        mobileMenuOpen: false, 
-        scrolled: false 
-    }" x-cloak>
-    <!-- Maintenance Banner -->
-    <div class="bg-black text-white py-1.5 px-4 sm:px-6 lg:px-8 flex items-center justify-center gap-3 overflow-hidden border-b border-white/10">
-        <span class="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></span>
-        <span class="mono text-[10px] sm:text-xs uppercase tracking-[0.25em] font-bold text-gray-200">
-            Portfolio is being updated to showcase my latest work // Thank you for visiting!
-        </span>
+<div class="fixed top-0 left-0 right-0 z-50 bg-[#161b22] border-b border-[#30363d] text-[#e6edf3]" x-data="{ mobileMenuOpen: false }" x-cloak>
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 h-12">
+        <div class="flex items-center gap-6">
+            <a href="/" class="flex items-center gap-2 group">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span class="mono text-xs font-black tracking-tight uppercase text-white group-hover:text-[#58a6ff] transition-colors">AMEERUL ARIF</span>
+                <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-1.5 py-0.5 rounded hidden sm:inline">WORKSPACE</span>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-5 border-l border-[#30363d] pl-6 text-xs mono">
+                <a href="/" class="text-[#8b949e] hover:text-[#58a6ff] transition-colors">Workspace</a>
+                <a href="/blog/" class="text-white hover:text-[#58a6ff] transition-colors">All Entries</a>
+            </nav>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-3">
+            <a href="/Ameerul_Arif_Mohd_Azni_CV.pdf" target="_blank"
+                class="mono text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-2.5 sm:px-3 py-1.5 rounded transition-colors inline-flex items-center gap-1.5">
+                <span>CV / Resume</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            </a>
+            <a href="https://my.linkedin.com/in/ameerul-arif-mohd-azni" target="_blank"
+                class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 py-1.5 rounded transition-colors hidden sm:inline">
+                LinkedIn ↗
+            </a>
+            <a href="https://github.com/meerulv" target="_blank"
+                class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 py-1.5 rounded transition-colors hidden sm:inline">
+                GitHub ↗
+            </a>
+
+            <!-- Mobile menu button -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-1.5 text-[#8b949e] hover:text-white" aria-label="Toggle Menu">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
     </div>
 
-    <header class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-2">
-        <nav class="flex items-center justify-between w-full">
-            <div class="flex items-center gap-8">
-                <a href="/" class="flex items-center gap-2 py-2">
-                    <!-- <span class="bg-black text-white px-2 py-0.5 text-xs font-black mono tracking-tighter">HOME</span> -->
-                    <span
-                        class="mono text-sm font-bold text-black uppercase tracking-widest hidden sm:inline">Home</span>
-                </a>
-
-                <div class="hidden md:flex items-center gap-6 border-l border-gray-200 pl-8">
-                    <a href="/blog/"
-                        class="mono text-sm text-gray-500 hover:text-black uppercase tracking-[0.2em] transition-colors">Documentation</a>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-6">
-                <a href="https://github.com/meerulv" target="_blank"
-                    class="mono text-sm text-gray-500 hover:text-black uppercase tracking-[0.2em] transition-colors hidden sm:inline">Git</a>
-                <a href="https://my.linkedin.com/in/ameerul-arif-mohd-azni" target="_blank"
-                    class="mono text-sm text-gray-500 hover:text-black uppercase tracking-[0.2em] transition-colors hidden sm:inline">Contact</a>
-
-                <!-- Mobile button -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2">
-                    <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="square" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </div>
-        </nav>
-
-        <!-- Mobile menu overlay -->
-        <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false"
-            class="absolute top-full left-0 right-0 bg-white border-b border-black p-8 flex flex-col gap-6 md:hidden">
-            <a href="/blog/" class="mono text-sm text-black uppercase tracking-widest">Documentation</a>
-            <a href="https://github.com/meerulv" class="mono text-sm text-black uppercase tracking-widest">Git</a>
-            <a href="https://my.linkedin.com/in/ameerul-arif-mohd-azni"
-                class="mono text-sm text-black uppercase tracking-widest">Contact</a>
-        </div>
-    </header>
+    <!-- Mobile menu dropdown -->
+    <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false"
+        class="md:hidden border-t border-[#30363d] bg-[#161b22] px-4 py-3 flex flex-col gap-3 mono text-xs">
+        <a href="/" class="text-white hover:text-[#58a6ff]">← Return to Workspace</a>
+        <a href="/blog/" class="text-[#8b949e] hover:text-white">All Entries</a>
+        <a href="https://my.linkedin.com/in/ameerul-arif-mohd-azni" target="_blank" class="text-[#8b949e] hover:text-white">LinkedIn ↗</a>
+        <a href="https://github.com/meerulv" target="_blank" class="text-[#8b949e] hover:text-white">GitHub ↗</a>
+    </div>
 </div>

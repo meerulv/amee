@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VetCheck Multi-Region AWS Architecture & Modernization | Case Study | Ameerul Arif</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/notes.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+</head>
+
+<body class="bg-[#0d1117] min-h-screen flex flex-col">
+  <div id="navbar"></div>
+
+  <main class="flex-1 note-container py-24 w-full">
+    <div class="flex items-center justify-between mb-8 pb-4 border-b border-[#30363d]">
+      <a href="/" class="mono text-xs font-semibold text-[#58a6ff] hover:underline inline-flex items-center gap-1.5">
+        ← Back to Workspace
+      </a>
+      <span class="mono text-[10px] font-bold uppercase tracking-wider bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30 px-2 py-0.5 rounded">
+        Case Study
+      </span>
+    </div>
+
+    <header class="mb-10">
+      <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-2">Cloud Infrastructure & High-Density Compute</div>
+      <h1 class="text-2xl sm:text-4xl font-black text-white mb-6">
+        VetCheck: Multi-Region AWS Cloud Architecture & FrankenPHP/Octane Modernization
+      </h1>
+
+      <!-- Executive Metric Bar -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 p-4 border border-[#30363d] bg-[#161b22] rounded mb-6">
+        <div>
+          <div class="mono text-[10px] text-[#8b949e] uppercase">Active Regions</div>
+          <div class="text-lg font-bold text-white">AU & UK</div>
+          <div class="mono text-[9px] text-[#8b949e]">Multi-Region Cloud</div>
+        </div>
+        <div>
+          <div class="mono text-[10px] text-[#8b949e] uppercase">Compute Runtime</div>
+          <div class="text-lg font-bold text-emerald-400">Octane + ARM64</div>
+          <div class="mono text-[9px] text-[#8b949e]">FrankenPHP Graviton</div>
+        </div>
+        <div>
+          <div class="mono text-[10px] text-[#8b949e] uppercase">Feature Flags</div>
+          <div class="text-lg font-bold text-white">6 Countries</div>
+          <div class="mono text-[9px] text-[#8b949e]">Laravel Pennant</div>
+        </div>
+        <div>
+          <div class="mono text-[10px] text-[#8b949e] uppercase">Delivery Pipeline</div>
+          <div class="text-lg font-bold text-white">Automated CI/CD</div>
+          <div class="mono text-[9px] text-[#8b949e]">AWS CodeDeploy</div>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://plugin.vetcheck.it" target="_blank" class="mono text-xs font-bold border border-[#30363d] px-3 py-1 bg-[#21262d] text-[#58a6ff] hover:bg-[#30363d] rounded transition-colors">
+          VetCheck Platform ↗
+        </a>
+        <span class="mono text-xs text-[#30363d]">|</span>
+        <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">AWS (ALB/ASG/WAF)</span>
+        <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">FrankenPHP</span>
+        <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">Laravel Octane</span>
+        <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">ValKey / Redis</span>
+        <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">Pennant</span>
+      </div>
+    </header>
+
+    <article class="prose max-w-none text-[#c9d1d9] leading-relaxed">
+      <h2>01. Executive Overview</h2>
+      <p>
+        Served as Senior Developer & DevOps Engineer with primary responsibility for designing and building production AWS infrastructure from the ground up for <code>plugin.vetcheck.it</code>. Modernized the compute platform using FrankenPHP and Laravel Octane on AWS ARM64 (Graviton) EC2 instances to drastically improve runtime efficiency and handle real-time clinical veterinary workflows.
+      </p>
+
+      <h2>02. Multi-Region AWS Architecture Topology</h2>
+      <div class="technical-block overflow-x-auto">
+        <pre class="mermaid bg-transparent">
+graph TD
+    Route53["AWS Route 53 (Latency & Geo Routing)"] --> WAF_AU["AWS WAF (Australia)"]
+    Route53 --> WAF_UK["AWS WAF (United Kingdom)"]
+    
+    subgraph AU_Region["AWS Australia Region (ap-southeast-2)"]
+        WAF_AU --> ALB_AU["Application Load Balancer"]
+        ALB_AU --> ASG_AU["EC2 Auto Scaling Group (ARM64)"]
+        ASG_AU --> Octane_AU["FrankenPHP / Laravel Octane + Horizon"]
+        Octane_AU --> Aurora_AU[("Aurora MySQL Clustered DB")]
+        Octane_AU --> Cache_AU[("ElastiCache / ValKey Redis")]
+    end
+
+    subgraph UK_Region["AWS UK Region (eu-west-2)"]
+        WAF_UK --> ALB_UK["Application Load Balancer"]
+        ALB_UK --> ASG_UK["EC2 Auto Scaling Group (ARM64)"]
+        ASG_UK --> Octane_UK["FrankenPHP / Laravel Octane + Horizon"]
+        Octane_UK --> Aurora_UK[("Aurora MySQL Clustered DB")]
+        Octane_UK --> Cache_UK[("ElastiCache / ValKey Redis")]
+    end
+        </pre>
+      </div>
+
+      <h2>03. Core Deliverables</h2>
+      
+      <div class="border border-[#30363d] p-6 mb-6 bg-[#161b22] rounded-lg">
+        <h3 class="mono text-sm font-bold text-[#58a6ff] uppercase mb-3">1. High-Performance Runtime: FrankenPHP + Laravel Octane on ARM64</h3>
+        <p class="text-sm text-[#c9d1d9] leading-relaxed mb-0">
+          Migrated application runtime to FrankenPHP with Laravel Octane on ARM64 EC2 instances, maintaining in-memory application state for low request latencies. Configured Horizon and Systemd for resilient background queue processing.
+        </p>
+      </div>
+
+      <div class="border border-[#30363d] p-6 mb-6 bg-[#161b22] rounded-lg">
+        <h3 class="mono text-sm font-bold text-[#58a6ff] uppercase mb-3">2. Granular Country Feature Flagging</h3>
+        <p class="text-sm text-[#c9d1d9] leading-relaxed mb-0">
+          Implemented regional release management using <strong>Laravel Pennant</strong>, enabling seamless country-specific features across Australia, the United Kingdom, the United States, New Zealand, Singapore, and Hong Kong without maintaining divergent branches.
+        </p>
+      </div>
+
+      <div class="border border-[#30363d] p-6 mb-6 bg-[#161b22] rounded-lg">
+        <h3 class="mono text-sm font-bold text-[#58a6ff] uppercase mb-3">3. Blue/Green Multi-Region Automated CI/CD</h3>
+        <p class="text-sm text-[#c9d1d9] leading-relaxed mb-0">
+          Built zero-downtime Blue/Green automated deployment pipelines across Australia and United Kingdom AWS regions with versioned artifact releases via AWS CodeDeploy and S3.
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="/assets/js/app.js"></script>
+  <script type="text/javascript">
+    loadPartials("/");
+  </script>
+</body>
+
+</html>

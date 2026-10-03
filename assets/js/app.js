@@ -51,74 +51,52 @@ const BlogData = {
             const res = await fetch(`${base}blog/posts/posts.json`);
             if (!res.ok) throw new Error("Manifest not accessible");
             const posts = await res.json();
-            // Filter out posts marked as drafts
             return posts.filter(post => post.draft !== true);
         } catch (e) {
-            console.warn("Using system fallbacks for documentation feed.");
-            const fallbacks = [
-                { 
-                    folder: "multi-file-uploads", 
-                    title: "Multi-File Uploads in Laravel Vapor", 
-                    date: "2024-04-10", 
-                    excerpt: "Implementation patterns for scalable S3 streaming directly from the frontend.", 
-                    tags: ["Laravel", "AWS Vapor"],
-                    draft: false 
-                },
-                { 
-                    folder: "upgrading-ajakme", 
-                    title: "Upgrading AjakMe Architecture", 
-                    date: "2024-03-28", 
-                    excerpt: "Transitioning to a modular distributed architecture.", 
-                    tags: ["Infrastructure", "Refactoring"],
-                    draft: false
-                }
-            ];
-            return fallbacks.filter(post => post.draft !== true);
+            console.warn("Using system fallbacks for documentation feed.", e);
+            return [];
         }
     }
 };
 
 /**
- * Alpine.js Blog Component Factory
+ * Alpine.js Blog & Logs Component Factory
  */
 function blogSystem(base = "") {
     return {
         posts: [],
         allTags: [],
         selectedTag: '',
+        selectedType: 'all', // 'all', 'case-study', 'snippet', 'article'
         currentPage: 1,
-        itemsPerPage: 30,
+        itemsPerPage: 15,
         async init() {
             this.posts = await BlogData.getPosts(base);
             const tagSet = new Set();
-            this.posts.forEach(post => post.tags.forEach(tag => tagSet.add(tag)));
+            this.posts.forEach(post => {
+                if (Array.isArray(post.tags)) {
+                    post.tags.forEach(tag => tagSet.add(tag));
+                }
+            });
             this.allTags = Array.from(tagSet).sort();
         },
+        setType(type) {
+            this.selectedType = type;
+            this.currentPage = 1;
+        },
         get filteredPosts() {
-            if (!this.selectedTag) return this.posts;
-            return this.posts.filter(p => p.tags.includes(this.selectedTag));
+            return this.posts.filter(p => {
+                const matchesTag = !this.selectedTag || (p.tags && p.tags.includes(this.selectedTag));
+                const matchesType = this.selectedType === 'all' || p.type === this.selectedType;
+                return matchesTag && matchesType;
+            });
         },
         get totalPages() {
-            return Math.ceil(this.filteredPosts.length / this.itemsPerPage);
+            return Math.ceil(this.filteredPosts.length / this.itemsPerPage) || 1;
         },
         get paginatedPosts() {
             const start = (this.currentPage - 1) * this.itemsPerPage;
             return this.filteredPosts.slice(start, start + this.itemsPerPage);
         }
-    }
-}
-
-/**
- * DevOps Pulse Indicator - Proof of Concept for Seniority Signal
- */
-function initSystemPulse() {
-    const statusText = document.querySelector('.status-text');
-    if (statusText) {
-        const regions = ['MY-KUL', 'AWS-SG', 'GC-SH'];
-        let idx = 0;
-        setInterval(() => {
-            statusText.setAttribute('title', `Primary substrate: ${regions[idx]}`);
-            idx = (idx + 1) % regions.length;
-        }, 10000);
-    }
+    };
 }
