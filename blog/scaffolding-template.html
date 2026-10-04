@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}} | {{TYPE_LABEL}} | Ameerul Arif</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/notes.css">
+  {{MERMAID_SCRIPT}}
+</head>
+
+<body class="bg-[#0d1117] min-h-screen flex flex-col">
+  <div id="navbar"></div>
+
+  <main class="flex-1 note-container py-24 w-full">
+    <!-- Top Nav -->
+    <div class="flex items-center justify-between mb-8 pb-4 border-b border-[#30363d]">
+      <a href="/" class="mono text-xs font-semibold text-[#58a6ff] hover:underline inline-flex items-center gap-1.5">
+        ← Back to Workspace
+      </a>
+      <span class="mono text-[10px] font-bold uppercase tracking-wider {{BADGE_CLASS}} px-2 py-0.5 rounded">
+        {{TYPE_LABEL}}
+      </span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10">
+      <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-2">{{CATEGORY}}</div>
+      <h1 class="text-2xl sm:text-4xl font-black text-white mb-6">
+        {{TITLE}}
+      </h1>
+
+      {{METRIC_BAR}}
+
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="mono text-xs text-[#8b949e]">Date: {{DATE}}</span>
+        <span class="mono text-xs text-[#30363d]">|</span>
+        {{TAGS_HTML}}
+      </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <article class="prose max-w-none text-[#c9d1d9] leading-relaxed">
+{{CONTENT_HTML}}
+    </article>
+
+    <div class="mt-16 pt-8 border-t border-[#30363d] flex justify-between items-center">
+      <a href="/" class="mono text-xs text-[#58a6ff] hover:underline">← Back to Workspace</a>
+      <span class="mono text-xs text-[#8b949e]">Ameerul Arif • Senior Systems Architect & DevOps</span>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+  <script src="/assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPartials('/');
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Engineering Note & Snippet Studio | Ameerul Arif</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/notes.css">
+
+  <style>
+    :root {
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background-color: #0d1117;
+      color: #e6edf3;
+    }
+    .mono { font-family: var(--font-mono); }
+    textarea, input, select {
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      color: #e6edf3;
+      outline: none;
+    }
+    textarea:focus, input:focus, select:focus {
+      border-color: #58a6ff;
+    }
+  </style>
+</head>
+
+<body class="h-[100dvh] w-screen flex flex-col overflow-hidden bg-[#0d1117]" x-data="postEditorStudio()">
+
+  <!-- Top Bar -->
+  <header class="h-12 border-b border-[#30363d] bg-[#161b22] px-4 flex items-center justify-between shrink-0 select-none z-20">
+    <div class="flex items-center gap-3">
+      <a href="/" class="mono text-xs font-semibold text-[#58a6ff] hover:underline flex items-center gap-1">
+        ← Back to Portfolio
+      </a>
+      <span class="text-[#30363d]">|</span>
+      <span class="mono text-xs font-bold text-white uppercase tracking-wider">Note & Snippet Studio</span>
+      <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-2 py-0.5 rounded border border-[#30363d]">Visual Scaffolder</span>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <button @click="resetForm()" class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-3 py-1.5 rounded transition-colors">
+        + New Scaffolding
+      </button>
+      <button @click="savePost()" :disabled="isSaving" class="mono text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-4 py-1.5 rounded transition-colors inline-flex items-center gap-1.5 disabled:opacity-50">
+        <span x-text="isSaving ? 'Saving...' : 'Save & Build File'"></span>
+        <svg x-show="!isSaving" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Notification Toast -->
+  <div x-show="toastMessage" x-cloak class="fixed bottom-4 right-4 z-50 px-4 py-3 rounded border text-xs mono shadow-lg flex items-center gap-2"
+    :class="toastType === 'success' ? 'bg-[#161b22] border-emerald-500 text-emerald-400' : 'bg-[#161b22] border-rose-500 text-rose-400'">
+    <span x-text="toastMessage"></span>
+    <template x-if="createdUrl">
+      <a :href="createdUrl" target="_blank" class="underline font-bold text-[#58a6ff]">View Post ↗</a>
+    </template>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- Left Sidebar: Existing Posts -->
+    <aside class="w-64 border-r border-[#30363d] bg-[#0d1117] flex flex-col shrink-0">
+      <div class="p-3 border-b border-[#30363d] flex items-center justify-between">
+        <span class="mono text-[11px] font-bold uppercase text-[#8b949e]">Existing Entries</span>
+        <span class="mono text-[10px] bg-[#21262d] text-[#58a6ff] px-1.5 py-0.5 rounded" x-text="posts.length"></span>
+      </div>
+
+      <div class="flex-1 overflow-y-auto p-2 space-y-1">
+        <template x-for="p in posts" :key="p.folder">
+          <button @click="loadPost(p)" 
+            class="w-full text-left p-2.5 rounded transition-colors group block border"
+            :class="form.folder === p.folder ? 'bg-[#161b22] border-[#58a6ff]' : 'border-transparent hover:bg-[#161b22] hover:border-[#30363d]'">
+            <div class="flex items-center justify-between mb-1">
+              <span class="mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded"
+                :class="p.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff]' : 'bg-[#238636]/20 text-[#3fb950]'"
+                x-text="p.type"></span>
+              <span class="mono text-[10px] text-[#8b949e]" x-text="p.date"></span>
+            </div>
+            <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white line-clamp-2" x-text="p.title"></div>
+          </button>
+        </template>
+      </div>
+    </aside>
+
+    <!-- Center & Right: Form & Live Preview -->
+    <main class="flex-1 grid grid-cols-1 lg:grid-cols-2 overflow-hidden divide-x divide-[#30363d]">
+      
+      <!-- Editor Column -->
+      <section class="h-full overflow-y-auto p-6 space-y-4">
+        <div>
+          <h2 class="mono text-xs uppercase font-bold text-[#58a6ff] tracking-wider mb-1">Post Metadata</h2>
+          <p class="text-xs text-[#8b949e]">Configures how this appears in <code>posts.json</code> and the homepage workspace.</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block mono text-[11px] text-[#8b949e] mb-1">Post Type</label>
+            <select x-model="form.type" class="w-full px-2.5 py-1.5 rounded text-xs">
+              <option value="case-study">Case Study (Architecture / Production)</option>
+              <option value="snippet">Code Snippet (Quick Pattern / Solution)</option>
+              <option value="article">Technical Article / Deep Dive</option>
+            </select>
+          </div>
+          <div>
+            <label class="block mono text-[11px] text-[#8b949e] mb-1">Date (YYYY-MM-DD)</label>
+            <input type="text" x-model="form.date" class="w-full px-2.5 py-1.5 rounded text-xs mono" placeholder="2026-10-03">
+          </div>
+        </div>
+
+        <div>
+          <label class="block mono text-[11px] text-[#8b949e] mb-1">Title</label>
+          <input type="text" x-model="form.title" @input="autoSlug()" class="w-full px-2.5 py-2 rounded text-sm font-semibold" placeholder="e.g. AWS Multi-Region Architecture...">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block mono text-[11px] text-[#8b949e] mb-1">Folder Slug (in blog/posts/)</label>
+            <input type="text" x-model="form.folder" class="w-full px-2.5 py-1.5 rounded text-xs mono" placeholder="aws-multi-region-architecture">
+          </div>
+          <div>
+            <label class="block mono text-[11px] text-[#8b949e] mb-1">Category / Sub-header</label>
+            <input type="text" x-model="form.category" class="w-full px-2.5 py-1.5 rounded text-xs" placeholder="e.g. Cloud Infrastructure & High-Density Compute">
+          </div>
+        </div>
+
+        <div>
+          <label class="block mono text-[11px] text-[#8b949e] mb-1">Executive Metrics / Impact Bar (Bullet Separated)</label>
+          <input type="text" x-model="form.metrics" class="w-full px-2.5 py-1.5 rounded text-xs mono text-emerald-400" placeholder="Multi-Region AU & UK • ARM64 FrankenPHP/Octane • 6 Countries Pennant">
+        </div>
+
+        <div>
+          <label class="block mono text-[11px] text-[#8b949e] mb-1">Homepage Excerpt</label>
+          <textarea x-model="form.excerpt" rows="2" class="w-full p-2.5 rounded text-xs leading-relaxed" placeholder="Short description summarizing architecture decisions and verified numbers..."></textarea>
+        </div>
+
+        <div>
+          <label class="block mono text-[11px] text-[#8b949e] mb-1">Tags (Comma-separated)</label>
+          <input type="text" x-model="form.tagsInput" class="w-full px-2.5 py-1.5 rounded text-xs mono" placeholder="AWS, Laravel Octane, FrankenPHP, DevOps">
+        </div>
+
+        <div class="pt-3 border-t border-[#30363d]">
+          <div class="flex items-center justify-between mb-2">
+            <label class="mono text-xs font-bold uppercase text-[#58a6ff]">Body Content (HTML & Code Blocks)</label>
+            <div class="flex gap-2">
+              <button type="button" @click="insertSection()" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+                + Section
+              </button>
+              <button type="button" @click="insertCodeBlock()" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+                + Code Block
+              </button>
+              <button type="button" @click="insertMermaid()" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+                + Mermaid Diagram
+              </button>
+            </div>
+          </div>
+          <textarea x-model="form.content_html" rows="16" class="w-full p-3 rounded text-xs mono leading-relaxed" placeholder="Write article content using <h2>, <p>, <ul>, <div class='technical-block'>..."></textarea>
+        </div>
+      </section>
+
+      <!-- Live Scaffolding Preview Column -->
+      <section class="h-full overflow-y-auto bg-[#0d1117] p-6">
+        <div class="mb-4 flex items-center justify-between pb-3 border-b border-[#30363d]">
+          <div class="mono text-[11px] uppercase font-bold text-[#8b949e]">Live Scaffolding Preview</div>
+          <span class="mono text-[10px] text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 px-2 py-0.5 rounded">Renders identical to production index.html</span>
+        </div>
+
+        <!-- Rendered Post Scaffolding -->
+        <div class="max-w-2xl mx-auto py-6">
+          <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#30363d]">
+            <span class="mono text-xs text-[#58a6ff]">← Back to Workspace</span>
+            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded"
+              :class="form.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30' : 'bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30'"
+              x-text="form.type === 'case-study' ? 'Case Study' : 'Code Snippet'"></span>
+          </div>
+
+          <header class="mb-8">
+            <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-2" x-text="form.category || 'Architecture & Systems'"></div>
+            <h1 class="text-2xl sm:text-3xl font-black text-white mb-4" x-text="form.title || 'Untitled Post'"></h1>
+
+            <template x-if="form.metrics">
+              <div class="p-3 bg-[#161b22] border border-emerald-500/30 rounded mb-4">
+                <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact Verified</div>
+                <div class="mono text-xs text-emerald-300 font-semibold" x-text="form.metrics"></div>
+              </div>
+            </template>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="mono text-xs text-[#8b949e]" x-text="'Date: ' + (form.date || 'Today')"></span>
+              <span class="mono text-xs text-[#30363d]">|</span>
+              <template x-for="tag in computedTags" :key="tag">
+                <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded" x-text="tag"></span>
+              </template>
+            </div>
+          </header>
+
+          <article class="prose max-w-none text-[#c9d1d9] leading-relaxed" x-html="form.content_html">
+          </article>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script>
+    function postEditorStudio() {
+      return {
+        posts: [],
+        isSaving: false,
+        toastMessage: '',
+        toastType: 'success',
+        createdUrl: '',
+        form: {
+          folder: '',
+          title: '',
+          type: 'case-study',
+          date: new Date().toISOString().split('T')[0],
+          category: 'Cloud Infrastructure & High-Density Systems',
+          metrics: '',
+          excerpt: '',
+          tagsInput: '',
+          draft: false,
+          content_html: ''
+        },
+        async init() {
+          await this.loadPostsList();
+          if (this.posts.length > 0) {
+            await this.loadPost(this.posts[0]);
+          } else {
+            this.resetForm();
+          }
+        },
+        async loadPostsList() {
+          try {
+            const res = await fetch('/api/posts');
+            if (res.ok) {
+              this.posts = await res.json();
+            }
+          } catch (e) {
+            console.error("Failed to load posts", e);
+          }
+        },
+        async loadPost(p) {
+          this.form.folder = p.folder;
+          this.form.title = p.title;
+          this.form.type = p.type || 'case-study';
+          this.form.date = p.date || '';
+          this.form.metrics = p.metrics || '';
+          this.form.excerpt = p.excerpt || '';
+          this.form.tagsInput = Array.isArray(p.tags) ? p.tags.join(', ') : '';
+          this.form.category = 'Cloud Infrastructure & High-Density Systems';
+          this.form.draft = !!p.draft;
+
+          // Fetch full article HTML body from API
+          try {
+            const res = await fetch(`/api/post/${p.folder}`);
+            if (res.ok) {
+              const data = await res.json();
+              this.form.content_html = data.content_html || '';
+            }
+          } catch (e) {
+            console.error("Failed to fetch full HTML content", e);
+          }
+        },
+        resetForm() {
+          const today = new Date().toISOString().split('T')[0];
+          this.form = {
+            folder: '',
+            title: '',
+            type: 'case-study',
+            date: today,
+            category: 'Systems Architecture & Performance',
+            metrics: 'Production Verified • Sub-100ms Latency',
+            excerpt: '',
+            tagsInput: 'Laravel, AWS, Redis',
+            draft: false,
+            content_html: `<h2>01. Executive Overview</h2>
+<p>Summary of the problem, architectural context, and technical mandate for this implementation.</p>
+
+<h2>02. Architecture & Design Patterns</h2>
+<p>Explanation of the core patterns, decoupling strategies, or data structures implemented.</p>
+
+<div class="technical-block">
+  <div class="mono text-xs text-[#8b949e] uppercase mb-2">// Implementation Example</div>
+  <pre><code>// Paste sanitized code or configuration here</code></pre>
+</div>
+
+<h2>03. Benchmark & Key Metrics</h2>
+<ul>
+  <li><strong>Latency:</strong> Reduced p95 response time from 380ms to 42ms.</li>
+  <li><strong>Throughput:</strong> Handled 10,000+ concurrent requests with zero dropped jobs.</li>
+</ul>`
+          };
+        },
+        autoSlug() {
+          if (!this.form.folder || this.form.folder.trim() === '') {
+            this.form.folder = this.form.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          }
+        },
+        get computedTags() {
+          return this.form.tagsInput.split(',').map(t => t.trim()).filter(Boolean);
+        },
+        insertSection() {
+          this.form.content_html += `\n\n<h2>New Section Title</h2>\n<p>Describe architectural decisions, edge cases, and benchmarks here.</p>`;
+        },
+        insertCodeBlock() {
+          this.form.content_html += `\n\n<div class="technical-block">\n  <div class="mono text-xs text-[#8b949e] uppercase mb-2">// Code Label</div>\n  <pre><code>// Your code snippet here</code></pre>\n</div>`;
+        },
+        insertMermaid() {
+          this.form.content_html += `\n\n<div class="technical-block">\n  <h3 class="mono mb-4 text-center text-xs text-[#8b949e] uppercase">Architecture Topology</h3>\n  <pre class="mermaid">\ngraph TD\n    A[Client Request] --> B[CloudFront / ALB]\n    B --> C[Laravel Octane / FrankenPHP]\n    C --> D[(Aurora MySQL / Redis)]\n  </pre>\n</div>`;
+        },
+        async savePost() {
+          if (!this.form.title.trim()) {
+            alert('Please enter a post title.');
+            return;
+          }
+          if (!this.form.folder.trim()) {
+            this.autoSlug();
+          }
+
+          this.isSaving = true;
+          this.createdUrl = '';
+
+          const payload = {
+            folder: this.form.folder.trim(),
+            title: this.form.title.trim(),
+            type: this.form.type,
+            date: this.form.date.trim(),
+            category: this.form.category.trim(),
+            excerpt: this.form.excerpt.trim(),
+            metrics: this.form.metrics.trim(),
+            tags: this.computedTags,
+            draft: this.form.draft,
+            content_html: this.form.content_html
+          };
+
+          try {
+            const res = await fetch('/api/save-post', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            const result = await res.json();
+            if (res.ok && result.status === 'success') {
+              this.showToast(`Post saved and HTML built in blog/posts/${result.folder}/`, 'success', result.url);
+              await this.loadPostsList();
+            } else {
+              this.showToast(result.message || 'Failed to save', 'error');
+            }
+          } catch (e) {
+            this.showToast('Network error while saving post: ' + e.message, 'error');
+          } finally {
+            this.isSaving = false;
+          }
+        },
+        showToast(msg, type = 'success', url = '') {
+          this.toastMessage = msg;
+          this.toastType = type;
+          this.createdUrl = url;
+          setTimeout(() => {
+            this.toastMessage = '';
+          }, 6000);
+        }
+      };
+    }
+  </script>
+</body>
+
+</html>
