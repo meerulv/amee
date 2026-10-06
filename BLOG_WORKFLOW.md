@@ -73,8 +73,25 @@ Open your browser to:
 Click **"Save & Build File"**:
 - Automatically creates `blog/posts/<slug>/index.html` based on `blog/scaffolding-template.html`.
 - Automatically inserts or updates the post entry in `blog/posts/posts.json`.
+- Automatically opens a full post preview modal for instant review.
 
-### Step 4: Preview in Homepage Workspace
+### Step 4: Generate Threads Social Chain (1, 2, or 3-Part Engagement Posts)
+Click the purple **`🧵 Threads`** button in the Studio top bar:
+- **Choose Tone:**
+  - **🇲🇾 Santai Tech BM (Default):** Natural Malaysian developer tone (*"Korang pernah tak deploy production pastu seram sejuk takut downtime atau queue stuck? 😅"*, *"Benda ni straight forward je sebenarnya, tak perlu over-engineer..."*, *"Jom sembang santai kat bawah 👇"*). Extremely relatable to Malaysian dev communities on Threads, inviting open comments, questions, and networking.
+  - **🌐 English Tech:** Professional developer tone for international or corporate technical audiences.
+- **Choose Chain Length:**
+  - **1 Post:** Punchy single-post overview + open-ended discussion question + canonical link.
+  - **2 Posts:** Part 1 (Hook & problem statement) → Part 2 (Simplified fix, complete link & Q&A prompt).
+  - **3 Posts (Recommended):** Part 1 (The Problem & verified metrics) → Part 2 (Key technical decisions) → Part 3 (Link to full blueprint & interactive follower discussion starter).
+- **Designed for Presence & Interaction:**
+  - Concludes with real questions (*"Stack korang kat company biasa buat deployment macam mana? CI/CD tool apa korang pakai sekarang? Drop je kat replies!"*).
+- **Per-Post Controls:**
+  - Individual **`Copy`** button and **`Open in Threads ↗`** for each node in the chain.
+  - One-click **`Copy Entire Chain`** to copy all formatted posts at once.
+  - **`↻ Re-roll Style`** to alternate phrasing.
+
+### Step 5: Preview in Homepage Workspace
 Visit [http://localhost:8000/](http://localhost:8000/) to see your newly drafted post appear immediately in the main portfolio workspace and detail drawer.
 
 ---

@@ -61,6 +61,9 @@
           <span class="hidden sm:inline" x-text="isDeleting ? 'Deleting...' : 'Delete'"></span>
         </button>
       </template>
+      <button @click="generateThreadsPost()" class="mono text-xs font-semibold border border-purple-500/50 bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
+        <span>🧵 Threads</span>
+      </button>
       <button @click="resetForm(); activeTab = 'editor'" class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap">
         + New
       </button>
@@ -302,6 +305,133 @@
     </div>
   </div>
 
+  <!-- Threads Multi-Part Chain Generator Modal -->
+  <div x-show="showThreadsModal" x-cloak class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div class="bg-[#0d1117] border border-[#30363d] rounded-xl w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+      
+      <!-- Modal Header -->
+      <div class="h-14 border-b border-[#30363d] bg-[#161b22] px-4 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="text-lg">🧵</span>
+          <div>
+            <div class="mono text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
+              <span>Threads Discussion Chain</span>
+              <span class="text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 px-1.5 py-0.2 rounded" x-text="threadsChain.length + ' Part Thread'"></span>
+            </div>
+            <div class="text-[11px] text-[#8b949e]">Simplified breakdown crafted for community engagement & Q&A discussions</div>
+          </div>
+        </div>
+        <button @click="showThreadsModal = false" class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 py-1 rounded transition-colors">
+          Close (Esc)
+        </button>
+      </div>
+
+      <!-- Controls & Length Picker Bar -->
+      <div class="px-5 py-3 border-b border-[#30363d] bg-[#161b22]/50 flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div class="flex flex-wrap items-center gap-3">
+          <!-- Tone Selector: Malaysian Tech Santai vs English -->
+          <div class="flex items-center gap-1.5">
+            <span class="mono text-[11px] text-[#8b949e] mr-1">Tone:</span>
+            <button @click="setTone('malaysian')" 
+              :class="threadTone === 'malaysian' ? 'bg-amber-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+              class="mono text-xs px-2.5 py-1 rounded border border-[#30363d] transition-colors flex items-center gap-1">
+              <span>🇲🇾 Santai Tech BM</span>
+            </button>
+            <button @click="setTone('english')" 
+              :class="threadTone === 'english' ? 'bg-[#58a6ff] text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+              class="mono text-xs px-2.5 py-1 rounded border border-[#30363d] transition-colors">
+              <span>🌐 English Tech</span>
+            </button>
+          </div>
+
+          <!-- Chain Length Selector -->
+          <div class="flex items-center gap-1.5">
+            <span class="mono text-[11px] text-[#8b949e] mr-1">Chain:</span>
+            <button @click="setChainLength(1)" 
+              :class="threadPartsCount === 1 ? 'bg-[#58a6ff] text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+              class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors">
+              1 Post
+            </button>
+            <button @click="setChainLength(2)" 
+              :class="threadPartsCount === 2 ? 'bg-[#58a6ff] text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+              class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors">
+              2 Posts
+            </button>
+            <button @click="setChainLength(3)" 
+              :class="threadPartsCount === 3 ? 'bg-[#58a6ff] text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+              class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors">
+              3 Posts
+            </button>
+          <!-- Style Variant Selector -->
+          <div class="flex items-center gap-1.5">
+            <span class="mono text-[11px] text-[#8b949e] mr-1">Style:</span>
+            <button @click="setStyle(0)" 
+              :class="threadsFormatIndex === 0 ? 'bg-purple-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+              class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors"
+              x-text="threadTone === 'malaysian' ? 'Story Santai' : 'Problem / Fix'">
+            </button>
+            <button @click="setStyle(1)" 
+              :class="threadsFormatIndex === 1 ? 'bg-purple-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+              class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors"
+              x-text="threadTone === 'malaysian' ? 'Direct Technical' : 'Direct Hook'">
+            </button>
+            <button @click="setStyle(2)" 
+              :class="threadsFormatIndex === 2 ? 'bg-purple-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+              class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors"
+              x-text="threadTone === 'malaysian' ? 'Tanya Pendapat' : 'Minimalist'">
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button @click="copyAllThreads()" class="mono text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-3.5 py-1.5 rounded transition-colors inline-flex items-center gap-1">
+            <span x-text="threadsAllCopied ? '✓ Copied All!' : 'Copy Entire Chain'"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Chain Posts Stream -->
+      <div class="p-4 sm:p-6 overflow-y-auto space-y-4">
+        <template x-for="(part, idx) in threadsChain" :key="idx">
+          <div class="border border-[#30363d] rounded-lg bg-[#161b22] p-4 relative group">
+            
+            <!-- Post Part Header -->
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-2">
+                <span class="mono text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30" x-text="'Post ' + (idx + 1) + ' of ' + threadsChain.length"></span>
+                <span class="mono text-[10px] text-[#8b949e]" x-text="part.role"></span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="mono text-[10px] text-[#8b949e]" x-text="part.text.length + ' chars'"></span>
+                <button @click="copySingleThread(part.text, idx)" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#58a6ff] border border-[#30363d] px-2 py-0.5 rounded transition-colors">
+                  <span x-text="copiedIndex === idx ? '✓ Copied' : 'Copy'"></span>
+                </button>
+                <a :href="'https://www.threads.net/intent/post?text=' + encodeURIComponent(part.text)" target="_blank" class="mono text-[10px] bg-white text-black hover:bg-neutral-200 px-2 py-0.5 rounded font-bold transition-colors">
+                  Open in Threads ↗
+                </a>
+              </div>
+            </div>
+
+            <!-- Editable Textarea per thread node -->
+            <textarea x-model="part.text" rows="5" class="w-full p-3 rounded text-xs mono leading-relaxed bg-[#0d1117] border border-[#30363d] text-[#e6edf3] focus:border-[#58a6ff] outline-none" :placeholder="'Post ' + (idx + 1) + ' content...'"></textarea>
+          </div>
+        </template>
+
+        <!-- Interactive Follower Discussion Prompts -->
+        <div class="p-3.5 bg-[#161b22] border border-[#30363d] rounded-lg text-xs space-y-2">
+          <div class="flex items-center gap-1.5 text-amber-400 font-bold mono text-[11px]">
+            <span>💬 Discussion Starters & Follower Engagement Hooks:</span>
+          </div>
+          <p class="text-[#8b949e] leading-relaxed text-[11px]">
+            The final post is intentionally structured with an open-ended question inviting followers to share how their team handles this issue. If followers reply with questions about specific tooling or scaling costs, point them directly to:
+            <a :href="threadsTargetUrl" target="_blank" class="text-[#58a6ff] underline mono" x-text="threadsTargetUrl"></a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <script>
     function postEditorStudio() {
       return {
@@ -311,6 +441,13 @@
         isDeleting: false,
         showSavedModal: false,
         savedUrl: '',
+        showThreadsModal: false,
+        threadTone: 'malaysian', // 'malaysian' or 'english'
+        threadPartsCount: 3,
+        threadsChain: [],
+        copiedIndex: null,
+        threadsAllCopied: false,
+        threadsFormatIndex: 0,
         toastMessage: '',
         toastType: 'success',
         createdUrl: '',
@@ -408,9 +545,11 @@
 </ul>`
           };
         },
-        autoSlug() {
+        autoSlug(returnOnly = false) {
+          const generated = (this.form.title || 'engineering-post').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          if (returnOnly) return generated;
           if (!this.form.folder || this.form.folder.trim() === '') {
-            this.form.folder = this.form.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            this.form.folder = generated;
           }
         },
         get computedTags() {
@@ -519,6 +658,398 @@
           } finally {
             this.isDeleting = false;
           }
+        },
+        get threadsTargetUrl() {
+          const folder = this.form.folder || this.autoSlug(true);
+          return `https://amee.my/blog/posts/${folder}/`;
+        },
+        generateThreadsPost() {
+          if (!this.form.title.trim()) {
+            alert('Please enter a post title before generating a Threads post.');
+            return;
+          }
+          this.threadsFormatIndex = 0;
+          this.copiedIndex = null;
+          this.threadsAllCopied = false;
+          this.threadsChain = this.buildThreadsChain();
+          this.showThreadsModal = true;
+        },
+        setStyle(index) {
+          this.threadsFormatIndex = index;
+          this.copiedIndex = null;
+          this.threadsAllCopied = false;
+          this.threadsChain = this.buildThreadsChain();
+        },
+        setTone(tone) {
+          this.threadTone = tone;
+          this.copiedIndex = null;
+          this.threadsAllCopied = false;
+          this.threadsChain = this.buildThreadsChain();
+        },
+        setChainLength(num) {
+          this.threadPartsCount = num;
+          this.copiedIndex = null;
+          this.threadsAllCopied = false;
+          this.threadsChain = this.buildThreadsChain();
+        },
+        buildThreadsChain() {
+          const title = this.form.title.trim() || 'Engineering Architecture Blueprint';
+          const metrics = this.form.metrics.trim();
+          const excerpt = this.form.excerpt.trim();
+          const tags = this.computedTags.map(t => '#' + t.replace(/[^a-zA-Z0-9]/g, '')).filter(Boolean).slice(0, 4);
+          const url = this.threadsTargetUrl;
+
+          // Strip simple HTML tags from content to find takeaways
+          const tempEl = document.createElement('div');
+          tempEl.innerHTML = this.form.content_html || '';
+          const headings = Array.from(tempEl.querySelectorAll('h2, h3'))
+            .map(h => h.textContent.replace(/^\d+[\.\s]*/, '').trim())
+            .filter(h => h && !h.toLowerCase().includes('overview') && !h.toLowerCase().includes('conclusion'));
+          const takeaways = headings.slice(0, 4);
+
+          // ==========================================
+          // 🇲🇾 MALAYSIAN SANTAI TECH BM GENERATOR
+          // ==========================================
+          if (this.threadTone === 'malaysian') {
+            
+            // STYLE 1: DIRECT TECHNICAL BREAKDOWN (Focus on Architecture & Numbers)
+            if (this.threadsFormatIndex === 1) {
+              if (this.threadPartsCount === 1) {
+                return [{
+                  role: 'Direct Technical Summary',
+                  text: `⚡ Production Architecture Note: "${title}"
+
+${metrics ? 'Verified numbers:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Setup ni fokus pada reliability: connection draining + zero downtime deployment tanpa setup pelik-pelik.
+
+Full sanitized config & diagram flow ada kat sini:
+👉 ${url}
+
+Ada geng DevOps / backend kat sini yang implement benda sama?
+
+${tags.join(' ')}`
+                }];
+              }
+
+              if (this.threadPartsCount === 2) {
+                return [
+                  {
+                    role: '1/2 Technical Architecture Hook',
+                    text: `1/2 ⚡ Technical breakdown untuk production deployment "${title}".
+
+${metrics ? 'Key metrics verified:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}${excerpt ? excerpt + '\n\n' : ''}Macam mana kitaorang configure infra supaya deploy bila-bila masa pun tak kacau user 🧵👇`
+                  },
+                  {
+                    role: '2/2 Flow & Code Walkthrough',
+                    text: `2/2 Technical implementation highlights:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `• Step 0${idx+1}: ${t}`).join('\n') + '\n\n' : '• Target group health checking\n• Blue/green traffic routing\n• Queue worker isolation\n\n'}Complete architecture topology & sanitized scripts:
+👉 ${url}
+
+Kalau korang ada soalan pasal AWS setup or cost optimization, drop kat replies! 👇
+
+${tags.join(' ')}`
+                  }
+                ];
+              }
+
+              return [
+                {
+                  role: '1/3 Technical Architecture Context',
+                  text: `1/3 ⚡ Case Study: Architecture & Infra untuk "${title}".
+
+${metrics ? 'Verified benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}${excerpt ? excerpt + '\n\n' : ''}Ramai ingat zero downtime perlukan setup Kubernetes yang kompleks, tapi standard AWS patterns sebenarnya dah lebih daripada cukup 👇`
+                },
+                {
+                  role: '2/3 Implementation Architecture',
+                  text: `2/3 3 perkara utama yang kitaorang titikberatkan:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx+1}. ${t}`).join('\n') : '01. Blue/green switch elak latency spike.\n02. Dedicated queue worker elak job tercicir.\n03. Connection draining sampai request lama settle.'}
+
+Prinsip dia: simplicity beats complexity bila traffic tengah peak.`
+                },
+                {
+                  role: '3/3 Full Blueprint & Discussion',
+                  text: `3/3 Saya dah publish architecture diagram & complete code walkthrough kat workspace:
+👉 ${url}
+
+Korang biasa deploy guna CI/CD apa kat tempat kerja? Ada yang pakai GitHub Actions, GitLab, or AWS CodeDeploy?
+
+Jom discuss kat bawah! 👇
+
+${tags.join(' ')}`
+                }
+              ];
+            }
+
+            // STYLE 2: TANYA PENDAPAT (Community Q&A First)
+            if (this.threadsFormatIndex === 2) {
+              if (this.threadPartsCount === 1) {
+                return [{
+                  role: 'Tanya Pendapat Community',
+                  text: `Nak tanya pendapat geng backend / DevOps Malaysia: korang selalu hadap issue apa paling annoying time deploy production? 😅
+
+Baru siap tulis santai pasal setup "${title}" — target zero downtime & queue sentiasa clear.
+
+${metrics ? '⚡ ' + metrics + '\n\n' : ''}Full notes & flow diagram ada kat amee.my:
+👉 ${url}
+
+Biasa team korang handle macam mana? Jom borak santai kat bawah 👇
+
+${tags.join(' ')}`
+                }];
+              }
+
+              if (this.threadPartsCount === 2) {
+                return [
+                  {
+                    role: '1/2 Tanya Pengalaman Follower',
+                    text: `1/2 Geng dev, korang pernah tak cuak bila kena deploy petang Jumaat atau time traffic tengah naik? 😂
+
+Baru lepas document-kan workflow kitaorang untuk "${title}".
+
+${metrics ? '⚡ Hasil benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Ni cara kitaorang buat supaya deploy tak seram 🧵👇`
+                  },
+                  {
+                    role: '2/2 Solusi & Tanya Pendapat',
+                    text: `2/2 Solusi dia sebenarnya kembali pada fundamental infra:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `• ${t}`).join('\n') + '\n\n' : '• Asingkan worker\n• Blue/green switch\n• Warmup connection\n\n'}Detail panjang lebar dengan diagram ada kat:
+👉 ${url}
+
+Korang punya setup company sekarang ada cabaran apa? Meh drop soalan or share experience korang 👇
+
+${tags.join(' ')}`
+                  }
+                ];
+              }
+
+              return [
+                {
+                  role: '1/3 Dilemma Dev Malaysia',
+                  text: `1/3 🧵 "Deploy dulu, tawakal kemudian." — Siapa pernah ada mindset macam ni time awal-awal jadi developer? 😂
+
+Bila app dah mula ada ribuan users, kita takleh harap nasib. Baru siap tulis case study: "${title}".
+
+${metrics ? '⚡ Verified numbers:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Jom tengok macam mana nak buat zero downtime tanpa stress 👇`
+                },
+                {
+                  role: '2/3 Cara Mudah Settlekan',
+                  text: `2/3 Benda paling penting adalah jangan campur traffic user dengan background tasks:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx+1}. ${t}`).join('\n') : '01. Blue/green switch elak latency spike.\n02. Dedicated queue worker elak job tercicir.\n03. Connection draining sampai request lama settle.'}
+
+Bila flow dah kemas, nak deploy 10 kali sehari pun tak ada rasa seram.`
+                },
+                {
+                  role: '3/3 Link & Jom Borak',
+                  text: `3/3 Bacaan santai dengan actual configs & diagram topology:
+👉 ${url}
+
+Company korang biasa amalkan deploy hari apa? Ke ada polisi tak bagi deploy hari Jumaat jugak? 😆
+
+Share kat bawah, jom borak! 👇
+
+${tags.join(' ')}`
+                }
+              ];
+            }
+
+            // STYLE 0 (DEFAULT): STORY SANTAI (Engaging & Relatable)
+            if (this.threadPartsCount === 1) {
+              return [{
+                role: 'Single Post Santai (Korang pernah kena?)',
+                text: `Korang pernah tak deploy production pastu seram sejuk takut downtime atau queue stuck? 😅
+
+Baru siap tulis santai breakdown pasal setup "${title}".
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? 'Hasil benchmark verified:\n⚡ ' + metrics.split('•').map(m => m.trim()).join('\n⚡ ') + '\n\n' : ''}Setup ni straight forward je sebenarnya, tak perlu over-engineer. Architecture diagram & config penuh ada dekat:
+👉 ${url}
+
+Korang punya team biasa deploy macam mana? Ada yang migrate ke blue-green / multi-region jugak ke? Cer share kat bawah 👇
+
+${tags.join(' ')}`
+              }];
+            }
+
+            if (this.threadPartsCount === 2) {
+              return [
+                {
+                  role: 'Post 1: Problem & Setup (Santai BM)',
+                  text: `1/2 Ramai tanya macam mana nak handle deployment production yang zero downtime tapi tak nak setup yang pening kepala.
+
+Baru je settlekan case study pasal "${title}".
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Verified numbers:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Benda ni simple je konsep dia kalau faham flow. Sambung bawah 🧵👇`
+                },
+                {
+                  role: 'Post 2: Solution, Link & Borak Tech',
+                  text: `2/2 Key takeaway yang paling jimat masa:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `• Step 0${idx+1}: ${t}`).join('\n') + '\n\n' : '• Asingkan worker queue & web traffic\n• Blue/green routing guna target group\n• Warmup connection elak p95 spike\n\n'}Step-by-step blueprint penuh dengan sanitized config & flow diagram ada kat amee.my:
+👉 ${url}
+
+Siapa kat sini pernah sangkut bab queue restart time deployment? Kalau ada soalan or nak discuss pasal setup ni, drop je kat replies, jom sembang! ☕👇
+
+${tags.join(' ')}`
+                }
+              ];
+            }
+
+            return [
+              {
+                role: 'Part 1: The Relatable Pain Point',
+                text: `1/3 🧵 Korang perasan tak, banyak deployment fail bukan sebab code problem, tapi sebab flow infra yang overcomplicated? 
+
+Baru je document-kan pengalaman handle "${title}".
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Verified benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Bila traffic tengah spike, kita nak pastikan user tak perasan langsung kita tengah deploy. Ni cara kitaorang tackle 👇`
+              },
+              {
+                role: 'Part 2: Cara Settlekan (Tak Over-Engineer)',
+                text: `2/3 Fokus utama adalah buat simple tapi bulletproof:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx+1}. ${t}`).join('\n') : '01. Blue/green switch elak latency spike.\n02. Dedicated queue worker elak job tercicir.\n03. Connection draining sampai request lama settle.'}
+
+Tak perlu overcomplicate tooling kalau standard AWS / server patterns dah cukup handle scale.`
+              },
+              {
+                role: 'Part 3: Link Full Post & Borak Santai',
+                text: `3/3 Segala architecture diagram, sample config & explanation panjang lebar saya dah compile kat workspace:
+👉 ${url}
+
+💬 Stack korang kat company biasa buat deployment macam mana? CI/CD tool apa korang pakai sekarang?
+
+Kalau ada apa-apa soalan pasal AWS setup or database locking, tanya je kat bawah! Jom sembang santai 👇
+
+${tags.join(' ')}`
+              }
+            ];
+          }
+
+          // ==========================================
+          // 🌐 STANDARD ENGLISH TECH GENERATOR
+          // ==========================================
+          if (this.threadsFormatIndex === 1) {
+            // English Hook Style
+            if (this.threadPartsCount === 1) {
+              return [{
+                role: 'Direct Hook Summary',
+                text: `Recently documented our production implementation: "${title}".
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? 'Verified results:\n⚡ ' + metrics + '\n\n' : ''}Full post with topology diagrams & sanitized configs:
+🔗 ${url}
+
+What deployment strategies does your team currently run?
+
+${tags.join(' ')}`
+              }];
+            }
+          }
+
+          if (this.threadPartsCount === 1) {
+            return [{
+              role: 'Single Post Overview & Discussion',
+              text: `🚀 Quick breakdown of our production deployment: "${title}"
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Verified Benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Detailed technical blueprint, configurations & code snippets breakdown on my workspace:
+👉 ${url}
+
+💬 Curious: how is your team currently approaching this problem in production? What's your biggest bottleneck?
+
+${tags.join(' ')}`
+            }];
+          }
+
+          if (this.threadPartsCount === 2) {
+            return [
+              {
+                role: 'Hook & Core Problem Statement',
+                text: `1/2 🚀 Most production deployments fail at scale for one simple reason: unnecessary complexity.
+
+Recently solved this for "${title}".
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Key Verified Impact:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Here's the simplified approach we used 🧵👇`
+              },
+              {
+                role: 'Solution, Full Code Link & Q&A Discussion',
+                text: `2/2 Here is how we tackled it:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `• Step 0${idx+1}: ${t}`).join('\n') + '\n\n' : '• Decoupled background workers\n• Zero-downtime deployment pipelines\n• Multi-region failover isolation\n\n'}I documented the complete step-by-step blueprint with actual architecture diagrams and code snippets here:
+👉 ${url}
+
+💬 How does your current stack handle this? Any questions on the AWS or queue configuration? Drop them below! 👇
+
+${tags.join(' ')}`
+              }
+            ];
+          }
+
+          return [
+            {
+              role: 'Part 1: The Problem & The Mandate',
+              text: `1/3 🧵 Engineering Note: "${title}"
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ The Verified Results:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Why does this matter? Many systems suffer from downtime, dropped background jobs, or database locking during deployment. Here's what we changed 👇`
+            },
+            {
+              role: 'Part 2: The Simplified Architectural Fix',
+              text: `2/3 The core approach came down to a few key decisions:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx+1}. ${t}`).join('\n') : '01. Blue/Green deployment targeting isolated target groups.\n02. Zero queue starvation via dedicated high-priority worker pools.\n03. Graceful connection draining before routing traffic.'}
+
+The goal was simple: zero latency spikes and zero dropped customer requests.`
+            },
+            {
+              role: 'Part 3: Full Blueprint & Follower Discussion',
+              text: `3/3 Documented the full architecture diagram, sanitized configs, and step-by-step breakdown on my workspace:
+👉 ${url}
+
+💬 What deployment or infrastructure challenges is your team currently running into? 
+
+Drop your questions or thoughts below — happy to share the specific scripts or discuss edge cases! ☕
+
+${tags.join(' ')}`
+            }
+          ];
+        },
+        async copySingleThread(text, idx) {
+          try {
+            await navigator.clipboard.writeText(text);
+            this.copiedIndex = idx;
+            setTimeout(() => {
+              if (this.copiedIndex === idx) this.copiedIndex = null;
+            }, 2500);
+          } catch (e) {
+            this.fallbackCopy(text);
+            this.copiedIndex = idx;
+            setTimeout(() => {
+              if (this.copiedIndex === idx) this.copiedIndex = null;
+            }, 2500);
+          }
+        },
+        async copyAllThreads() {
+          const combined = this.threadsChain.map((p, i) => `--- [Post ${i+1}/${this.threadsChain.length}] ---\n${p.text}`).join('\n\n');
+          try {
+            await navigator.clipboard.writeText(combined);
+            this.threadsAllCopied = true;
+            setTimeout(() => {
+              this.threadsAllCopied = false;
+            }, 2500);
+          } catch (e) {
+            this.fallbackCopy(combined);
+            this.threadsAllCopied = true;
+            setTimeout(() => {
+              this.threadsAllCopied = false;
+            }, 2500);
+          }
+        },
+        fallbackCopy(text) {
+          const el = document.createElement('textarea');
+          el.value = text;
+          document.body.appendChild(el);
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
         },
         showToast(msg, type = 'success', url = '') {
           this.toastMessage = msg;
