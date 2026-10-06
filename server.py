@@ -13,6 +13,7 @@ import socketserver
 import json
 import os
 import re
+import shutil
 from urllib.parse import urlparse
 
 PORT = 8000
@@ -69,6 +70,8 @@ def build_post_html(data):
     html = html.replace("{{METRIC_BAR}}", metric_bar)
     html = html.replace("{{DATE}}", data.get('date', ''))
     html = html.replace("{{TAGS_HTML}}", tags_html)
+    html = html.replace("{{TAGS_JSON}}", json.dumps(tags))
+    html = html.replace("{{FOLDER}}", data.get('folder', ''))
     html = html.replace("{{CONTENT_HTML}}", data.get('content_html', ''))
     html = html.replace("{{MERMAID_SCRIPT}}", mermaid_script)
 
@@ -181,6 +184,44 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "folder": folder,
                     "url": f"/blog/posts/{folder}/",
                     "message": f"Successfully created/updated post in {folder}/"
+                }).encode("utf-8"))
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode("utf-8"))
+            return
+
+        if parsed.path == "/api/delete-post":
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_body = self.rfile.read(content_length).decode('utf-8')
+            try:
+                data = json.loads(post_body)
+                folder = data.get('folder', '').strip()
+                if not folder:
+                    raise ValueError("Post folder is required to delete.")
+
+                # 1. Remove from posts.json
+                with open(POSTS_JSON_PATH, "r", encoding="utf-8") as f:
+                    posts = json.load(f)
+
+                posts = [p for p in posts if p.get('folder') != folder]
+
+                with open(POSTS_JSON_PATH, "w", encoding="utf-8") as f:
+                    json.dump(posts, f, indent=2)
+
+                # 2. Delete post directory
+                target_folder = os.path.join(POSTS_DIR, folder)
+                if os.path.exists(target_folder):
+                    shutil.rmtree(target_folder)
+
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "status": "success",
+                    "folder": folder,
+                    "message": f"Successfully deleted post {folder}"
                 }).encode("utf-8"))
             except Exception as e:
                 self.send_response(500)

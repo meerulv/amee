@@ -49,6 +49,9 @@
 {{CONTENT_HTML}}
     </article>
 
+    <!-- Related / Suggested Posts -->
+    <div id="suggested-posts"></div>
+
     <div class="mt-16 pt-8 border-t border-[#30363d] flex justify-between items-center">
       <a href="/" class="mono text-xs text-[#58a6ff] hover:underline">← Back to Workspace</a>
       <span class="mono text-xs text-[#8b949e]">Ameerul Arif • Senior Systems Architect & DevOps</span>
@@ -60,6 +63,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       loadPartials('/');
+      BlogData.loadSuggestedPosts('{{FOLDER}}', {{TAGS_JSON}});
     });
   </script>
 </body>

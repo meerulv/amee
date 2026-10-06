@@ -60,7 +60,13 @@ Open your browser to:
   - **Excerpt:** Short 1–2 sentence description for the homepage feed
   - **Tags:** Comma-separated (e.g. `Laravel Octane, AWS, Redis, FrankenPHP`)
 - **Format Content:**
-  - Use the quick buttons: `+ Section`, `+ Code Block`, or `+ Mermaid Diagram`.
+  - Use the quick toolbar buttons:
+    - `+ Section` — Generates a new `<h2>` and paragraph.
+    - `+ Code Block` — Insets a syntax-highlighted dark container.
+    - `+ Diagram` — Inserts a Mermaid.js diagram.
+    - `+ Image` — Inserts responsive `<figure>` with `<img>` and `<figcaption>`.
+    - `+ Video` — Inserts a responsive 16:9 `.video-container` (YouTube/Vimeo embed or `<video>` tag).
+    - `+ URL Link` — Inserts styled outbound links with external arrows (`↗`).
   - Preview renders in real-time on the right column with exact production styling.
 
 ### Step 3: Save & Build Files
@@ -70,6 +76,22 @@ Click **"Save & Build File"**:
 
 ### Step 4: Preview in Homepage Workspace
 Visit [http://localhost:8000/](http://localhost:8000/) to see your newly drafted post appear immediately in the main portfolio workspace and detail drawer.
+
+---
+
+## 4. How to Delete a Post
+
+### Option A: From the Studio UI (Recommended)
+1. In the Studio ([http://localhost:8000/editor/](http://localhost:8000/editor/)), select the post you want to remove from the **"Existing Entries"** sidebar on the left.
+2. Click the red **"Delete Post"** button in the top bar.
+3. Confirm the browser prompt.
+4. The server automatically:
+   - Removes the entry from [blog/posts/posts.json](file:///Users/amee/Documents/Projects/Apps/Laravels/amee/blog/posts/posts.json).
+   - Deletes the `blog/posts/<slug>/` folder.
+
+### Option B: Manually
+1. Remove the JSON block from [blog/posts/posts.json](file:///Users/amee/Documents/Projects/Apps/Laravels/amee/blog/posts/posts.json).
+2. Delete the directory: `rm -rf blog/posts/<slug>/`.
 
 ---
 
