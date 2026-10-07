@@ -134,8 +134,32 @@
           </a>
         </template>
 
-        <div x-show="paginatedPosts.length === 0" class="p-12 text-center border border-dashed border-[#30363d] rounded">
-          <p class="mono text-xs text-[#8b949e]">No entries match the selected filters.</p>
+        <!-- Empty state when no posts exist at all (Guest-friendly) -->
+        <div x-show="posts.length === 0" class="p-12 text-center border border-dashed border-[#30363d] rounded-lg bg-[#161b22]/50 flex flex-col items-center justify-center">
+          <div class="w-12 h-12 rounded-full bg-[#21262d] border border-[#30363d] flex items-center justify-center text-xl mb-3">
+            ⚡
+          </div>
+          <h3 class="text-sm font-bold text-white mb-1">Architecture & Engineering Notes Coming Soon</h3>
+          <p class="mono text-xs text-[#8b949e] max-w-sm mb-4 leading-relaxed">
+            Production post-mortems, high-concurrency benchmarks, and infrastructure case studies are currently being curated.
+          </p>
+          <span class="mono text-xs text-[#58a6ff] bg-[#1f6feb]/10 border border-[#388bfd]/20 px-3 py-1.5 rounded">
+            Check back soon or follow updates
+          </span>
+        </div>
+
+        <!-- Empty state when filter or search has no matches -->
+        <div x-show="posts.length > 0 && paginatedPosts.length === 0" class="p-12 text-center border border-dashed border-[#30363d] rounded-lg bg-[#161b22]/30 flex flex-col items-center justify-center">
+          <div class="w-10 h-10 rounded-full bg-[#21262d] border border-[#30363d] flex items-center justify-center text-base mb-2">
+            🔍
+          </div>
+          <h3 class="text-xs font-bold text-white mb-1">No matching articles</h3>
+          <p class="mono text-xs text-[#8b949e] max-w-xs mb-3">
+            No entries matched your search query or selected category filter.
+          </p>
+          <button @click="searchQuery = ''; selectedTag = 'all'; selectedCategory = 'all'" class="mono text-xs text-[#58a6ff] hover:underline bg-[#21262d] border border-[#30363d] px-3 py-1 rounded transition-colors">
+            Clear Filters
+          </button>
         </div>
       </div>
 

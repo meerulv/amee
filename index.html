@@ -5,14 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Ameerul Arif | Senior Software Engineer, DevOps & Systems Architect</title>
-  <meta name="description" content="Senior Fullstack Engineer & Systems Architect (10+ yrs, CKA Certified) specializing in Laravel Octane, Multi-Region AWS, high-concurrency Redis queues, and cloud platforms.">
-  <meta name="keywords" content="Laravel Octane, FrankenPHP, CKA Certified, AWS, Multi-Region, Systems Architect, Redis, DevOps, Malaysia">
+  <meta name="description"
+    content="Senior Fullstack Engineer & Systems Architect (10+ yrs, CKA Certified) specializing in Laravel Octane, Multi-Region AWS, high-concurrency Redis queues, and cloud platforms.">
+  <meta name="keywords"
+    content="Laravel Octane, FrankenPHP, CKA Certified, AWS, Multi-Region, Systems Architect, Redis, DevOps, Malaysia">
 
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
   <script src="/assets/js/app.js"></script>
 
   <style type="text/css">
@@ -35,13 +39,16 @@
       width: 4px;
       height: 4px;
     }
+
     ::-webkit-scrollbar-track {
       background: #0d1117;
     }
+
     ::-webkit-scrollbar-thumb {
       background: #30363d;
       border-radius: 2px;
     }
+
     ::-webkit-scrollbar-thumb:hover {
       background: #58a6ff;
     }
@@ -61,6 +68,7 @@
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
+
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
@@ -72,17 +80,22 @@
   </style>
 </head>
 
-<body class="h-[100dvh] max-w-full flex flex-col overflow-hidden bg-[#0d1117] text-[#e6edf3]" x-data="portfolioWorkspace()">
+<body class="h-[100dvh] max-w-full flex flex-col overflow-hidden bg-[#0d1117] text-[#e6edf3]"
+  x-data="portfolioWorkspace()">
 
   <!-- 1. TOP STATUS & QUICK ACTION BAR -->
-  <header class="h-12 border-b border-[#30363d] bg-[#161b22] px-3 sm:px-4 flex items-center justify-between shrink-0 select-none z-20 gap-2 overflow-x-auto no-scrollbar">
+  <header
+    class="h-12 border-b border-[#30363d] bg-[#161b22] px-3 sm:px-4 flex items-center justify-between shrink-0 select-none z-20 gap-2 overflow-x-auto no-scrollbar">
     <div class="flex items-center gap-2 sm:gap-3 shrink-0">
       <div class="flex items-center gap-1.5 sm:gap-2">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span class="mono text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-400 whitespace-nowrap">Open to Work: Remote</span>
+        <span
+          class="mono text-[10px] sm:text-xs font-bold uppercase tracking-wider text-emerald-400 whitespace-nowrap">Open
+          to Work: Remote</span>
       </div>
       <span class="text-[#30363d] hidden sm:inline">|</span>
-      <span class="mono text-xs text-[#8b949e] hidden md:inline whitespace-nowrap">Remote / Distributed • 10+ Yrs Exp • CKA Certified • AWS / Laravel Octane</span>
+      <span class="mono text-xs text-[#8b949e] hidden md:inline whitespace-nowrap">Remote / Distributed • 10+ Yrs Exp •
+        CKA Certified • AWS / Laravel Octane</span>
     </div>
 
     <!-- Quick Actions Header -->
@@ -90,12 +103,19 @@
       <a href="/Ameerul_Arif_Mohd_Azni_CV.pdf" target="_blank"
         class="mono text-[11px] sm:text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-2 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
         <span>CV</span>
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg>
       </a>
       <a href="/editor/"
+        x-show="window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.search.includes('studio=1')"
         class="mono text-[11px] sm:text-xs border border-[#388bfd]/50 bg-[#1f6feb]/15 hover:bg-[#1f6feb]/25 text-[#58a6ff] px-2 sm:px-2.5 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
         <span>Studio</span>
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+        </svg>
       </a>
       <a href="https://my.linkedin.com/in/ameerul-arif-mohd-azni" target="_blank"
         class="mono text-[11px] sm:text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2 sm:px-2.5 py-1 rounded transition-colors whitespace-nowrap">
@@ -109,14 +129,13 @@
   </header>
 
   <!-- 2. MOBILE SECTION SWITCHER -->
-  <nav class="md:hidden flex h-10 border-b border-[#30363d] bg-[#0d1117] shrink-0 divide-x divide-[#30363d] text-center select-none z-10">
-    <button @click="mobileView = 'profile'" 
-      :class="mobileView === 'profile' ? 'active-nav-tab' : 'text-[#8b949e]'"
+  <nav
+    class="md:hidden flex h-10 border-b border-[#30363d] bg-[#0d1117] shrink-0 divide-x divide-[#30363d] text-center select-none z-10">
+    <button @click="mobileView = 'profile'" :class="mobileView === 'profile' ? 'active-nav-tab' : 'text-[#8b949e]'"
       class="flex-1 mono text-xs font-bold uppercase py-2 flex items-center justify-center gap-1.5 transition-colors">
       <span>👤 Profile</span>
     </button>
-    <button @click="mobileView = 'workspace'" 
-      :class="mobileView === 'workspace' ? 'active-nav-tab' : 'text-[#8b949e]'"
+    <button @click="mobileView = 'workspace'" :class="mobileView === 'workspace' ? 'active-nav-tab' : 'text-[#8b949e]'"
       class="flex-1 mono text-xs font-bold uppercase py-2 flex items-center justify-center gap-1.5 transition-colors">
       <span>⚡ Case Studies & Snippets</span>
       <span class="text-[10px] bg-[#21262d] text-white px-1.5 rounded-full" x-text="posts.length"></span>
@@ -125,12 +144,11 @@
 
   <!-- 3. MAIN WORKSPACE VIEWPORT FILL -->
   <main class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-    
+
     <!-- LEFT PANEL: Identity, Impact HUD, Tech Stack, Shipped Systems -->
-    <aside 
-      :class="mobileView === 'profile' ? 'flex' : 'hidden md:flex'"
+    <aside :class="mobileView === 'profile' ? 'flex' : 'hidden md:flex'"
       class="w-full md:w-[360px] lg:w-[410px] border-r border-[#30363d] bg-[#0d1117] flex-col shrink-0 overflow-y-auto p-4 sm:p-5 h-full">
-      
+
       <!-- Bio Header -->
       <div class="mb-4">
         <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight uppercase mb-1">
@@ -139,31 +157,37 @@
         <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2">
           <span class="mono text-xs text-[#58a6ff]">hey@amee.my</span>
           <span class="text-[#30363d] hidden sm:inline">•</span>
-          <span class="mono text-[10px] bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30 px-1.5 py-0.5 rounded font-bold">100% Remote</span>
+          <span
+            class="mono text-[10px] bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30 px-1.5 py-0.5 rounded font-bold">100%
+            Remote</span>
           <span class="text-[#30363d] hidden sm:inline">•</span>
-          <span class="mono text-[10px] bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30 px-1.5 py-0.5 rounded font-bold">CKA Certified</span>
+          <span
+            class="mono text-[10px] bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30 px-1.5 py-0.5 rounded font-bold">CKA
+            Certified</span>
         </div>
         <p class="text-xs text-[#8b949e] leading-relaxed">
-          Senior Full-Stack Developer & Technical Lead with <strong>10+ years of experience</strong> engineering scalable platforms, multi-region AWS infrastructure, and leading cross-border distributed teams. Actively prioritizing <strong>remote senior engineering & lead roles</strong>.
+          Senior Full-Stack Developer & Technical Lead with <strong>10+ years of experience</strong> engineering
+          scalable platforms, multi-region AWS infrastructure, and leading cross-border distributed teams. Actively
+          prioritizing <strong>remote senior engineering & lead roles</strong>.
         </p>
       </div>
 
       <!-- Impact Metrics HUD (Direct from CV) -->
       <div class="grid grid-cols-2 gap-2 mb-4">
         <div class="p-2.5 bg-[#161b22] border border-[#30363d] rounded">
-          <div class="mono text-[10px] text-[#8b949e] uppercase">Multi-Region Cloud</div>
-          <div class="text-sm sm:text-base font-bold text-white">AU & UK Active</div>
-          <div class="mono text-[9px] text-[#8b949e] mt-0.5">ALB/ASG/Aurora/WAF</div>
+          <div class="mono text-[10px] text-[#8b949e] uppercase">AWS Multi-Region</div>
+          <div class="text-xs sm:text-sm font-bold text-white leading-snug">Multi-Region & Auto Scaling</div>
+          <div class="mono text-[9px] text-[#8b949e] mt-0.5">ALB / RDS Aurora / WAF</div>
         </div>
         <div class="p-2.5 bg-[#161b22] border border-[#30363d] rounded">
-          <div class="mono text-[10px] text-[#8b949e] uppercase">SSO Ecosystem</div>
-          <div class="text-sm sm:text-base font-bold text-white">5+ Apps Unified</div>
-          <div class="mono text-[9px] text-[#8b949e] mt-0.5">&lt;100ms coupon validation</div>
+          <div class="mono text-[10px] text-[#8b949e] uppercase">Centralized Identity</div>
+          <div class="text-sm sm:text-base font-bold text-white">SSO & Shared APIs</div>
+          <div class="mono text-[9px] text-[#8b949e] mt-0.5">Unified Auth & Redis Caching</div>
         </div>
         <div class="p-2.5 bg-[#161b22] border border-[#30363d] rounded">
-          <div class="mono text-[10px] text-[#8b949e] uppercase">Team Leadership</div>
-          <div class="text-sm sm:text-base font-bold text-emerald-400">24 Developers</div>
-          <div class="mono text-[9px] text-[#8b949e] mt-0.5">Cross-border MY & ID</div>
+          <div class="mono text-[10px] text-[#8b949e] uppercase">Engineering Lead</div>
+          <div class="text-sm sm:text-base font-bold text-emerald-400">24-Engineer Team</div>
+          <div class="mono text-[9px] text-[#8b949e] mt-0.5">Distributed across MY & ID</div>
         </div>
         <div class="p-2.5 bg-[#161b22] border border-[#30363d] rounded">
           <div class="mono text-[10px] text-[#8b949e] uppercase">Deploy Strategy</div>
@@ -174,20 +198,35 @@
 
       <!-- Core Stack Matrix (Direct from CV) -->
       <div class="mb-4">
-        <div class="mono text-[10px] uppercase font-bold text-[#8b949e] tracking-wider mb-2">Technical Core Competencies</div>
+        <div class="mono text-[10px] uppercase font-bold text-[#8b949e] tracking-wider mb-2">Technical Core Competencies
+        </div>
         <div class="flex flex-wrap gap-1.5">
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Laravel 11/12</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Laravel Octane</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">FrankenPHP</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">AWS Multi-Region</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Kubernetes (CKA)</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Redis / ValKey</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Livewire 3</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Pennant</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Reverb</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">React Native</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Next.js</span>
-          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Golang (Exploring)</span>
+          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Laravel
+            11/12</span>
+          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Laravel
+            Octane</span>
+          <span
+            class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">FrankenPHP</span>
+          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">AWS
+            Multi-Region</span>
+          <span
+            class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Kubernetes
+            (CKA)</span>
+          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Redis /
+            ValKey</span>
+          <span
+            class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Livewire
+            3</span>
+          <span
+            class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Pennant</span>
+          <span
+            class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Reverb</span>
+          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">React
+            Native</span>
+          <span
+            class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Next.js</span>
+          <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] px-2 py-0.5 rounded text-[#c9d1d9]">Golang
+            (Exploring)</span>
         </div>
       </div>
 
@@ -195,55 +234,61 @@
       <div class="mt-auto pt-3 border-t border-[#30363d]">
         <div class="mono text-[10px] uppercase font-bold text-[#8b949e] tracking-wider mb-2">Key Shipped Systems</div>
         <div class="space-y-1.5 text-xs">
-          <a href="https://plugin.vetcheck.it" target="_blank" class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
+          <a href="https://plugin.vetcheck.it" target="_blank"
+            class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
             <span>VetCheck</span>
             <span class="mono text-[10px] text-[#8b949e]">Clinical SaaS ↗</span>
           </a>
-          <a href="https://account.accea.com.my" target="_blank" class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
+          <a href="https://account.accea.com.my" target="_blank"
+            class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
             <span>ACCEA Membership</span>
             <span class="mono text-[10px] text-[#8b949e]">Identity & Auth ↗</span>
           </a>
-          <a href="https://cr.accea.com.my/booking" target="_blank" class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
+          <a href="https://cr.accea.com.my/booking" target="_blank"
+            class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
             <span>ACCEA Rooms</span>
             <span class="mono text-[10px] text-[#8b949e]">Reservation System ↗</span>
           </a>
-          <a href="https://www.althr.my" target="_blank" class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
+          <a href="https://www.althr.my" target="_blank"
+            class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
             <span>altHR (Digi-X)</span>
             <span class="mono text-[10px] text-[#8b949e]">HR Superapp ↗</span>
           </a>
-          <a href="https://ajakme.com" target="_blank" class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
+          <a href="https://ajakme.com" target="_blank"
+            class="flex items-center justify-between text-[#c9d1d9] hover:text-[#58a6ff]">
             <span>AjakMe</span>
             <span class="mono text-[10px] text-[#8b949e]">Malay Wedding SaaS ↗</span>
           </a>
         </div>
       </div>
 
-      <button @click="mobileView = 'workspace'" class="md:hidden mt-4 w-full mono text-xs font-bold uppercase bg-[#21262d] text-[#58a6ff] border border-[#30363d] py-2 rounded">
+      <button @click="mobileView = 'workspace'"
+        class="md:hidden mt-4 w-full mono text-xs font-bold uppercase bg-[#21262d] text-[#58a6ff] border border-[#30363d] py-2 rounded">
         Browse Case Studies & Snippets →
       </button>
     </aside>
 
     <!-- RIGHT PANEL: Case Studies & Interactive Details -->
-    <section 
-      :class="mobileView === 'workspace' ? 'flex' : 'hidden md:flex'"
+    <section :class="mobileView === 'workspace' ? 'flex' : 'hidden md:flex'"
       class="flex-1 flex-col bg-[#0d1117] overflow-hidden h-full">
-      
+
       <!-- Sub-Tab Header Bar -->
-      <div class="h-10 border-b border-[#30363d] bg-[#161b22] flex items-center px-2 shrink-0 select-none overflow-x-auto">
-        <button @click="setTab('all')" 
+      <div
+        class="h-10 border-b border-[#30363d] bg-[#161b22] flex items-center px-2 shrink-0 select-none overflow-x-auto">
+        <button @click="setTab('all')"
           :class="activeTab === 'all' ? 'active-sub-tab' : 'text-[#8b949e] hover:text-[#c9d1d9]'"
           class="h-full px-3 sm:px-4 mono text-xs font-semibold flex items-center gap-1.5 border-r border-[#30363d] transition-colors shrink-0">
           <span>All Entries</span>
           <span class="mono text-[10px] bg-[#21262d] px-1.5 py-0.5 rounded text-[#8b949e]" x-text="posts.length"></span>
         </button>
 
-        <button @click="setTab('case-study')" 
+        <button @click="setTab('case-study')"
           :class="activeTab === 'case-study' ? 'active-sub-tab' : 'text-[#8b949e] hover:text-[#c9d1d9]'"
           class="h-full px-3 sm:px-4 mono text-xs font-semibold flex items-center gap-1.5 border-r border-[#30363d] transition-colors shrink-0">
           <span>⚡ Case Studies</span>
         </button>
 
-        <button @click="setTab('snippet')" 
+        <button @click="setTab('snippet')"
           :class="activeTab === 'snippet' ? 'active-sub-tab' : 'text-[#8b949e] hover:text-[#c9d1d9]'"
           class="h-full px-3 sm:px-4 mono text-xs font-semibold flex items-center gap-1.5 border-r border-[#30363d] transition-colors shrink-0">
           <span>💡 Snippets</span>
@@ -258,14 +303,15 @@
 
       <!-- Split Screen (Responsive: on mobile, modal drawer opens on select, on desktop side-by-side) -->
       <div class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
-        
+
         <!-- Feed List -->
-        <div class="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-[#30363d] overflow-y-auto divide-y divide-[#21262d] bg-[#0d1117] h-full">
+        <div
+          class="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-[#30363d] overflow-y-auto divide-y divide-[#21262d] bg-[#0d1117] h-full">
           <template x-for="post in filteredPosts" :key="post.folder">
             <div @click="selectPost(post)"
               :class="selectedPost && selectedPost.folder === post.folder ? 'bg-[#161b22] border-l-2 border-l-[#58a6ff]' : 'hover:bg-[#161b22]/50'"
               class="p-3.5 sm:p-4 cursor-pointer transition-colors">
-              
+
               <div class="flex items-center justify-between gap-2 mb-1.5">
                 <div class="flex items-center gap-2">
                   <span class="mono text-[10px] font-bold uppercase px-1.5 py-0.5 rounded"
@@ -294,26 +340,60 @@
             </div>
           </template>
 
-          <div x-show="filteredPosts.length === 0" class="p-8 text-center text-[#8b949e] mono text-xs">
-            No entries match your search query.
+          <!-- Empty state when no posts exist at all (Guest-friendly) -->
+          <div x-show="posts.length === 0"
+            class="p-8 sm:p-12 text-center border-b border-[#30363d] flex flex-col items-center justify-center">
+            <div
+              class="w-12 h-12 rounded-full bg-[#161b22] border border-[#30363d] flex items-center justify-center text-xl mb-3 shadow-inner">
+              ⚡
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">Architecture & Engineering Notes Coming Soon</h3>
+            <p class="text-xs text-[#8b949e] max-w-xs mb-3 leading-relaxed">
+              New production post-mortems, high-concurrency benchmarks, and infrastructure case studies are currently
+              being curated.
+            </p>
+            <span
+              class="mono text-[11px] text-[#58a6ff] bg-[#1f6feb]/10 border border-[#388bfd]/20 px-2.5 py-1 rounded">
+              Check back soon or connect on LinkedIn
+            </span>
+          </div>
+
+          <!-- Empty state when search or tab filter has no matches -->
+          <div x-show="posts.length > 0 && filteredPosts.length === 0"
+            class="p-8 sm:p-12 text-center border-b border-[#30363d] flex flex-col items-center justify-center">
+            <div
+              class="w-10 h-10 rounded-full bg-[#161b22] border border-[#30363d] flex items-center justify-center text-base mb-3">
+              🔍
+            </div>
+            <h3 class="text-xs font-bold text-white mb-1">No matching entries found</h3>
+            <p class="text-xs text-[#8b949e] max-w-xs mb-3 leading-relaxed">
+              No posts matched your current search query or category filter.
+            </p>
+            <button @click="searchQuery = ''; activeTab = 'all'"
+              class="mono text-xs text-[#58a6ff] hover:underline bg-[#21262d] border border-[#30363d] px-3 py-1 rounded transition-colors">
+              Reset Filters
+            </button>
           </div>
         </div>
 
         <!-- Detail Preview: Desktop split panel & Mobile slide-up drawer -->
-        <div 
+        <div
           :class="mobileDrawerOpen ? 'fixed inset-0 z-50 flex flex-col bg-[#0d1117] lg:static lg:flex-1 lg:z-auto' : 'hidden lg:block lg:flex-1 bg-[#161b22]'"
           class="overflow-y-auto p-4 sm:p-6">
-          
+
           <template x-if="selectedPost">
             <div>
               <!-- Mobile Back / Close Button Bar -->
-              <div class="flex items-center justify-between gap-2 border-b border-[#30363d] pb-3 mb-4 sticky top-0 bg-[#0d1117] z-10 pt-1">
-                <button @click="mobileDrawerOpen = false" class="lg:hidden mono text-xs font-bold text-[#58a6ff] bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] px-3 py-1.5 rounded flex items-center gap-1">
+              <div
+                class="flex items-center justify-between gap-2 border-b border-[#30363d] pb-3 mb-4 sticky top-0 bg-[#0d1117] z-10 pt-1">
+                <button @click="mobileDrawerOpen = false"
+                  class="lg:hidden mono text-xs font-bold text-[#58a6ff] bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] px-3 py-1.5 rounded flex items-center gap-1">
                   <span>← Back to List</span>
                 </button>
 
                 <div class="flex items-center gap-2">
-                  <span class="mono text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30"
+                  <span
+                    class="mono text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30"
                     x-text="selectedPost.type ? selectedPost.type.toUpperCase() : 'NOTE'">
                   </span>
                   <span class="mono text-xs text-[#8b949e]" x-text="selectedPost.date"></span>
@@ -322,17 +402,23 @@
                 <a :href="'/blog/posts/' + selectedPost.folder + '/'" target="_blank"
                   class="mono text-xs font-bold text-[#58a6ff] hover:underline flex items-center gap-1">
                   <span>Full Page</span>
-                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
                 </a>
               </div>
 
-              <h2 class="text-lg sm:text-2xl font-black text-white mb-3 sm:mb-4 leading-tight" x-text="selectedPost.title"></h2>
+              <h2 class="text-lg sm:text-2xl font-black text-white mb-3 sm:mb-4 leading-tight"
+                x-text="selectedPost.title"></h2>
 
               <!-- Key Impact Verified -->
               <template x-if="selectedPost.metrics">
                 <div class="p-2.5 sm:p-3 bg-[#0d1117] border border-emerald-500/30 rounded mb-4">
-                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact Verified</div>
-                  <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="selectedPost.metrics"></div>
+                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact
+                    Verified</div>
+                  <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="selectedPost.metrics">
+                  </div>
                 </div>
               </template>
 
@@ -342,7 +428,8 @@
                   <div class="mono text-xs text-[#8b949e] uppercase font-bold mb-2">Stack / Highlights:</div>
                   <div class="flex flex-wrap gap-1.5">
                     <template x-for="tag in selectedPost.tags" :key="tag">
-                      <span class="mono text-xs bg-[#21262d] text-[#58a6ff] px-2 py-0.5 rounded border border-[#30363d]" x-text="tag"></span>
+                      <span class="mono text-xs bg-[#21262d] text-[#58a6ff] px-2 py-0.5 rounded border border-[#30363d]"
+                        x-text="tag"></span>
                     </template>
                   </div>
                 </div>
@@ -353,7 +440,10 @@
                 <a :href="'/blog/posts/' + selectedPost.folder + '/'"
                   class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#238636] hover:bg-[#2ea043] text-white px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">
                   <span>Read Full Blueprint & Code</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
                 </a>
               </div>
             </div>
@@ -403,7 +493,7 @@
         get filteredPosts() {
           return this.posts.filter(p => {
             const matchesTab = this.activeTab === 'all' || p.type === this.activeTab;
-            const matchesQuery = !this.searchQuery || 
+            const matchesQuery = !this.searchQuery ||
               p.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
               p.excerpt.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
               (p.tags && p.tags.some(t => t.toLowerCase().includes(this.searchQuery.toLowerCase())));
