@@ -72,6 +72,7 @@ def build_post_html(data):
     html = html.replace("{{TAGS_HTML}}", tags_html)
     html = html.replace("{{TAGS_JSON}}", json.dumps(tags))
     html = html.replace("{{FOLDER}}", data.get('folder', ''))
+    html = html.replace("{{EXCERPT}}", data.get('excerpt', 'Technical architecture and engineering notes.'))
     html = html.replace("{{CONTENT_HTML}}", data.get('content_html', ''))
     html = html.replace("{{MERMAID_SCRIPT}}", mermaid_script)
 
