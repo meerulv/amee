@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zero-Downtime Blue/Green Deployments Explained Simply | Case Study | Ameerul Arif</title>
+  <meta name="description" content="A down-to-earth breakdown of how modern web apps update in production without taking the system down or disrupting users.">
+
+  <!-- Open Graph / Link Previews -->
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Zero-Downtime Blue/Green Deployments Explained Simply | Ameerul Arif">
+  <meta property="og:description" content="A down-to-earth breakdown of how modern web apps update in production without taking the system down or disrupting users.">
+  <meta property="og:image" content="https://amee.my/ameemy-seo.webp">
+
+  <!-- Twitter / X / Threads -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Zero-Downtime Blue/Green Deployments Explained Simply | Ameerul Arif">
+  <meta name="twitter:description" content="A down-to-earth breakdown of how modern web apps update in production without taking the system down or disrupting users.">
+  <meta name="twitter:image" content="https://amee.my/ameemy-seo.webp">
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/notes.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: 'dark' });</script>
+</head>
+
+<body class="bg-[#0d1117] min-h-screen flex flex-col">
+  <div id="navbar"></div>
+
+  <main class="flex-1 note-container py-24 w-full">
+    <!-- Top Nav -->
+    <div class="flex items-center justify-between mb-8 pb-4 border-b border-[#30363d]">
+      <a href="/" class="mono text-xs font-semibold text-[#58a6ff] hover:underline inline-flex items-center gap-1.5">
+        ← Back to Workspace
+      </a>
+      <span class="mono text-[10px] font-bold uppercase tracking-wider bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30 px-2 py-0.5 rounded">
+        Case Study
+      </span>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-10">
+      <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-2">Cloud Infrastructure & CICD Strategy</div>
+      <h1 class="text-2xl sm:text-4xl font-black text-white mb-6">
+        Zero-Downtime Blue/Green Deployments Explained Simply
+      </h1>
+
+      
+      <div class="p-3 bg-[#161b22] border border-emerald-500/30 rounded mb-6">
+        <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact Verified</div>
+        <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold">Zero Downtime • 100% Traffic Cutover • Instant Rollback Safety</div>
+      </div>
+        
+
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="mono text-xs text-[#8b949e]">Date: 2026-10-07</span>
+        <span class="mono text-xs text-[#30363d]">|</span>
+        <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">AWS</span> <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">Laravel Octane</span> <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">FrankenPHP</span> <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">ElastiCache</span> <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">Reverb</span> <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded">DevOps</span>
+      </div>
+    </header>
+
+    <!-- Main Content Body -->
+    <article class="prose max-w-none text-[#c9d1d9] leading-relaxed">
+<h2>01. The Idea in 30 Seconds</h2>
+<p>Deploying new features or bug fixes to production used to be scary: <em>What if something breaks and the whole site goes down while users are in the middle of something important?</em></p>
+<p><strong>Blue/Green Deployment</strong> removes that headache completely. Instead of touching or updating code on your live servers, you spin up a fresh copy of your servers right beside them:</p>
+<ul>
+  <li><strong>Blue Fleet (Current):</strong> Your existing live servers serving 100% of real users without any interruption.</li>
+  <li><strong>Green Fleet (New):</strong> Your brand new servers with the fresh code update, sitting quietly with 0% traffic while running automated safety checks.</li>
+</ul>
+<p>The traffic router only switches users over to Green once every single check is 100% healthy. If anything smells wrong, the deployment stops, the new servers turn off, and <strong>users never see an error or downtime</strong>.</p>
+
+<h2>02. How It Works (Visual Flow)</h2>
+<div class="technical-block">
+  <div class="mono text-xs text-[#8b949e] uppercase mb-2">// How Traffic Switches Over Safely</div>
+  <pre class="mermaid">
+flowchart TD
+    Users["👥 Active Users & Clinics (100% Traffic)"] --> ALB["⚖️ Application Load Balancer (ALB)"]
+
+    subgraph BlueFleet["🔵 Blue Fleet (Current Live App - v1.0)"]
+        B1["Server A (Octane / FrankenPHP)"]
+        B2["Server B (Octane / FrankenPHP)"]
+    end
+
+    subgraph GreenFleet["🟢 Green Fleet (New Version - v2.0)"]
+        G1["Server C (Octane / FrankenPHP)"]
+        G2["Server D (Octane / FrankenPHP)"]
+    end
+
+    subgraph CentralState["⚡ Shared Memory (No Disruption)"]
+        Redis["AWS ElastiCache Redis / ValKey<br>• User Logins & Sessions<br>• Real-time Alerts (Laravel Reverb)<br>• Background Jobs"]
+    end
+
+    ALB -->|"Step 1: Normal Live Traffic"| BlueFleet
+    BlueFleet <--> CentralState
+
+    GreenFleet -.->|"Step 2: Auto Health Check /up (200 OK)"| ALB
+    GreenFleet <--> CentralState
+
+    ALB ==>|"Step 3: Instant Cutover (0 Downtime)"| GreenFleet
+    BlueFleet -.->|"Step 4: Shut Down Cleanly"| Teardown["🛑 Turn Off Old Servers"]
+
+    classDef alb fill:#d97706,stroke:#b45309,color:#fff;
+    classDef blue fill:#2563eb,stroke:#1d4ed8,color:#fff;
+    classDef green fill:#16a34a,stroke:#15803d,color:#fff;
+    classDef redis fill:#b91c1c,stroke:#991b1b,color:#fff;
+    classDef term fill:#475569,stroke:#334155,color:#fff;
+
+    class ALB alb;
+    class B1,B2 blue;
+    class G1,G2 green;
+    class Redis redis;
+    class Teardown term;
+  </pre>
+</div>
+
+<h2>03. Why Users Don't Get Logged Out</h2>
+<p>A natural question most managers and non-tech folks ask is: <em>"When the traffic switches over, will users get kicked out of their accounts or lose what they were typing?"</em></p>
+<p><strong>The answer is no.</strong> The secret is keeping user data separate from the servers running the code:</p>
+<ul>
+  <li><strong>Fast Application Engines (Laravel Octane & FrankenPHP):</strong> Servers stay ready in-memory so pages load snappy with low latency.</li>
+  <li><strong>Live Real-Time Updates (Laravel Reverb):</strong> Notifications, chats, and live counters stay connected smoothly without random disconnects.</li>
+  <li><strong>Shared Memory Center (AWS ElastiCache Redis / ValKey):</strong> Active user logins, sessions, and carts live in a dedicated central memory hub. When traffic shifts from Blue to Green, the new servers already know who everyone is—no one gets kicked out, and nobody needs to re-login.</li>
+</ul>
+
+<h2>04. 4 Simple Steps of the Deployment Pipeline</h2>
+<div class="technical-block">
+  <div class="mono text-xs text-[#8b949e] uppercase mb-2">// Automated Release Steps</div>
+  <pre class="mermaid">
+sequenceDiagram
+    autonumber
+    actor Team as 👨‍💻 Developer / Team
+    participant CI as GitHub Actions (Build Bot)
+    participant Cloud as AWS Cloud (CodeDeploy & S3)
+    participant Green as Green Servers (New Version)
+    participant Router as Load Balancer (Traffic Router)
+
+    Team->>CI: Push Release Tag (e.g. v2.0)
+    CI->>Cloud: Send verified code package
+    Cloud->>Green: 1. Start new servers in the background
+    Green->>Green: 2. Boot app, load caches & check database
+    Router->>Green: 3. Ping health check endpoint (/up)
+    Router->>Green: 4. All good? Flip traffic instantly!
+  </pre>
+</div>
+
+<h2>05. 3 Real-World Lessons from Production</h2>
+
+<h3>1. Keep Server & File Regions Together</h3>
+<p>AWS requires your code package to be in the same geographic region as your servers. If your servers are in Singapore or London, keep your storage bucket in the same place too. This prevents lag and keeps server spin-up times fast.</p>
+
+<h3>2. Watch Out for Login Redirects on Health Checks</h3>
+<p>A lot of web apps automatically bounce visitors to a <code>/login</code> page if they hit the home address. If the load balancer is strictly waiting for a normal welcome page, it might wrongly assume the server is broken and cancel the deploy.</p>
+<p><strong>The Fix:</strong> Point the health check to a dedicated check URL like <code>/up</code> so it always gets a clear thumbs-up.</p>
+
+<h3>3. Safe Database Changes (Expand & Contract)</h3>
+<p>Because the new code gets ready before traffic switches over, never delete or rename database columns all at once. Always add new columns first, let both versions work peacefully, and only delete old columns in a later release after everything has settled.</p>
+
+<h2>06. The Real Benefit</h2>
+<p>Blue/Green deployment turns releases from stressful, late-night panic sessions into routine, non-events during normal working hours. You can release updates whenever you need to, without worrying about waking up to downtime complaints or frustrated users.</p>
+    </article>
+
+    <!-- Related / Suggested Posts -->
+    <div id="suggested-posts"></div>
+
+    <div class="mt-16 pt-8 border-t border-[#30363d] flex justify-between items-center">
+      <a href="/" class="mono text-xs text-[#58a6ff] hover:underline">← Back to Workspace</a>
+      <span class="mono text-xs text-[#8b949e]">Ameerul Arif • Senior Systems Architect & DevOps</span>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+  <script src="/assets/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPartials('/');
+      BlogData.loadSuggestedPosts('Simple-Laravel-Zero-Downtime-AWS-Production-Deployment-Flow-with-No-Docker', ["AWS", "Laravel Octane", "FrankenPHP", "ElastiCache", "Reverb", "DevOps"]);
+    });
+  </script>
+</body>
+
+</html>

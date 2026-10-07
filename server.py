@@ -154,6 +154,7 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "title": title,
                     "type": post_type,
                     "date": date_str,
+                    "category": data.get('category', '').strip(),
                     "excerpt": excerpt,
                     "metrics": metrics,
                     "tags": tags,

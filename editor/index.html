@@ -9,7 +9,9 @@
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/notes.css">
 
   <style>
@@ -17,84 +19,112 @@
       --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
+
     body {
       font-family: var(--font-sans);
       background-color: #0d1117;
       color: #e6edf3;
     }
-    .mono { font-family: var(--font-mono); }
-    textarea, input, select {
+
+    .mono {
+      font-family: var(--font-mono);
+    }
+
+    textarea,
+    input,
+    select {
       background-color: #161b22;
       border: 1px solid #30363d;
       color: #e6edf3;
       outline: none;
     }
-    textarea:focus, input:focus, select:focus {
+
+    textarea:focus,
+    input:focus,
+    select:focus {
       border-color: #58a6ff;
     }
   </style>
 </head>
 
-<body class="h-[100dvh] max-w-full flex flex-col overflow-hidden bg-[#0d1117] text-[#e6edf3]" x-data="postEditorStudio()">
+<body class="h-[100dvh] max-w-full flex flex-col overflow-hidden bg-[#0d1117] text-[#e6edf3]"
+  x-data="postEditorStudio()">
 
   <!-- Top Bar -->
-  <header class="h-12 border-b border-[#30363d] bg-[#161b22] px-3 sm:px-4 flex items-center justify-between shrink-0 select-none z-20 gap-2 overflow-x-auto no-scrollbar">
+  <header
+    class="h-12 border-b border-[#30363d] bg-[#161b22] px-3 sm:px-4 flex items-center justify-between shrink-0 select-none z-20 gap-2 overflow-x-auto no-scrollbar">
     <div class="flex items-center gap-2 sm:gap-3 shrink-0">
-      <a href="/" class="mono text-xs font-semibold text-[#58a6ff] hover:underline flex items-center gap-1 whitespace-nowrap">
+      <a href="/"
+        class="mono text-xs font-semibold text-[#58a6ff] hover:underline flex items-center gap-1 whitespace-nowrap">
         ← Portfolio
       </a>
       <span class="text-[#30363d] hidden sm:inline">|</span>
-      <span class="mono text-xs font-bold text-white uppercase tracking-wider whitespace-nowrap">Studio</span>
-      <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-2 py-0.5 rounded border border-[#30363d] hidden md:inline">Visual Scaffolder</span>
+      <button type="button" @click="showSidebar = !showSidebar"
+        class="mono text-xs font-semibold px-2 py-1 rounded border border-[#30363d] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] flex items-center gap-1.5 transition-colors">
+        <span>📁</span>
+        <span x-text="showSidebar ? 'Hide Posts' : 'Show Posts'"></span>
+      </button>
     </div>
 
     <!-- Quick Action Controls -->
     <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
       <template x-if="livePostUrl">
-        <a :href="livePostUrl" target="_blank" class="mono text-xs font-semibold border border-[#388bfd]/50 bg-[#1f6feb]/20 hover:bg-[#1f6feb]/30 text-[#58a6ff] px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
+        <a :href="livePostUrl" target="_blank"
+          class="mono text-xs font-semibold border border-[#388bfd]/50 bg-[#1f6feb]/20 hover:bg-[#1f6feb]/30 text-[#58a6ff] px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
           <span>View Live ↗</span>
         </a>
       </template>
       <template x-if="isExistingPost">
-        <button @click="deletePost()" :disabled="isDeleting" class="mono text-xs font-semibold border border-rose-500/50 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+        <button @click="deletePost()" :disabled="isDeleting"
+          class="mono text-xs font-semibold border border-rose-500/50 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+          </svg>
           <span class="hidden sm:inline" x-text="isDeleting ? 'Deleting...' : 'Delete'"></span>
         </button>
       </template>
-      <button @click="generateThreadsPost()" class="mono text-xs font-semibold border border-purple-500/50 bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
+      <button @click="generateThreadsPost()"
+        class="mono text-xs font-semibold border border-purple-500/50 bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
         <span>🧵 Threads</span>
       </button>
-      <button @click="resetForm(); activeTab = 'editor'" class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap">
+      <button @click="resetForm(); activeTab = 'editor'"
+        class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap">
         + New
       </button>
-      <button @click="savePost()" :disabled="isSaving" class="mono text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-3 sm:px-4 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
+      <button @click="savePost()" :disabled="isSaving"
+        class="mono text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-3 sm:px-4 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
         <span x-text="isSaving ? 'Saving...' : 'Save & Build'"></span>
-        <svg x-show="!isSaving" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <svg x-show="!isSaving" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
       </button>
     </div>
   </header>
 
   <!-- Mobile & Small Laptop Tab Switcher -->
-  <nav class="xl:hidden flex h-10 border-b border-[#30363d] bg-[#0d1117] shrink-0 divide-x divide-[#30363d] text-center select-none z-10">
-    <button @click="activeTab = 'sidebar'" 
-      :class="activeTab === 'sidebar' ? 'bg-[#21262d] text-[#58a6ff]' : 'text-[#8b949e]'"
+  <nav
+    class="xl:hidden flex h-10 border-b border-[#30363d] bg-[#0d1117] shrink-0 divide-x divide-[#30363d] text-center select-none z-10">
+    <button @click="showSidebar = true; activeTab = 'sidebar'"
+      :class="showSidebar && activeTab === 'sidebar' ? 'bg-[#21262d] text-[#58a6ff]' : 'text-[#8b949e]'"
       class="flex-1 mono text-xs font-bold uppercase py-2 flex items-center justify-center gap-1.5 transition-colors">
       <span>📁 Posts (<span x-text="posts.length"></span>)</span>
     </button>
-    <button @click="activeTab = 'editor'" 
-      :class="activeTab === 'editor' ? 'bg-[#21262d] text-[#58a6ff]' : 'text-[#8b949e]'"
+    <button @click="showSidebar = false; activeTab = 'editor'"
+      :class="!showSidebar && activeTab === 'editor' ? 'bg-[#21262d] text-[#58a6ff]' : 'text-[#8b949e]'"
       class="flex-1 mono text-xs font-bold uppercase py-2 flex items-center justify-center gap-1.5 transition-colors">
-      <span>✏️ Edit Article</span>
+      <span>✏️ Edit</span>
     </button>
-    <button @click="activeTab = 'preview'" 
-      :class="activeTab === 'preview' ? 'bg-[#21262d] text-[#58a6ff]' : 'text-[#8b949e]'"
+    <button @click="showSidebar = false; activeTab = 'preview'"
+      :class="!showSidebar && activeTab === 'preview' ? 'bg-[#21262d] text-[#58a6ff]' : 'text-[#8b949e]'"
       class="flex-1 mono text-xs font-bold uppercase py-2 flex items-center justify-center gap-1.5 transition-colors">
       <span>👁️ Preview</span>
     </button>
   </nav>
 
   <!-- Notification Toast -->
-  <div x-show="toastMessage" x-cloak class="fixed bottom-4 right-4 z-50 px-4 py-3 rounded border text-xs mono shadow-lg flex items-center gap-2"
+  <div x-show="toastMessage" x-cloak
+    class="fixed bottom-4 right-4 z-50 px-4 py-3 rounded border text-xs mono shadow-lg flex items-center gap-2"
     :class="toastType === 'success' ? 'bg-[#161b22] border-emerald-500 text-emerald-400' : 'bg-[#161b22] border-rose-500 text-rose-400'">
     <span x-text="toastMessage"></span>
     <template x-if="createdUrl">
@@ -103,20 +133,22 @@
   </div>
 
   <!-- Main Grid: 3-column layout on 2xl+, responsive tab/accordion layout on laptops & mobile -->
-  <div class="flex-1 flex overflow-hidden relative">
+  <div class="flex-1 min-w-0 flex overflow-hidden relative">
 
     <!-- Left Sidebar: Existing Posts -->
-    <aside 
-      :class="activeTab === 'sidebar' ? 'flex w-full' : 'hidden xl:flex xl:w-64'"
-      class="border-r border-[#30363d] bg-[#0d1117] flex-col shrink-0 h-full">
+    <aside :class="showSidebar ? 'flex' : 'hidden'"
+      class="border-r border-[#30363d] bg-[#0d1117] flex-col shrink-0 h-full w-full sm:w-60 md:w-64 z-10 transition-all">
       <div class="p-3 border-b border-[#30363d] flex items-center justify-between">
         <span class="mono text-[11px] font-bold uppercase text-[#8b949e]">Existing Entries</span>
-        <span class="mono text-[10px] bg-[#21262d] text-[#58a6ff] px-1.5 py-0.5 rounded" x-text="posts.length"></span>
+        <div class="flex items-center gap-2">
+          <span class="mono text-[10px] bg-[#21262d] text-[#58a6ff] px-1.5 py-0.5 rounded" x-text="posts.length"></span>
+          <button type="button" @click="showSidebar = false" class="text-[#8b949e] hover:text-white mono text-xs p-1" title="Hide Sidebar">✕</button>
+        </div>
       </div>
 
       <div class="flex-1 overflow-y-auto p-2 space-y-1">
         <template x-for="p in posts" :key="p.folder">
-          <button @click="loadPost(p); if (window.innerWidth < 1280) activeTab = 'editor'" 
+          <button @click="loadPost(p); if (window.innerWidth < 1280) activeTab = 'editor'"
             class="w-full text-left p-2.5 rounded transition-colors group block border"
             :class="form.folder === p.folder ? 'bg-[#161b22] border-[#58a6ff]' : 'border-transparent hover:bg-[#161b22] hover:border-[#30363d]'">
             <div class="flex items-center justify-between mb-1">
@@ -125,22 +157,24 @@
                 x-text="p.type"></span>
               <span class="mono text-[10px] text-[#8b949e]" x-text="p.date"></span>
             </div>
-            <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white line-clamp-2" x-text="p.title"></div>
+            <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white line-clamp-2" x-text="p.title">
+            </div>
           </button>
         </template>
       </div>
     </aside>
 
     <!-- Center & Right: Form & Live Preview -->
-    <main class="flex-1 flex flex-col lg:flex-row overflow-hidden divide-y lg:divide-y-0 lg:divide-x divide-[#30363d] h-full">
-      
+    <main
+      class="flex-1 min-w-0 flex flex-col xl:flex-row overflow-hidden divide-y xl:divide-y-0 xl:divide-x divide-[#30363d] h-full">
+
       <!-- Editor Column -->
-      <section 
-        :class="activeTab === 'editor' ? 'flex' : 'hidden xl:flex'"
-        class="flex-1 flex-col h-full overflow-y-auto p-4 sm:p-6 space-y-4">
+      <section :class="activeTab === 'editor' ? 'flex' : 'hidden xl:flex'"
+        class="flex-1 min-w-0 flex-col h-full overflow-y-auto p-4 sm:p-6 space-y-4">
         <div>
           <h2 class="mono text-xs uppercase font-bold text-[#58a6ff] tracking-wider mb-1">Post Metadata</h2>
-          <p class="text-xs text-[#8b949e]">Configures how this appears in <code>posts.json</code> and the homepage workspace.</p>
+          <p class="text-xs text-[#8b949e]">Configures how this appears in <code>posts.json</code> and the homepage
+            workspace.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -154,80 +188,97 @@
           </div>
           <div>
             <label class="block mono text-[11px] text-[#8b949e] mb-1">Date (YYYY-MM-DD)</label>
-            <input type="text" x-model="form.date" class="w-full px-2.5 py-1.5 rounded text-xs mono" placeholder="2026-10-03">
+            <input type="text" x-model="form.date" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+              placeholder="2026-10-03">
           </div>
         </div>
 
         <div>
           <label class="block mono text-[11px] text-[#8b949e] mb-1">Title</label>
-          <input type="text" x-model="form.title" @input="autoSlug()" class="w-full px-2.5 py-2 rounded text-sm font-semibold" placeholder="e.g. AWS Multi-Region Architecture...">
+          <input type="text" x-model="form.title" @input="autoSlug()"
+            class="w-full px-2.5 py-2 rounded text-sm font-semibold"
+            placeholder="e.g. AWS Multi-Region Architecture...">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block mono text-[11px] text-[#8b949e] mb-1">Folder Slug (in blog/posts/)</label>
-            <input type="text" x-model="form.folder" class="w-full px-2.5 py-1.5 rounded text-xs mono" placeholder="aws-multi-region-architecture">
+            <input type="text" x-model="form.folder" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+              placeholder="aws-multi-region-architecture">
           </div>
           <div>
             <label class="block mono text-[11px] text-[#8b949e] mb-1">Category / Sub-header</label>
-            <input type="text" x-model="form.category" class="w-full px-2.5 py-1.5 rounded text-xs" placeholder="e.g. Cloud Infrastructure & High-Density Compute">
+            <input type="text" x-model="form.category" class="w-full px-2.5 py-1.5 rounded text-xs"
+              placeholder="e.g. Cloud Infrastructure & High-Density Compute">
           </div>
         </div>
 
         <div>
-          <label class="block mono text-[11px] text-[#8b949e] mb-1">Executive Metrics / Impact Bar (Bullet Separated)</label>
-          <input type="text" x-model="form.metrics" class="w-full px-2.5 py-1.5 rounded text-xs mono text-emerald-400" placeholder="Multi-Region AU & UK • ARM64 FrankenPHP/Octane • 6 Countries Pennant">
+          <label class="block mono text-[11px] text-[#8b949e] mb-1">Executive Metrics / Impact Bar (Bullet
+            Separated)</label>
+          <input type="text" x-model="form.metrics" class="w-full px-2.5 py-1.5 rounded text-xs mono text-emerald-400"
+            placeholder="Multi-Region AU & UK • ARM64 FrankenPHP/Octane • 6 Countries Pennant">
         </div>
 
         <div>
           <label class="block mono text-[11px] text-[#8b949e] mb-1">Homepage Excerpt</label>
-          <textarea x-model="form.excerpt" rows="2" class="w-full p-2.5 rounded text-xs leading-relaxed" placeholder="Short description summarizing architecture decisions and verified numbers..."></textarea>
+          <textarea x-model="form.excerpt" rows="2" class="w-full p-2.5 rounded text-xs leading-relaxed"
+            placeholder="Short description summarizing architecture decisions and verified numbers..."></textarea>
         </div>
 
         <div>
           <label class="block mono text-[11px] text-[#8b949e] mb-1">Tags (Comma-separated)</label>
-          <input type="text" x-model="form.tagsInput" class="w-full px-2.5 py-1.5 rounded text-xs mono" placeholder="AWS, Laravel Octane, FrankenPHP, DevOps">
+          <input type="text" x-model="form.tagsInput" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+            placeholder="AWS, Laravel Octane, FrankenPHP, DevOps">
         </div>
 
         <div class="pt-3 border-t border-[#30363d]">
           <div class="flex items-center justify-between mb-2">
             <label class="mono text-xs font-bold uppercase text-[#58a6ff]">Body Content (HTML & Code Blocks)</label>
             <div class="flex flex-wrap gap-1.5">
-              <button type="button" @click="insertSection()" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+              <button type="button" @click="insertSection()"
+                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
                 + Section
               </button>
-              <button type="button" @click="insertCodeBlock()" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+              <button type="button" @click="insertCodeBlock()"
+                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
                 + Code Block
               </button>
-              <button type="button" @click="insertMermaid()" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+              <button type="button" @click="insertMermaid()"
+                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
                 + Diagram
               </button>
-              <button type="button" @click="insertImage()" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+              <button type="button" @click="insertImage()"
+                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
                 + Image
               </button>
-              <button type="button" @click="insertVideo()" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+              <button type="button" @click="insertVideo()"
+                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
                 + Video
               </button>
-              <button type="button" @click="insertLink()" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+              <button type="button" @click="insertLink()"
+                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
                 + URL Link
               </button>
             </div>
           </div>
-          <textarea x-model="form.content_html" rows="16" class="w-full p-3 rounded text-xs mono leading-relaxed" placeholder="Write article content using <h2>, <p>, <ul>, <div class='technical-block'>..."></textarea>
+          <textarea x-model="form.content_html" rows="16" class="w-full p-3 rounded text-xs mono leading-relaxed"
+            placeholder="Write article content using <h2>, <p>, <ul>, <div class='technical-block'>..."></textarea>
         </div>
       </section>
 
       <!-- Live Scaffolding Preview Column -->
-      <section 
-        :class="activeTab === 'preview' ? 'flex' : 'hidden xl:flex'"
-        class="flex-1 flex-col h-full overflow-y-auto bg-[#0d1117] p-4 sm:p-6">
-        <div class="mb-4 flex items-center justify-between pb-3 border-b border-[#30363d]">
+      <section :class="activeTab === 'preview' ? 'flex' : 'hidden xl:flex'"
+        class="flex-1 min-w-0 flex-col h-full overflow-y-auto bg-[#0d1117] p-4 sm:p-6">
+        <div class="mb-4 flex items-center justify-between pb-3 border-b border-[#30363d] shrink-0">
           <div class="mono text-[11px] uppercase font-bold text-[#8b949e]">Live Scaffolding Preview</div>
-          <span class="mono text-[10px] text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 px-2 py-0.5 rounded">Renders identical to production index.html</span>
+          <span
+            class="mono text-[10px] text-emerald-400 bg-emerald-950/40 border border-emerald-800/50 px-2 py-0.5 rounded">Renders
+            identical to production index.html</span>
         </div>
 
         <!-- Rendered Post Scaffolding -->
-        <div class="max-w-2xl mx-auto py-6">
+        <div class="w-full max-w-2xl mx-auto py-6">
           <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#30363d]">
             <span class="mono text-xs text-[#58a6ff]">← Back to Workspace</span>
             <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded"
@@ -235,14 +286,15 @@
               x-text="form.type === 'case-study' ? 'Case Study' : 'Code Snippet'"></span>
           </div>
 
-          <header class="mb-8">
-            <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-2" x-text="form.category || 'Architecture & Systems'"></div>
-            <h1 class="text-2xl sm:text-3xl font-black text-white mb-4" x-text="form.title || 'Untitled Post'"></h1>
+          <header class="mb-8 min-w-0">
+            <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-2 truncate"
+              x-text="form.category || 'Architecture & Systems'"></div>
+            <h1 class="text-2xl sm:text-3xl font-black text-white mb-4 break-words" x-text="form.title || 'Untitled Post'"></h1>
 
             <template x-if="form.metrics">
               <div class="p-3 bg-[#161b22] border border-emerald-500/30 rounded mb-4">
-                <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact Verified</div>
-                <div class="mono text-xs text-emerald-300 font-semibold" x-text="form.metrics"></div>
+                <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact</div>
+                <div class="mono text-xs text-emerald-300 font-semibold break-words" x-text="form.metrics"></div>
               </div>
             </template>
 
@@ -250,12 +302,13 @@
               <span class="mono text-xs text-[#8b949e]" x-text="'Date: ' + (form.date || 'Today')"></span>
               <span class="mono text-xs text-[#30363d]">|</span>
               <template x-for="tag in computedTags" :key="tag">
-                <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded" x-text="tag"></span>
+                <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded"
+                  x-text="tag"></span>
               </template>
             </div>
           </header>
 
-          <article class="prose max-w-none text-[#c9d1d9] leading-relaxed" x-html="form.content_html">
+          <article class="prose max-w-none text-[#c9d1d9] leading-relaxed break-words overflow-hidden" x-html="form.content_html">
           </article>
 
           <!-- Suggested Posts Preview in Scaffolding -->
@@ -282,19 +335,24 @@
   </div>
 
   <!-- Saved Post Full Preview Modal -->
-  <div x-show="showSavedModal" x-cloak class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-[#0d1117] border border-[#30363d] rounded-xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+  <div x-show="showSavedModal" x-cloak
+    class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div
+      class="bg-[#0d1117] border border-[#30363d] rounded-xl w-full max-w-5xl h-[90vh] flex flex-col overflow-hidden shadow-2xl">
       <div class="h-12 border-b border-[#30363d] bg-[#161b22] px-4 flex items-center justify-between shrink-0">
         <div class="flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span class="mono text-xs font-bold text-white uppercase tracking-wider">Post Published / Saved Successfully</span>
+          <span class="mono text-xs font-bold text-white uppercase tracking-wider">Post Published / Saved
+            Successfully</span>
           <span class="mono text-[11px] text-[#8b949e] ml-2" x-text="savedUrl"></span>
         </div>
         <div class="flex items-center gap-2">
-          <a :href="savedUrl" target="_blank" class="mono text-xs bg-[#1f6feb]/20 border border-[#388bfd]/30 text-[#58a6ff] hover:bg-[#1f6feb]/30 px-3 py-1 rounded transition-colors inline-flex items-center gap-1">
+          <a :href="savedUrl" target="_blank"
+            class="mono text-xs bg-[#1f6feb]/20 border border-[#388bfd]/30 text-[#58a6ff] hover:bg-[#1f6feb]/30 px-3 py-1 rounded transition-colors inline-flex items-center gap-1">
             Open in New Tab ↗
           </a>
-          <button @click="showSavedModal = false" class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 py-1 rounded transition-colors">
+          <button @click="showSavedModal = false"
+            class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 py-1 rounded transition-colors">
             Close (Esc)
           </button>
         </div>
@@ -306,9 +364,11 @@
   </div>
 
   <!-- Threads Multi-Part Chain Generator Modal -->
-  <div x-show="showThreadsModal" x-cloak class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
-    <div class="bg-[#0d1117] border border-[#30363d] rounded-xl w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
-      
+  <div x-show="showThreadsModal" x-cloak
+    class="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+    <div
+      class="bg-[#0d1117] border border-[#30363d] rounded-xl w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden shadow-2xl">
+
       <!-- Modal Header -->
       <div class="h-14 border-b border-[#30363d] bg-[#161b22] px-4 flex items-center justify-between shrink-0">
         <div class="flex items-center gap-2">
@@ -316,28 +376,33 @@
           <div>
             <div class="mono text-xs font-bold text-white uppercase tracking-wider flex items-center gap-2">
               <span>Threads Discussion Chain</span>
-              <span class="text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 px-1.5 py-0.2 rounded" x-text="threadsChain.length + ' Part Thread'"></span>
+              <span
+                class="text-[10px] bg-purple-500/20 text-purple-300 border border-purple-500/30 px-1.5 py-0.2 rounded"
+                x-text="threadsChain.length + ' Part Thread'"></span>
             </div>
-            <div class="text-[11px] text-[#8b949e]">Simplified breakdown crafted for community engagement & Q&A discussions</div>
+            <div class="text-[11px] text-[#8b949e]">Simplified breakdown crafted for community engagement & Q&A
+              discussions</div>
           </div>
         </div>
-        <button @click="showThreadsModal = false" class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 py-1 rounded transition-colors">
+        <button @click="showThreadsModal = false"
+          class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 py-1 rounded transition-colors">
           Close (Esc)
         </button>
       </div>
 
       <!-- Controls & Length Picker Bar -->
-      <div class="px-5 py-3 border-b border-[#30363d] bg-[#161b22]/50 flex flex-wrap items-center justify-between gap-3 shrink-0">
+      <div
+        class="px-5 py-3 border-b border-[#30363d] bg-[#161b22]/50 flex flex-wrap items-center justify-between gap-3 shrink-0">
         <div class="flex flex-wrap items-center gap-3">
           <!-- Tone Selector: Malaysian Tech Santai vs English -->
           <div class="flex items-center gap-1.5">
             <span class="mono text-[11px] text-[#8b949e] mr-1">Tone:</span>
-            <button @click="setTone('malaysian')" 
+            <button @click="setTone('malaysian')"
               :class="threadTone === 'malaysian' ? 'bg-amber-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
               class="mono text-xs px-2.5 py-1 rounded border border-[#30363d] transition-colors flex items-center gap-1">
               <span>🇲🇾 Santai Tech BM</span>
             </button>
-            <button @click="setTone('english')" 
+            <button @click="setTone('english')"
               :class="threadTone === 'english' ? 'bg-[#58a6ff] text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
               class="mono text-xs px-2.5 py-1 rounded border border-[#30363d] transition-colors">
               <span>🌐 English Tech</span>
@@ -347,175 +412,186 @@
           <!-- Chain Length Selector -->
           <div class="flex items-center gap-1.5">
             <span class="mono text-[11px] text-[#8b949e] mr-1">Chain:</span>
-            <button @click="setChainLength(1)" 
+            <button @click="setChainLength(1)"
               :class="threadPartsCount === 1 ? 'bg-[#58a6ff] text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
               class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors">
               1 Post
             </button>
-            <button @click="setChainLength(2)" 
+            <button @click="setChainLength(2)"
               :class="threadPartsCount === 2 ? 'bg-[#58a6ff] text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
               class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors">
               2 Posts
             </button>
-            <button @click="setChainLength(3)" 
+            <button @click="setChainLength(3)"
               :class="threadPartsCount === 3 ? 'bg-[#58a6ff] text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
               class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors">
               3 Posts
             </button>
-          <!-- Style Variant Selector -->
-          <div class="flex items-center gap-1.5">
-            <span class="mono text-[11px] text-[#8b949e] mr-1">Style:</span>
-            <button @click="setStyle(0)" 
-              :class="threadsFormatIndex === 0 ? 'bg-purple-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
-              class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors"
-              x-text="threadTone === 'malaysian' ? 'Story Santai' : 'Problem / Fix'">
-            </button>
-            <button @click="setStyle(1)" 
-              :class="threadsFormatIndex === 1 ? 'bg-purple-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
-              class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors"
-              x-text="threadTone === 'malaysian' ? 'Direct Technical' : 'Direct Hook'">
-            </button>
-            <button @click="setStyle(2)" 
-              :class="threadsFormatIndex === 2 ? 'bg-purple-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
-              class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors"
-              x-text="threadTone === 'malaysian' ? 'Tanya Pendapat' : 'Minimalist'">
-            </button>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <button @click="copyAllThreads()" class="mono text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-3.5 py-1.5 rounded transition-colors inline-flex items-center gap-1">
-            <span x-text="threadsAllCopied ? '✓ Copied All!' : 'Copy Entire Chain'"></span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Chain Posts Stream -->
-      <div class="p-4 sm:p-6 overflow-y-auto space-y-4">
-        <template x-for="(part, idx) in threadsChain" :key="idx">
-          <div class="border border-[#30363d] rounded-lg bg-[#161b22] p-4 relative group">
-            
-            <!-- Post Part Header -->
-            <div class="flex items-center justify-between mb-2">
-              <div class="flex items-center gap-2">
-                <span class="mono text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30" x-text="'Post ' + (idx + 1) + ' of ' + threadsChain.length"></span>
-                <span class="mono text-[10px] text-[#8b949e]" x-text="part.role"></span>
-              </div>
-              <div class="flex items-center gap-1.5">
-                <span class="mono text-[10px] text-[#8b949e]" x-text="part.text.length + ' chars'"></span>
-                <button @click="copySingleThread(part.text, idx)" class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#58a6ff] border border-[#30363d] px-2 py-0.5 rounded transition-colors">
-                  <span x-text="copiedIndex === idx ? '✓ Copied' : 'Copy'"></span>
-                </button>
-                <a :href="'https://www.threads.net/intent/post?text=' + encodeURIComponent(part.text)" target="_blank" class="mono text-[10px] bg-white text-black hover:bg-neutral-200 px-2 py-0.5 rounded font-bold transition-colors">
-                  Open in Threads ↗
-                </a>
-              </div>
+            <!-- Style Variant Selector -->
+            <div class="flex items-center gap-1.5">
+              <span class="mono text-[11px] text-[#8b949e] mr-1">Style:</span>
+              <button @click="setStyle(0)"
+                :class="threadsFormatIndex === 0 ? 'bg-purple-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+                class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors"
+                x-text="threadTone === 'malaysian' ? 'Story Santai' : 'Problem / Fix'">
+              </button>
+              <button @click="setStyle(1)"
+                :class="threadsFormatIndex === 1 ? 'bg-purple-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+                class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors"
+                x-text="threadTone === 'malaysian' ? 'Direct Technical' : 'Direct Hook'">
+              </button>
+              <button @click="setStyle(2)"
+                :class="threadsFormatIndex === 2 ? 'bg-purple-400 text-black font-bold' : 'bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+                class="mono text-xs px-2 py-1 rounded border border-[#30363d] transition-colors"
+                x-text="threadTone === 'malaysian' ? 'Tanya Pendapat' : 'Minimalist'">
+              </button>
             </div>
-
-            <!-- Editable Textarea per thread node -->
-            <textarea x-model="part.text" rows="5" class="w-full p-3 rounded text-xs mono leading-relaxed bg-[#0d1117] border border-[#30363d] text-[#e6edf3] focus:border-[#58a6ff] outline-none" :placeholder="'Post ' + (idx + 1) + ' content...'"></textarea>
           </div>
-        </template>
 
-        <!-- Interactive Follower Discussion Prompts -->
-        <div class="p-3.5 bg-[#161b22] border border-[#30363d] rounded-lg text-xs space-y-2">
-          <div class="flex items-center gap-1.5 text-amber-400 font-bold mono text-[11px]">
-            <span>💬 Discussion Starters & Follower Engagement Hooks:</span>
+          <div class="flex items-center gap-2">
+            <button @click="copyAllThreads()"
+              class="mono text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-3.5 py-1.5 rounded transition-colors inline-flex items-center gap-1">
+              <span x-text="threadsAllCopied ? '✓ Copied All!' : 'Copy Entire Chain'"></span>
+            </button>
           </div>
-          <p class="text-[#8b949e] leading-relaxed text-[11px]">
-            The final post is intentionally structured with an open-ended question inviting followers to share how their team handles this issue. If followers reply with questions about specific tooling or scaling costs, point them directly to:
-            <a :href="threadsTargetUrl" target="_blank" class="text-[#58a6ff] underline mono" x-text="threadsTargetUrl"></a>
-          </p>
         </div>
+
+        <!-- Chain Posts Stream -->
+        <div class="p-4 sm:p-6 overflow-y-auto space-y-4">
+          <template x-for="(part, idx) in threadsChain" :key="idx">
+            <div class="border border-[#30363d] rounded-lg bg-[#161b22] p-4 relative group">
+
+              <!-- Post Part Header -->
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="mono text-[10px] font-bold uppercase px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30"
+                    x-text="'Post ' + (idx + 1) + ' of ' + threadsChain.length"></span>
+                  <span class="mono text-[10px] text-[#8b949e]" x-text="part.role"></span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <span class="mono text-[10px] text-[#8b949e]" x-text="part.text.length + ' chars'"></span>
+                  <button @click="copySingleThread(part.text, idx)"
+                    class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#58a6ff] border border-[#30363d] px-2 py-0.5 rounded transition-colors">
+                    <span x-text="copiedIndex === idx ? '✓ Copied' : 'Copy'"></span>
+                  </button>
+                  <a :href="'https://www.threads.net/intent/post?text=' + encodeURIComponent(part.text)" target="_blank"
+                    class="mono text-[10px] bg-white text-black hover:bg-neutral-200 px-2 py-0.5 rounded font-bold transition-colors">
+                    Open in Threads ↗
+                  </a>
+                </div>
+              </div>
+
+              <!-- Editable Textarea per thread node -->
+              <textarea x-model="part.text" rows="5"
+                class="w-full p-3 rounded text-xs mono leading-relaxed bg-[#0d1117] border border-[#30363d] text-[#e6edf3] focus:border-[#58a6ff] outline-none"
+                :placeholder="'Post ' + (idx + 1) + ' content...'"></textarea>
+            </div>
+          </template>
+
+          <!-- Interactive Follower Discussion Prompts -->
+          <div class="p-3.5 bg-[#161b22] border border-[#30363d] rounded-lg text-xs space-y-2">
+            <div class="flex items-center gap-1.5 text-amber-400 font-bold mono text-[11px]">
+              <span>💬 Discussion Starters & Follower Engagement Hooks:</span>
+            </div>
+            <p class="text-[#8b949e] leading-relaxed text-[11px]">
+              The final post is intentionally structured with an open-ended question inviting followers to share how
+              their team handles this issue. If followers reply with questions about specific tooling or scaling costs,
+              point them directly to:
+              <a :href="threadsTargetUrl" target="_blank" class="text-[#58a6ff] underline mono"
+                x-text="threadsTargetUrl"></a>
+            </p>
+          </div>
+        </div>
+
       </div>
-
     </div>
-  </div>
 
-  <script>
-    function postEditorStudio() {
-      return {
-        posts: [],
-        activeTab: window.innerWidth < 1280 ? 'editor' : 'editor', // 'sidebar', 'editor', 'preview'
-        isSaving: false,
-        isDeleting: false,
-        showSavedModal: false,
-        savedUrl: '',
-        showThreadsModal: false,
-        threadTone: 'malaysian', // 'malaysian' or 'english'
-        threadPartsCount: 3,
-        threadsChain: [],
-        copiedIndex: null,
-        threadsAllCopied: false,
-        threadsFormatIndex: 0,
-        toastMessage: '',
-        toastType: 'success',
-        createdUrl: '',
-        form: {
-          folder: '',
-          title: '',
-          type: 'case-study',
-          date: new Date().toISOString().split('T')[0],
-          category: 'Cloud Infrastructure & High-Density Systems',
-          metrics: '',
-          excerpt: '',
-          tagsInput: '',
-          draft: false,
-          content_html: ''
-        },
-        async init() {
-          await this.loadPostsList();
-          if (this.posts.length > 0) {
-            await this.loadPost(this.posts[0]);
-          } else {
-            this.resetForm();
-          }
-        },
-        async loadPostsList() {
-          try {
-            const res = await fetch('/api/posts');
-            if (res.ok) {
-              this.posts = await res.json();
-            }
-          } catch (e) {
-            console.error("Failed to load posts", e);
-          }
-        },
-        async loadPost(p) {
-          this.form.folder = p.folder;
-          this.form.title = p.title;
-          this.form.type = p.type || 'case-study';
-          this.form.date = p.date || '';
-          this.form.metrics = p.metrics || '';
-          this.form.excerpt = p.excerpt || '';
-          this.form.tagsInput = Array.isArray(p.tags) ? p.tags.join(', ') : '';
-          this.form.category = 'Cloud Infrastructure & High-Density Systems';
-          this.form.draft = !!p.draft;
-
-          // Fetch full article HTML body from API
-          try {
-            const res = await fetch(`/api/post/${p.folder}`);
-            if (res.ok) {
-              const data = await res.json();
-              this.form.content_html = data.content_html || '';
-            }
-          } catch (e) {
-            console.error("Failed to fetch full HTML content", e);
-          }
-        },
-        resetForm() {
-          const today = new Date().toISOString().split('T')[0];
-          this.form = {
+    <script>
+      function postEditorStudio() {
+        return {
+          posts: [],
+          showSidebar: window.innerWidth >= 1536, // default open only on extra wide screens
+          activeTab: window.innerWidth < 1280 ? 'editor' : 'editor', // 'sidebar', 'editor', 'preview'
+          isSaving: false,
+          isDeleting: false,
+          showSavedModal: false,
+          savedUrl: '',
+          showThreadsModal: false,
+          threadTone: 'malaysian', // 'malaysian' or 'english'
+          threadPartsCount: 3,
+          threadsChain: [],
+          copiedIndex: null,
+          threadsAllCopied: false,
+          threadsFormatIndex: 0,
+          toastMessage: '',
+          toastType: 'success',
+          createdUrl: '',
+          form: {
             folder: '',
             title: '',
             type: 'case-study',
-            date: today,
+            date: new Date().toISOString().split('T')[0],
             category: 'Systems Architecture & Performance',
-            metrics: 'Production Verified • Sub-100ms Latency',
+            metrics: '',
             excerpt: '',
-            tagsInput: 'Laravel, AWS, Redis',
+            tagsInput: '',
             draft: false,
-            content_html: `<h2>01. Executive Overview</h2>
+            content_html: ''
+          },
+          async init() {
+            await this.loadPostsList();
+            if (this.posts.length > 0) {
+              await this.loadPost(this.posts[0]);
+            } else {
+              this.resetForm();
+            }
+          },
+          async loadPostsList() {
+            try {
+              const res = await fetch('/api/posts');
+              if (res.ok) {
+                this.posts = await res.json();
+              }
+            } catch (e) {
+              console.error("Failed to load posts", e);
+            }
+          },
+          async loadPost(p) {
+            this.form.folder = p.folder;
+            this.form.title = p.title;
+            this.form.type = p.type || 'case-study';
+            this.form.date = p.date || '';
+            this.form.metrics = p.metrics || '';
+            this.form.excerpt = p.excerpt || '';
+            this.form.tagsInput = Array.isArray(p.tags) ? p.tags.join(', ') : '';
+            this.form.category = p.category || 'Systems Architecture & Performance';
+            this.form.draft = !!p.draft;
+
+            // Fetch full article HTML body from API
+            try {
+              const res = await fetch(`/api/post/${p.folder}`);
+              if (res.ok) {
+                const data = await res.json();
+                this.form.content_html = data.content_html || '';
+              }
+            } catch (e) {
+              console.error("Failed to fetch full HTML content", e);
+            }
+          },
+          resetForm() {
+            const today = new Date().toISOString().split('T')[0];
+            this.form = {
+              folder: '',
+              title: '',
+              type: 'case-study',
+              date: today,
+              category: 'Systems Architecture & Performance',
+              metrics: 'Production Verified • Sub-100ms Latency',
+              excerpt: '',
+              tagsInput: 'Laravel, AWS, Redis',
+              draft: false,
+              content_html: `<h2>01. Executive Overview</h2>
 <p>Summary of the problem, architectural context, and technical mandate for this implementation.</p>
 
 <h2>02. Architecture & Design Patterns</h2>
@@ -543,181 +619,181 @@
   <li><strong>Latency:</strong> Reduced p95 response time from 380ms to 42ms.</li>
   <li><strong>Throughput:</strong> Handled 10,000+ concurrent requests with zero dropped jobs.</li>
 </ul>`
-          };
-        },
-        autoSlug(returnOnly = false) {
-          const generated = (this.form.title || 'engineering-post').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-          if (returnOnly) return generated;
-          if (!this.form.folder || this.form.folder.trim() === '') {
-            this.form.folder = generated;
-          }
-        },
-        get computedTags() {
-          return this.form.tagsInput.split(',').map(t => t.trim()).filter(Boolean);
-        },
-        insertSection() {
-          this.form.content_html += `\n\n<h2>New Section Title</h2>\n<p>Describe architectural decisions, edge cases, and benchmarks here.</p>`;
-        },
-        insertCodeBlock() {
-          this.form.content_html += `\n\n<div class="technical-block">\n  <div class="mono text-xs text-[#8b949e] uppercase mb-2">// Code Label</div>\n  <pre><code>// Your code snippet here</code></pre>\n</div>`;
-        },
-        insertMermaid() {
-          this.form.content_html += `\n\n<div class="technical-block">\n  <h3 class="mono mb-4 text-center text-xs text-[#8b949e] uppercase">Architecture Topology</h3>\n  <pre class="mermaid">\ngraph TD\n    A[Client Request] --> B[CloudFront / ALB]\n    B --> C[Laravel Octane / FrankenPHP]\n    C --> D[(Aurora MySQL / Redis)]\n  </pre>\n</div>`;
-        },
-        insertImage() {
-          this.form.content_html += `\n\n<figure>\n  <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop" alt="Cloud Infrastructure Architecture" loading="lazy">\n  <figcaption>// Figure: Server cluster topology and load balancing metrics.</figcaption>\n</figure>`;
-        },
-        insertVideo() {
-          this.form.content_html += `\n\n<!-- Responsive YouTube / Video Embed -->\n<div class="video-container">\n  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Demo Video" allowfullscreen loading="lazy"></iframe>\n</div>\n\n<!-- Alternative: Native HTML5 MP4 Video -->\n<!--\n<video controls playsinline class="w-full rounded-lg border border-[#30363d]">\n  <source src="/assets/video/demo.mp4" type="video/mp4">\n  Your browser does not support the video tag.\n</video>\n-->`;
-        },
-        insertLink() {
-          this.form.content_html += `\n\n<p>Refer to the <a href="https://example.com" target="_blank" rel="noopener">Production Documentation & Whitepaper ↗</a> for comprehensive benchmarks.</p>`;
-        },
-        async savePost() {
-          if (!this.form.title.trim()) {
-            alert('Please enter a post title.');
-            return;
-          }
-          if (!this.form.folder.trim()) {
-            this.autoSlug();
-          }
-
-          this.isSaving = true;
-          this.createdUrl = '';
-
-          const payload = {
-            folder: this.form.folder.trim(),
-            title: this.form.title.trim(),
-            type: this.form.type,
-            date: this.form.date.trim(),
-            category: this.form.category.trim(),
-            excerpt: this.form.excerpt.trim(),
-            metrics: this.form.metrics.trim(),
-            tags: this.computedTags,
-            draft: this.form.draft,
-            content_html: this.form.content_html
-          };
-
-          try {
-            const res = await fetch('/api/save-post', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-
-            const result = await res.json();
-            if (res.ok && result.status === 'success') {
-              this.showToast(`Post saved and HTML built in blog/posts/${result.folder}/`, 'success', result.url);
-              this.savedUrl = result.url;
-              this.showSavedModal = true;
-              await this.loadPostsList();
-            } else {
-              this.showToast(result.message || 'Failed to save', 'error');
+            };
+          },
+          autoSlug(returnOnly = false) {
+            const generated = (this.form.title || 'engineering-post').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            if (returnOnly) return generated;
+            if (!this.form.folder || this.form.folder.trim() === '') {
+              this.form.folder = generated;
             }
-          } catch (e) {
-            this.showToast('Network error while saving post: ' + e.message, 'error');
-          } finally {
-            this.isSaving = false;
-          }
-        },
-        get isExistingPost() {
-          return this.posts.some(p => p.folder === this.form.folder);
-        },
-        get livePostUrl() {
-          if (this.createdUrl) return this.createdUrl;
-          if (this.isExistingPost && this.form.folder) return `/blog/posts/${this.form.folder}/`;
-          return '';
-        },
-        async deletePost() {
-          if (!this.form.folder) return;
-          const confirmDelete = confirm(`Are you sure you want to delete "${this.form.title || this.form.folder}"?\n\nThis will remove the entry from posts.json and delete the blog/posts/${this.form.folder}/ directory.`);
-          if (!confirmDelete) return;
+          },
+          get computedTags() {
+            return this.form.tagsInput.split(',').map(t => t.trim()).filter(Boolean);
+          },
+          insertSection() {
+            this.form.content_html += `\n\n<h2>New Section Title</h2>\n<p>Describe architectural decisions, edge cases, and benchmarks here.</p>`;
+          },
+          insertCodeBlock() {
+            this.form.content_html += `\n\n<div class="technical-block">\n  <div class="mono text-xs text-[#8b949e] uppercase mb-2">// Code Label</div>\n  <pre><code>// Your code snippet here</code></pre>\n</div>`;
+          },
+          insertMermaid() {
+            this.form.content_html += `\n\n<div class="technical-block">\n  <h3 class="mono mb-4 text-center text-xs text-[#8b949e] uppercase">Architecture Topology</h3>\n  <pre class="mermaid">\ngraph TD\n    A[Client Request] --> B[CloudFront / ALB]\n    B --> C[Laravel Octane / FrankenPHP]\n    C --> D[(Aurora MySQL / Redis)]\n  </pre>\n</div>`;
+          },
+          insertImage() {
+            this.form.content_html += `\n\n<figure>\n  <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop" alt="Cloud Infrastructure Architecture" loading="lazy">\n  <figcaption>// Figure: Server cluster topology and load balancing metrics.</figcaption>\n</figure>`;
+          },
+          insertVideo() {
+            this.form.content_html += `\n\n<!-- Responsive YouTube / Video Embed -->\n<div class="video-container">\n  <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Demo Video" allowfullscreen loading="lazy"></iframe>\n</div>\n\n<!-- Alternative: Native HTML5 MP4 Video -->\n<!--\n<video controls playsinline class="w-full rounded-lg border border-[#30363d]">\n  <source src="/assets/video/demo.mp4" type="video/mp4">\n  Your browser does not support the video tag.\n</video>\n-->`;
+          },
+          insertLink() {
+            this.form.content_html += `\n\n<p>Refer to the <a href="https://example.com" target="_blank" rel="noopener">Production Documentation & Whitepaper ↗</a> for comprehensive benchmarks.</p>`;
+          },
+          async savePost() {
+            if (!this.form.title.trim()) {
+              alert('Please enter a post title.');
+              return;
+            }
+            if (!this.form.folder.trim()) {
+              this.autoSlug();
+            }
 
-          this.isDeleting = true;
-          try {
-            const res = await fetch('/api/delete-post', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ folder: this.form.folder })
-            });
+            this.isSaving = true;
+            this.createdUrl = '';
 
-            const result = await res.json();
-            if (res.ok && result.status === 'success') {
-              this.showToast(`Post "${this.form.folder}" deleted successfully.`, 'success');
-              await this.loadPostsList();
-              if (this.posts.length > 0) {
-                await this.loadPost(this.posts[0]);
+            const payload = {
+              folder: this.form.folder.trim(),
+              title: this.form.title.trim(),
+              type: this.form.type,
+              date: this.form.date.trim(),
+              category: this.form.category.trim(),
+              excerpt: this.form.excerpt.trim(),
+              metrics: this.form.metrics.trim(),
+              tags: this.computedTags,
+              draft: this.form.draft,
+              content_html: this.form.content_html
+            };
+
+            try {
+              const res = await fetch('/api/save-post', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+
+              const result = await res.json();
+              if (res.ok && result.status === 'success') {
+                this.showToast(`Post saved and HTML built in blog/posts/${result.folder}/`, 'success', result.url);
+                this.savedUrl = result.url;
+                this.showSavedModal = true;
+                await this.loadPostsList();
               } else {
-                this.resetForm();
+                this.showToast(result.message || 'Failed to save', 'error');
               }
-            } else {
-              this.showToast(result.message || 'Failed to delete post.', 'error');
+            } catch (e) {
+              this.showToast('Network error while saving post: ' + e.message, 'error');
+            } finally {
+              this.isSaving = false;
             }
-          } catch (e) {
-            this.showToast('Network error while deleting post: ' + e.message, 'error');
-          } finally {
-            this.isDeleting = false;
-          }
-        },
-        get threadsTargetUrl() {
-          const folder = this.form.folder || this.autoSlug(true);
-          return `https://amee.my/blog/posts/${folder}/`;
-        },
-        generateThreadsPost() {
-          if (!this.form.title.trim()) {
-            alert('Please enter a post title before generating a Threads post.');
-            return;
-          }
-          this.threadsFormatIndex = 0;
-          this.copiedIndex = null;
-          this.threadsAllCopied = false;
-          this.threadsChain = this.buildThreadsChain();
-          this.showThreadsModal = true;
-        },
-        setStyle(index) {
-          this.threadsFormatIndex = index;
-          this.copiedIndex = null;
-          this.threadsAllCopied = false;
-          this.threadsChain = this.buildThreadsChain();
-        },
-        setTone(tone) {
-          this.threadTone = tone;
-          this.copiedIndex = null;
-          this.threadsAllCopied = false;
-          this.threadsChain = this.buildThreadsChain();
-        },
-        setChainLength(num) {
-          this.threadPartsCount = num;
-          this.copiedIndex = null;
-          this.threadsAllCopied = false;
-          this.threadsChain = this.buildThreadsChain();
-        },
-        buildThreadsChain() {
-          const title = this.form.title.trim() || 'Engineering Architecture Blueprint';
-          const metrics = this.form.metrics.trim();
-          const excerpt = this.form.excerpt.trim();
-          const tags = this.computedTags.map(t => '#' + t.replace(/[^a-zA-Z0-9]/g, '')).filter(Boolean).slice(0, 4);
-          const url = this.threadsTargetUrl;
+          },
+          get isExistingPost() {
+            return this.posts.some(p => p.folder === this.form.folder);
+          },
+          get livePostUrl() {
+            if (this.createdUrl) return this.createdUrl;
+            if (this.isExistingPost && this.form.folder) return `/blog/posts/${this.form.folder}/`;
+            return '';
+          },
+          async deletePost() {
+            if (!this.form.folder) return;
+            const confirmDelete = confirm(`Are you sure you want to delete "${this.form.title || this.form.folder}"?\n\nThis will remove the entry from posts.json and delete the blog/posts/${this.form.folder}/ directory.`);
+            if (!confirmDelete) return;
 
-          // Strip simple HTML tags from content to find takeaways
-          const tempEl = document.createElement('div');
-          tempEl.innerHTML = this.form.content_html || '';
-          const headings = Array.from(tempEl.querySelectorAll('h2, h3'))
-            .map(h => h.textContent.replace(/^\d+[\.\s]*/, '').trim())
-            .filter(h => h && !h.toLowerCase().includes('overview') && !h.toLowerCase().includes('conclusion'));
-          const takeaways = headings.slice(0, 4);
+            this.isDeleting = true;
+            try {
+              const res = await fetch('/api/delete-post', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ folder: this.form.folder })
+              });
 
-          // ==========================================
-          // 🇲🇾 MALAYSIAN SANTAI TECH BM GENERATOR
-          // ==========================================
-          if (this.threadTone === 'malaysian') {
-            
-            // STYLE 1: DIRECT TECHNICAL BREAKDOWN (Focus on Architecture & Numbers)
-            if (this.threadsFormatIndex === 1) {
-              if (this.threadPartsCount === 1) {
-                return [{
-                  role: 'Direct Technical Summary',
-                  text: `⚡ Production Architecture Note: "${title}"
+              const result = await res.json();
+              if (res.ok && result.status === 'success') {
+                this.showToast(`Post "${this.form.folder}" deleted successfully.`, 'success');
+                await this.loadPostsList();
+                if (this.posts.length > 0) {
+                  await this.loadPost(this.posts[0]);
+                } else {
+                  this.resetForm();
+                }
+              } else {
+                this.showToast(result.message || 'Failed to delete post.', 'error');
+              }
+            } catch (e) {
+              this.showToast('Network error while deleting post: ' + e.message, 'error');
+            } finally {
+              this.isDeleting = false;
+            }
+          },
+          get threadsTargetUrl() {
+            const folder = this.form.folder || this.autoSlug(true);
+            return `https://amee.my/blog/posts/${folder}/`;
+          },
+          generateThreadsPost() {
+            if (!this.form.title.trim()) {
+              alert('Please enter a post title before generating a Threads post.');
+              return;
+            }
+            this.threadsFormatIndex = 0;
+            this.copiedIndex = null;
+            this.threadsAllCopied = false;
+            this.threadsChain = this.buildThreadsChain();
+            this.showThreadsModal = true;
+          },
+          setStyle(index) {
+            this.threadsFormatIndex = index;
+            this.copiedIndex = null;
+            this.threadsAllCopied = false;
+            this.threadsChain = this.buildThreadsChain();
+          },
+          setTone(tone) {
+            this.threadTone = tone;
+            this.copiedIndex = null;
+            this.threadsAllCopied = false;
+            this.threadsChain = this.buildThreadsChain();
+          },
+          setChainLength(num) {
+            this.threadPartsCount = num;
+            this.copiedIndex = null;
+            this.threadsAllCopied = false;
+            this.threadsChain = this.buildThreadsChain();
+          },
+          buildThreadsChain() {
+            const title = this.form.title.trim() || 'Engineering Architecture Blueprint';
+            const metrics = this.form.metrics.trim();
+            const excerpt = this.form.excerpt.trim();
+            const tags = this.computedTags.map(t => '#' + t.replace(/[^a-zA-Z0-9]/g, '')).filter(Boolean).slice(0, 4);
+            const url = this.threadsTargetUrl;
+
+            // Strip simple HTML tags from content to find takeaways
+            const tempEl = document.createElement('div');
+            tempEl.innerHTML = this.form.content_html || '';
+            const headings = Array.from(tempEl.querySelectorAll('h2, h3'))
+              .map(h => h.textContent.replace(/^\d+[\.\s]*/, '').trim())
+              .filter(h => h && !h.toLowerCase().includes('overview') && !h.toLowerCase().includes('conclusion'));
+            const takeaways = headings.slice(0, 4);
+
+            // ==========================================
+            // 🇲🇾 MALAYSIAN SANTAI TECH BM GENERATOR
+            // ==========================================
+            if (this.threadTone === 'malaysian') {
+
+              // STYLE 1: DIRECT TECHNICAL BREAKDOWN (Focus on Architecture & Numbers)
+              if (this.threadsFormatIndex === 1) {
+                if (this.threadPartsCount === 1) {
+                  return [{
+                    role: 'Direct Technical Summary',
+                    text: `⚡ Production Architecture Note: "${title}"
 
 ${metrics ? 'Verified numbers:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Setup ni fokus pada reliability: connection draining + zero downtime deployment tanpa setup pelik-pelik.
 
@@ -727,49 +803,49 @@ Full sanitized config & diagram flow ada kat sini:
 Ada geng DevOps / backend kat sini yang implement benda sama?
 
 ${tags.join(' ')}`
-                }];
-              }
+                  }];
+                }
 
-              if (this.threadPartsCount === 2) {
-                return [
-                  {
-                    role: '1/2 Technical Architecture Hook',
-                    text: `1/2 ⚡ Technical breakdown untuk production deployment "${title}".
+                if (this.threadPartsCount === 2) {
+                  return [
+                    {
+                      role: '1/2 Technical Architecture Hook',
+                      text: `1/2 ⚡ Technical breakdown untuk production deployment "${title}".
 
 ${metrics ? 'Key metrics verified:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}${excerpt ? excerpt + '\n\n' : ''}Macam mana kitaorang configure infra supaya deploy bila-bila masa pun tak kacau user 🧵👇`
-                  },
-                  {
-                    role: '2/2 Flow & Code Walkthrough',
-                    text: `2/2 Technical implementation highlights:
+                    },
+                    {
+                      role: '2/2 Flow & Code Walkthrough',
+                      text: `2/2 Technical implementation highlights:
 
-${takeaways.length > 0 ? takeaways.map((t, idx) => `• Step 0${idx+1}: ${t}`).join('\n') + '\n\n' : '• Target group health checking\n• Blue/green traffic routing\n• Queue worker isolation\n\n'}Complete architecture topology & sanitized scripts:
+${takeaways.length > 0 ? takeaways.map((t, idx) => `• Step 0${idx + 1}: ${t}`).join('\n') + '\n\n' : '• Target group health checking\n• Blue/green traffic routing\n• Queue worker isolation\n\n'}Complete architecture topology & sanitized scripts:
 👉 ${url}
 
 Kalau korang ada soalan pasal AWS setup or cost optimization, drop kat replies! 👇
 
 ${tags.join(' ')}`
-                  }
-                ];
-              }
+                    }
+                  ];
+                }
 
-              return [
-                {
-                  role: '1/3 Technical Architecture Context',
-                  text: `1/3 ⚡ Case Study: Architecture & Infra untuk "${title}".
+                return [
+                  {
+                    role: '1/3 Technical Architecture Context',
+                    text: `1/3 ⚡ Case Study: Architecture & Infra untuk "${title}".
 
 ${metrics ? 'Verified benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}${excerpt ? excerpt + '\n\n' : ''}Ramai ingat zero downtime perlukan setup Kubernetes yang kompleks, tapi standard AWS patterns sebenarnya dah lebih daripada cukup 👇`
-                },
-                {
-                  role: '2/3 Implementation Architecture',
-                  text: `2/3 3 perkara utama yang kitaorang titikberatkan:
+                  },
+                  {
+                    role: '2/3 Implementation Architecture',
+                    text: `2/3 3 perkara utama yang kitaorang titikberatkan:
 
-${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx+1}. ${t}`).join('\n') : '01. Blue/green switch elak latency spike.\n02. Dedicated queue worker elak job tercicir.\n03. Connection draining sampai request lama settle.'}
+${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx + 1}. ${t}`).join('\n') : '01. Blue/green switch elak latency spike.\n02. Dedicated queue worker elak job tercicir.\n03. Connection draining sampai request lama settle.'}
 
 Prinsip dia: simplicity beats complexity bila traffic tengah peak.`
-                },
-                {
-                  role: '3/3 Full Blueprint & Discussion',
-                  text: `3/3 Saya dah publish architecture diagram & complete code walkthrough kat workspace:
+                  },
+                  {
+                    role: '3/3 Full Blueprint & Discussion',
+                    text: `3/3 Saya dah publish architecture diagram & complete code walkthrough kat workspace:
 👉 ${url}
 
 Korang biasa deploy guna CI/CD apa kat tempat kerja? Ada yang pakai GitHub Actions, GitLab, or AWS CodeDeploy?
@@ -777,16 +853,16 @@ Korang biasa deploy guna CI/CD apa kat tempat kerja? Ada yang pakai GitHub Actio
 Jom discuss kat bawah! 👇
 
 ${tags.join(' ')}`
-                }
-              ];
-            }
+                  }
+                ];
+              }
 
-            // STYLE 2: TANYA PENDAPAT (Community Q&A First)
-            if (this.threadsFormatIndex === 2) {
-              if (this.threadPartsCount === 1) {
-                return [{
-                  role: 'Tanya Pendapat Community',
-                  text: `Nak tanya pendapat geng backend / DevOps Malaysia: korang selalu hadap issue apa paling annoying time deploy production? 😅
+              // STYLE 2: TANYA PENDAPAT (Community Q&A First)
+              if (this.threadsFormatIndex === 2) {
+                if (this.threadPartsCount === 1) {
+                  return [{
+                    role: 'Tanya Pendapat Community',
+                    text: `Nak tanya pendapat geng backend / DevOps Malaysia: korang selalu hadap issue apa paling annoying time deploy production? 😅
 
 Baru siap tulis santai pasal setup "${title}" — target zero downtime & queue sentiasa clear.
 
@@ -796,22 +872,22 @@ ${metrics ? '⚡ ' + metrics + '\n\n' : ''}Full notes & flow diagram ada kat ame
 Biasa team korang handle macam mana? Jom borak santai kat bawah 👇
 
 ${tags.join(' ')}`
-                }];
-              }
+                  }];
+                }
 
-              if (this.threadPartsCount === 2) {
-                return [
-                  {
-                    role: '1/2 Tanya Pengalaman Follower',
-                    text: `1/2 Geng dev, korang pernah tak cuak bila kena deploy petang Jumaat atau time traffic tengah naik? 😂
+                if (this.threadPartsCount === 2) {
+                  return [
+                    {
+                      role: '1/2 Tanya Pengalaman Follower',
+                      text: `1/2 Geng dev, korang pernah tak cuak bila kena deploy petang Jumaat atau time traffic tengah naik? 😂
 
 Baru lepas document-kan workflow kitaorang untuk "${title}".
 
 ${metrics ? '⚡ Hasil benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Ni cara kitaorang buat supaya deploy tak seram 🧵👇`
-                  },
-                  {
-                    role: '2/2 Solusi & Tanya Pendapat',
-                    text: `2/2 Solusi dia sebenarnya kembali pada fundamental infra:
+                    },
+                    {
+                      role: '2/2 Solusi & Tanya Pendapat',
+                      text: `2/2 Solusi dia sebenarnya kembali pada fundamental infra:
 
 ${takeaways.length > 0 ? takeaways.map((t, idx) => `• ${t}`).join('\n') + '\n\n' : '• Asingkan worker\n• Blue/green switch\n• Warmup connection\n\n'}Detail panjang lebar dengan diagram ada kat:
 👉 ${url}
@@ -819,30 +895,30 @@ ${takeaways.length > 0 ? takeaways.map((t, idx) => `• ${t}`).join('\n') + '\n\
 Korang punya setup company sekarang ada cabaran apa? Meh drop soalan or share experience korang 👇
 
 ${tags.join(' ')}`
-                  }
-                ];
-              }
+                    }
+                  ];
+                }
 
-              return [
-                {
-                  role: '1/3 Dilemma Dev Malaysia',
-                  text: `1/3 🧵 "Deploy dulu, tawakal kemudian." — Siapa pernah ada mindset macam ni time awal-awal jadi developer? 😂
+                return [
+                  {
+                    role: '1/3 Dilemma Dev Malaysia',
+                    text: `1/3 🧵 "Deploy dulu, tawakal kemudian." — Siapa pernah ada mindset macam ni time awal-awal jadi developer? 😂
 
 Bila app dah mula ada ribuan users, kita takleh harap nasib. Baru siap tulis case study: "${title}".
 
 ${metrics ? '⚡ Verified numbers:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Jom tengok macam mana nak buat zero downtime tanpa stress 👇`
-                },
-                {
-                  role: '2/3 Cara Mudah Settlekan',
-                  text: `2/3 Benda paling penting adalah jangan campur traffic user dengan background tasks:
+                  },
+                  {
+                    role: '2/3 Cara Mudah Settlekan',
+                    text: `2/3 Benda paling penting adalah jangan campur traffic user dengan background tasks:
 
-${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx+1}. ${t}`).join('\n') : '01. Blue/green switch elak latency spike.\n02. Dedicated queue worker elak job tercicir.\n03. Connection draining sampai request lama settle.'}
+${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx + 1}. ${t}`).join('\n') : '01. Blue/green switch elak latency spike.\n02. Dedicated queue worker elak job tercicir.\n03. Connection draining sampai request lama settle.'}
 
 Bila flow dah kemas, nak deploy 10 kali sehari pun tak ada rasa seram.`
-                },
-                {
-                  role: '3/3 Link & Jom Borak',
-                  text: `3/3 Bacaan santai dengan actual configs & diagram topology:
+                  },
+                  {
+                    role: '3/3 Link & Jom Borak',
+                    text: `3/3 Bacaan santai dengan actual configs & diagram topology:
 👉 ${url}
 
 Company korang biasa amalkan deploy hari apa? Ke ada polisi tak bagi deploy hari Jumaat jugak? 😆
@@ -850,15 +926,15 @@ Company korang biasa amalkan deploy hari apa? Ke ada polisi tak bagi deploy hari
 Share kat bawah, jom borak! 👇
 
 ${tags.join(' ')}`
-                }
-              ];
-            }
+                  }
+                ];
+              }
 
-            // STYLE 0 (DEFAULT): STORY SANTAI (Engaging & Relatable)
-            if (this.threadPartsCount === 1) {
-              return [{
-                role: 'Single Post Santai (Korang pernah kena?)',
-                text: `Korang pernah tak deploy production pastu seram sejuk takut downtime atau queue stuck? 😅
+              // STYLE 0 (DEFAULT): STORY SANTAI (Engaging & Relatable)
+              if (this.threadPartsCount === 1) {
+                return [{
+                  role: 'Single Post Santai (Korang pernah kena?)',
+                  text: `Korang pernah tak deploy production pastu seram sejuk takut downtime atau queue stuck? 😅
 
 Baru siap tulis santai breakdown pasal setup "${title}".
 
@@ -868,27 +944,116 @@ ${excerpt ? excerpt + '\n\n' : ''}${metrics ? 'Hasil benchmark verified:\n⚡ ' 
 Korang punya team biasa deploy macam mana? Ada yang migrate ke blue-green / multi-region jugak ke? Cer share kat bawah 👇
 
 ${tags.join(' ')}`
+                }];
+              }
+
+              if (this.threadPartsCount === 2) {
+                return [
+                  {
+                    role: 'Post 1: Problem & Setup (Santai BM)',
+                    text: `1/2 Ramai tanya macam mana nak handle deployment production yang zero downtime tapi tak nak setup yang pening kepala.
+
+Baru je settlekan case study pasal "${title}".
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Verified numbers:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Benda ni simple je konsep dia kalau faham flow. Sambung bawah 🧵👇`
+                  },
+                  {
+                    role: 'Post 2: Solution, Link & Borak Tech',
+                    text: `2/2 Key takeaway yang paling jimat masa:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `• Step 0${idx + 1}: ${t}`).join('\n') + '\n\n' : '• Asingkan worker queue & web traffic\n• Blue/green routing guna target group\n• Warmup connection elak p95 spike\n\n'}Step-by-step blueprint penuh dengan sanitized config & flow diagram ada kat amee.my:
+👉 ${url}
+
+Siapa kat sini pernah sangkut bab queue restart time deployment? Kalau ada soalan or nak discuss pasal setup ni, drop je kat replies, jom sembang! ☕👇
+
+${tags.join(' ')}`
+                  }
+                ];
+              }
+
+              return [
+                {
+                  role: 'Part 1: The Relatable Pain Point',
+                  text: `1/3 🧵 Korang perasan tak, banyak deployment fail bukan sebab code problem, tapi sebab flow infra yang overcomplicated? 
+
+Baru je document-kan pengalaman handle "${title}".
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Verified benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Bila traffic tengah spike, kita nak pastikan user tak perasan langsung kita tengah deploy. Ni cara kitaorang tackle 👇`
+                },
+                {
+                  role: 'Part 2: Cara Settlekan (Tak Over-Engineer)',
+                  text: `2/3 Fokus utama adalah buat simple tapi bulletproof:
+
+${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx + 1}. ${t}`).join('\n') : '01. Blue/green switch elak latency spike.\n02. Dedicated queue worker elak job tercicir.\n03. Connection draining sampai request lama settle.'}
+
+Tak perlu overcomplicate tooling kalau standard AWS / server patterns dah cukup handle scale.`
+                },
+                {
+                  role: 'Part 3: Link Full Post & Borak Santai',
+                  text: `3/3 Segala architecture diagram, sample config & explanation panjang lebar saya dah compile kat workspace:
+👉 ${url}
+
+💬 Stack korang kat company biasa buat deployment macam mana? CI/CD tool apa korang pakai sekarang?
+
+Kalau ada apa-apa soalan pasal AWS setup or database locking, tanya je kat bawah! Jom sembang santai 👇
+
+${tags.join(' ')}`
+                }
+              ];
+            }
+
+            // ==========================================
+            // 🌐 STANDARD ENGLISH TECH GENERATOR
+            // ==========================================
+            if (this.threadsFormatIndex === 1) {
+              // English Hook Style
+              if (this.threadPartsCount === 1) {
+                return [{
+                  role: 'Direct Hook Summary',
+                  text: `Recently documented our production implementation: "${title}".
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? 'Verified results:\n⚡ ' + metrics + '\n\n' : ''}Full post with topology diagrams & sanitized configs:
+🔗 ${url}
+
+What deployment strategies does your team currently run?
+
+${tags.join(' ')}`
+                }];
+              }
+            }
+
+            if (this.threadPartsCount === 1) {
+              return [{
+                role: 'Single Post Overview & Discussion',
+                text: `🚀 Quick breakdown of our production deployment: "${title}"
+
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Verified Benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Detailed technical blueprint, configurations & code snippets breakdown on my workspace:
+👉 ${url}
+
+💬 Curious: how is your team currently approaching this problem in production? What's your biggest bottleneck?
+
+${tags.join(' ')}`
               }];
             }
 
             if (this.threadPartsCount === 2) {
               return [
                 {
-                  role: 'Post 1: Problem & Setup (Santai BM)',
-                  text: `1/2 Ramai tanya macam mana nak handle deployment production yang zero downtime tapi tak nak setup yang pening kepala.
+                  role: 'Hook & Core Problem Statement',
+                  text: `1/2 🚀 Most production deployments fail at scale for one simple reason: unnecessary complexity.
 
-Baru je settlekan case study pasal "${title}".
+Recently solved this for "${title}".
 
-${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Verified numbers:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Benda ni simple je konsep dia kalau faham flow. Sambung bawah 🧵👇`
+${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Key Verified Impact:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Here's the simplified approach we used 🧵👇`
                 },
                 {
-                  role: 'Post 2: Solution, Link & Borak Tech',
-                  text: `2/2 Key takeaway yang paling jimat masa:
+                  role: 'Solution, Full Code Link & Q&A Discussion',
+                  text: `2/2 Here is how we tackled it:
 
-${takeaways.length > 0 ? takeaways.map((t, idx) => `• Step 0${idx+1}: ${t}`).join('\n') + '\n\n' : '• Asingkan worker queue & web traffic\n• Blue/green routing guna target group\n• Warmup connection elak p95 spike\n\n'}Step-by-step blueprint penuh dengan sanitized config & flow diagram ada kat amee.my:
+${takeaways.length > 0 ? takeaways.map((t, idx) => `• Step 0${idx + 1}: ${t}`).join('\n') + '\n\n' : '• Decoupled background workers\n• Zero-downtime deployment pipelines\n• Multi-region failover isolation\n\n'}I documented the complete step-by-step blueprint with actual architecture diagrams and code snippets here:
 👉 ${url}
 
-Siapa kat sini pernah sangkut bab queue restart time deployment? Kalau ada soalan or nak discuss pasal setup ni, drop je kat replies, jom sembang! ☕👇
+💬 How does your current stack handle this? Any questions on the AWS or queue configuration? Drop them below! 👇
 
 ${tags.join(' ')}`
                 }
@@ -897,111 +1062,22 @@ ${tags.join(' ')}`
 
             return [
               {
-                role: 'Part 1: The Relatable Pain Point',
-                text: `1/3 🧵 Korang perasan tak, banyak deployment fail bukan sebab code problem, tapi sebab flow infra yang overcomplicated? 
-
-Baru je document-kan pengalaman handle "${title}".
-
-${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Verified benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Bila traffic tengah spike, kita nak pastikan user tak perasan langsung kita tengah deploy. Ni cara kitaorang tackle 👇`
-              },
-              {
-                role: 'Part 2: Cara Settlekan (Tak Over-Engineer)',
-                text: `2/3 Fokus utama adalah buat simple tapi bulletproof:
-
-${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx+1}. ${t}`).join('\n') : '01. Blue/green switch elak latency spike.\n02. Dedicated queue worker elak job tercicir.\n03. Connection draining sampai request lama settle.'}
-
-Tak perlu overcomplicate tooling kalau standard AWS / server patterns dah cukup handle scale.`
-              },
-              {
-                role: 'Part 3: Link Full Post & Borak Santai',
-                text: `3/3 Segala architecture diagram, sample config & explanation panjang lebar saya dah compile kat workspace:
-👉 ${url}
-
-💬 Stack korang kat company biasa buat deployment macam mana? CI/CD tool apa korang pakai sekarang?
-
-Kalau ada apa-apa soalan pasal AWS setup or database locking, tanya je kat bawah! Jom sembang santai 👇
-
-${tags.join(' ')}`
-              }
-            ];
-          }
-
-          // ==========================================
-          // 🌐 STANDARD ENGLISH TECH GENERATOR
-          // ==========================================
-          if (this.threadsFormatIndex === 1) {
-            // English Hook Style
-            if (this.threadPartsCount === 1) {
-              return [{
-                role: 'Direct Hook Summary',
-                text: `Recently documented our production implementation: "${title}".
-
-${excerpt ? excerpt + '\n\n' : ''}${metrics ? 'Verified results:\n⚡ ' + metrics + '\n\n' : ''}Full post with topology diagrams & sanitized configs:
-🔗 ${url}
-
-What deployment strategies does your team currently run?
-
-${tags.join(' ')}`
-              }];
-            }
-          }
-
-          if (this.threadPartsCount === 1) {
-            return [{
-              role: 'Single Post Overview & Discussion',
-              text: `🚀 Quick breakdown of our production deployment: "${title}"
-
-${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Verified Benchmark:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Detailed technical blueprint, configurations & code snippets breakdown on my workspace:
-👉 ${url}
-
-💬 Curious: how is your team currently approaching this problem in production? What's your biggest bottleneck?
-
-${tags.join(' ')}`
-            }];
-          }
-
-          if (this.threadPartsCount === 2) {
-            return [
-              {
-                role: 'Hook & Core Problem Statement',
-                text: `1/2 🚀 Most production deployments fail at scale for one simple reason: unnecessary complexity.
-
-Recently solved this for "${title}".
-
-${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ Key Verified Impact:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Here's the simplified approach we used 🧵👇`
-              },
-              {
-                role: 'Solution, Full Code Link & Q&A Discussion',
-                text: `2/2 Here is how we tackled it:
-
-${takeaways.length > 0 ? takeaways.map((t, idx) => `• Step 0${idx+1}: ${t}`).join('\n') + '\n\n' : '• Decoupled background workers\n• Zero-downtime deployment pipelines\n• Multi-region failover isolation\n\n'}I documented the complete step-by-step blueprint with actual architecture diagrams and code snippets here:
-👉 ${url}
-
-💬 How does your current stack handle this? Any questions on the AWS or queue configuration? Drop them below! 👇
-
-${tags.join(' ')}`
-              }
-            ];
-          }
-
-          return [
-            {
-              role: 'Part 1: The Problem & The Mandate',
-              text: `1/3 🧵 Engineering Note: "${title}"
+                role: 'Part 1: The Problem & The Mandate',
+                text: `1/3 🧵 Engineering Note: "${title}"
 
 ${excerpt ? excerpt + '\n\n' : ''}${metrics ? '⚡ The Verified Results:\n• ' + metrics.split('•').map(m => m.trim()).join('\n• ') + '\n\n' : ''}Why does this matter? Many systems suffer from downtime, dropped background jobs, or database locking during deployment. Here's what we changed 👇`
-            },
-            {
-              role: 'Part 2: The Simplified Architectural Fix',
-              text: `2/3 The core approach came down to a few key decisions:
+              },
+              {
+                role: 'Part 2: The Simplified Architectural Fix',
+                text: `2/3 The core approach came down to a few key decisions:
 
-${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx+1}. ${t}`).join('\n') : '01. Blue/Green deployment targeting isolated target groups.\n02. Zero queue starvation via dedicated high-priority worker pools.\n03. Graceful connection draining before routing traffic.'}
+${takeaways.length > 0 ? takeaways.map((t, idx) => `0${idx + 1}. ${t}`).join('\n') : '01. Blue/Green deployment targeting isolated target groups.\n02. Zero queue starvation via dedicated high-priority worker pools.\n03. Graceful connection draining before routing traffic.'}
 
 The goal was simple: zero latency spikes and zero dropped customer requests.`
-            },
-            {
-              role: 'Part 3: Full Blueprint & Follower Discussion',
-              text: `3/3 Documented the full architecture diagram, sanitized configs, and step-by-step breakdown on my workspace:
+              },
+              {
+                role: 'Part 3: Full Blueprint & Follower Discussion',
+                text: `3/3 Documented the full architecture diagram, sanitized configs, and step-by-step breakdown on my workspace:
 👉 ${url}
 
 💬 What deployment or infrastructure challenges is your team currently running into? 
@@ -1009,59 +1085,59 @@ The goal was simple: zero latency spikes and zero dropped customer requests.`
 Drop your questions or thoughts below — happy to share the specific scripts or discuss edge cases! ☕
 
 ${tags.join(' ')}`
+              }
+            ];
+          },
+          async copySingleThread(text, idx) {
+            try {
+              await navigator.clipboard.writeText(text);
+              this.copiedIndex = idx;
+              setTimeout(() => {
+                if (this.copiedIndex === idx) this.copiedIndex = null;
+              }, 2500);
+            } catch (e) {
+              this.fallbackCopy(text);
+              this.copiedIndex = idx;
+              setTimeout(() => {
+                if (this.copiedIndex === idx) this.copiedIndex = null;
+              }, 2500);
             }
-          ];
-        },
-        async copySingleThread(text, idx) {
-          try {
-            await navigator.clipboard.writeText(text);
-            this.copiedIndex = idx;
+          },
+          async copyAllThreads() {
+            const combined = this.threadsChain.map((p, i) => `--- [Post ${i + 1}/${this.threadsChain.length}] ---\n${p.text}`).join('\n\n');
+            try {
+              await navigator.clipboard.writeText(combined);
+              this.threadsAllCopied = true;
+              setTimeout(() => {
+                this.threadsAllCopied = false;
+              }, 2500);
+            } catch (e) {
+              this.fallbackCopy(combined);
+              this.threadsAllCopied = true;
+              setTimeout(() => {
+                this.threadsAllCopied = false;
+              }, 2500);
+            }
+          },
+          fallbackCopy(text) {
+            const el = document.createElement('textarea');
+            el.value = text;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+          },
+          showToast(msg, type = 'success', url = '') {
+            this.toastMessage = msg;
+            this.toastType = type;
+            this.createdUrl = url;
             setTimeout(() => {
-              if (this.copiedIndex === idx) this.copiedIndex = null;
-            }, 2500);
-          } catch (e) {
-            this.fallbackCopy(text);
-            this.copiedIndex = idx;
-            setTimeout(() => {
-              if (this.copiedIndex === idx) this.copiedIndex = null;
-            }, 2500);
+              this.toastMessage = '';
+            }, 6000);
           }
-        },
-        async copyAllThreads() {
-          const combined = this.threadsChain.map((p, i) => `--- [Post ${i+1}/${this.threadsChain.length}] ---\n${p.text}`).join('\n\n');
-          try {
-            await navigator.clipboard.writeText(combined);
-            this.threadsAllCopied = true;
-            setTimeout(() => {
-              this.threadsAllCopied = false;
-            }, 2500);
-          } catch (e) {
-            this.fallbackCopy(combined);
-            this.threadsAllCopied = true;
-            setTimeout(() => {
-              this.threadsAllCopied = false;
-            }, 2500);
-          }
-        },
-        fallbackCopy(text) {
-          const el = document.createElement('textarea');
-          el.value = text;
-          document.body.appendChild(el);
-          el.select();
-          document.execCommand('copy');
-          document.body.removeChild(el);
-        },
-        showToast(msg, type = 'success', url = '') {
-          this.toastMessage = msg;
-          this.toastType = type;
-          this.createdUrl = url;
-          setTimeout(() => {
-            this.toastMessage = '';
-          }, 6000);
-        }
-      };
-    }
-  </script>
+        };
+      }
+    </script>
 </body>
 
 </html>

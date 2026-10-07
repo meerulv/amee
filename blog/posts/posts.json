@@ -1,1 +1,20 @@
-[]
+[
+  {
+    "folder": "Simple-Laravel-Zero-Downtime-AWS-Production-Deployment-Flow-with-No-Docker",
+    "title": "Zero-Downtime Blue/Green Deployments Explained Simply",
+    "type": "case-study",
+    "date": "2026-10-07",
+    "category": "Cloud Infrastructure & CICD Strategy",
+    "excerpt": "A down-to-earth breakdown of how modern web apps update in production without taking the system down or disrupting users.",
+    "metrics": "Zero Downtime \u2022 100% Traffic Cutover \u2022 Instant Rollback Safety",
+    "tags": [
+      "AWS",
+      "Laravel Octane",
+      "FrankenPHP",
+      "ElastiCache",
+      "Reverb",
+      "DevOps"
+    ],
+    "draft": false
+  }
+]
