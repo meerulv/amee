@@ -8,9 +8,9 @@
     "badge": "Active Production",
     "badgeColor": "emerald",
     "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&auto=format&fit=crop",
-    "problem": "Veterinary practices across the UK and Australia required unified, high-availability practice management with zero-downtime releases and rapid response times during busy clinic hours.",
-    "solution": "Engineered an automated Blue/Green deployment pipeline on AWS using Laravel Octane, FrankenPHP, and centralized ElastiCache (Redis/ValKey), ensuring sub-100ms consultation response times and seamless rollouts without customer disruption.",
-    "metrics": "Multi-Region UK & AU • Zero-Downtime Deployments • Sub-100ms Response Times",
+    "problem": "Veterinary practices across the UK and Australia required unified, high-availability practice management with zero-downtime releases and reliable performance during busy clinic hours.",
+    "solution": "Engineered an automated Blue/Green deployment pipeline on AWS using Laravel Octane, FrankenPHP, and centralized ElastiCache (Redis/ValKey), ensuring continuous uptime and seamless cutover without clinic disruption.",
+    "metrics": "Multi-Region UK & AU \u2022 Zero-Downtime Deployments \u2022 100% Traffic Cutover Safety",
     "stack": [
       "Laravel 11",
       "Octane / FrankenPHP",
@@ -21,7 +21,8 @@
     ],
     "liveUrl": "https://plugin.vetcheck.it",
     "snapshotUrl": "https://archives.amee.my/apps/vetcheck",
-    "relatedPost": "Simple-Laravel-Zero-Downtime-AWS-Production-Deployment-Flow-with-No-Docker"
+    "relatedPost": "Simple-Laravel-Zero-Downtime-AWS-Production-Deployment-Flow-with-No-Docker",
+    "hidden": true
   },
   {
     "id": "ajakme",
@@ -32,20 +33,22 @@
     "badge": "Active Production",
     "badgeColor": "emerald",
     "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&auto=format&fit=crop",
-    "problem": "Couples needed an elegant, zero-stress way to design digital invitations, track guest RSVPs in real time, generate physical print-ready card exports, and automate WhatsApp communications.",
-    "solution": "Built a touch-optimized, zero-cognitive-load Livewire 3 + Alpine.js single-page application with automated high-resolution PDF print exports, dynamic QR check-ins, and guest communication funnels.",
-    "metrics": "Production Live • Automated WhatsApp Notifications • Print-Ready PDF Generator",
+    "problem": "Couples needed an elegant, straightforward way to design digital invitations, collect RSVPs in real time, generate physical print-ready card exports, and send Telegram guest notifications.",
+    "solution": "Built a touch-optimized, clean Livewire 3 + Alpine.js single-page application with automated high-resolution PDF print exports, dynamic QR check-ins, and automated Telegram bot notifications.",
+    "metrics": "Production Live \u2022 Telegram Bot Notifications \u2022 Print-Ready PDF Generator",
     "stack": [
       "Laravel 12",
       "Livewire 3.7",
       "Alpine.js",
       "Tailwind CSS",
       "Redis Queue",
-      "MySQL"
+      "MySQL",
+      "Telegram Bot API"
     ],
     "liveUrl": "https://ajakme.com",
     "snapshotUrl": "https://archives.amee.my/apps/ajakme",
-    "relatedPost": ""
+    "relatedPost": "",
+    "hidden": true
   },
   {
     "id": "accea",
@@ -58,7 +61,7 @@
     "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&auto=format&fit=crop",
     "problem": "Enterprise coworking centers needed a single unified identity provider across multiple web properties along with real-time room scheduling to eliminate double bookings.",
     "solution": "Architected a centralized Single Sign-On (SSO) OAuth2 identity provider and connected reservation engine with concurrency-safe booking calendars, payment gateways, and automated member access.",
-    "metrics": "Unified Single Sign-On • Real-Time Concurrency Calendar • Enterprise Multi-Location",
+    "metrics": "Unified Single Sign-On \u2022 Real-Time Concurrency Calendar \u2022 Enterprise Multi-Location",
     "stack": [
       "Laravel",
       "Centralized SSO",
@@ -69,7 +72,8 @@
     ],
     "liveUrl": "https://account.accea.com.my",
     "snapshotUrl": "https://archives.amee.my/apps/accea",
-    "relatedPost": ""
+    "relatedPost": "",
+    "hidden": true
   },
   {
     "id": "althr",
@@ -82,7 +86,7 @@
     "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop",
     "problem": "Malaysian enterprises required a centralized digital workforce platform managing employee leaves, automated payroll, time tracking, and staff perks at scale.",
     "solution": "Contributed to high-volume microservice APIs, payroll calculations, and scalable mobile backend endpoints supporting tens of thousands of corporate employees across Malaysia.",
-    "metrics": "High-Volume Enterprise Scale • Microservices Architecture • Fintech & Payroll Integration",
+    "metrics": "High-Volume Enterprise Scale \u2022 Microservices Architecture \u2022 Fintech & Payroll Integration",
     "stack": [
       "Laravel / PHP",
       "Microservices",
@@ -92,6 +96,7 @@
     ],
     "liveUrl": "https://www.althr.my",
     "snapshotUrl": "https://archives.amee.my/apps/althr",
-    "relatedPost": ""
+    "relatedPost": "",
+    "hidden": true
   }
 ]
