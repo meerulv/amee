@@ -34,11 +34,26 @@ This guide outlines how to deploy **amee.my** on **100% Free GitHub Pages** and 
 
 The Cloudflare Worker safely holds your Google Gemini API key(s), rotates between them, handles automatic rollover on `429 (Rate Limit)` responses, and falls back to Cloudflare Workers AI if needed.
 
-### 1. Prerequisites
-- A free [Cloudflare](https://dash.cloudflare.com/) account.
-- One or more free Google Gemini API Keys from [Google AI Studio](https://aistudio.google.com/).
+### 1. How to Get Your Free Google Gemini API Keys
 
-### 2. Install Wrangler & Log In
+Google gives developers **1,500 requests per day 100% free** for Gemini 2.0 Flash.
+
+1. Go to **[Google AI Studio](https://aistudio.google.com/)** and sign in with your Google account.
+2. In the left navigation menu or top bar, click the blue button **"Get API key"** (or visit direct URL: [https://aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)).
+3. Click **"Create API key"**.
+4. Choose either:
+   - **"Create API key in new project"** (easiest, Google creates a default project for you).
+   - Or select an existing Google Cloud project if you have one.
+5. Copy the generated key (starts with `AIzaSy...`).
+6. *(Optional for Rotation)*: If you want extra rate-limit headroom, you can create a 2nd or 3rd key across different projects. The worker will automatically load-balance and rotate between them!
+
+---
+
+### 2. Prerequisites & Accounts
+- A free [Cloudflare](https://dash.cloudflare.com/) account (Free plan includes 100,000 worker requests/day).
+- The Gemini API Key(s) obtained from the steps above.
+
+### 3. Install Wrangler & Log In
 From the root of your project directory, open your terminal:
 
 ```bash
@@ -48,7 +63,7 @@ wrangler login
 ```
 *(This opens a browser window for a one-click authorization into your Cloudflare account).*
 
-### 3. Configure API Keys with Rotation
+### 4. Configure API Keys with Rotation in Cloudflare Secrets
 You can provide a single key or multiple keys separated by commas. The worker automatically rotates through them:
 
 ```bash
@@ -59,7 +74,7 @@ When prompted, paste your key(s):
 AIzaSyKeyOne...,AIzaSyKeyTwo...,AIzaSyKeyThree...
 ```
 
-### 4. Deploy the Worker
+### 5. Deploy the Worker
 Run the deployment command:
 
 ```bash
@@ -72,26 +87,62 @@ Published amee-ai-router (1.23 sec)
   https://amee-ai-router.<your-subdomain>.workers.dev
 ```
 
-### 5. Link Custom Domain (Optional)
-If you manage `amee.my` in Cloudflare:
-1. Go to **Cloudflare Dashboard** > **Workers & Pages** > **amee-ai-router** > **Settings** > **Triggers**.
-2. Click **Add Custom Domain** and enter `ai.amee.my`.
+### 6. Connecting Your Worker to Frontend: Two Options
+
+After running `wrangler deploy`, you can connect your frontend using either **Option A** or **Option B**:
+
+---
+
+#### 🅰️ Option A: Free `*.workers.dev` Subdomain (Easiest — Zero DNS setup)
+Cloudflare automatically gives every worker a free public URL on deploy:
+```text
+https://amee-ai-router.<your-cloudflare-subdomain>.workers.dev
+```
+- **How to use**: No DNS or domain verification needed. Works immediately.
+- **In [index.html](file:///Users/amee/Documents/Projects/Apps/Laravels/amee/index.html)**: Simply update your endpoint:
+  ```javascript
+  const endpoint = isLocal 
+    ? '/api/chat' 
+    : 'https://amee-ai-router.<your-cloudflare-subdomain>.workers.dev';
+  ```
+
+---
+
+#### 🅱️ Option B: Clean Custom Domain `ai.amee.my` (Recommended & Professional)
+If your root domain `amee.my` is already added to Cloudflare (or nameservers pointed to Cloudflare):
+
+1. Open your [Cloudflare Dashboard](https://dash.cloudflare.com/).
+2. Navigate to: **Workers & Pages** ➔ **`amee-ai-router`** ➔ **Settings** ➔ **Domains & Routes** (or **Triggers**).
+3. Click **Add** ➔ Select **Custom Domain**.
+4. Type:
+   ```text
+   ai.amee.my
+   ```
+5. Click **Add Custom Domain**.
+   - Cloudflare automatically provisions a free SSL/TLS certificate and creates the DNS record for you.
+6. **In [index.html](file:///Users/amee/Documents/Projects/Apps/Laravels/amee/index.html)**:
+   The code is already pre-configured to hit `https://ai.amee.my/chat`:
+   ```javascript
+   const endpoint = isLocal ? '/api/chat' : 'https://ai.amee.my/chat';
+   ```
 
 ---
 
 ## Part 2: Connect Frontend to Your Deployed Worker
 
-In `assets/js/app.js` (or in `index.html`), configure the AI endpoint to point to your live Cloudflare Worker URL when running in production:
+In [index.html](file:///Users/amee/Documents/Projects/Apps/Laravels/amee/index.html) (inside the `askAi` method):
 
 ```javascript
-// In index.html (askAi method):
 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const aiEndpoint = isLocal 
+
+// Switch between Option A or Option B:
+const endpoint = isLocal 
   ? '/api/chat' 
-  : 'https://amee-ai-router.<your-subdomain>.workers.dev'; // or https://ai.amee.my
+  : 'https://ai.amee.my/chat'; // Option B (or use https://amee-ai-router.<subdomain>.workers.dev for Option A)
 ```
 
-*(Note: If the network request ever fails or is blocked, the frontend automatically falls back to clean, client-side grounded facts, ensuring the UI never breaks).*
+> [!NOTE]
+> **Built-in Offline Fallback:** If the network request ever fails or the worker is temporarily unreachable, the frontend automatically falls back to client-side grounded answers so the UI never shows an error to your guests.
 
 ---
 

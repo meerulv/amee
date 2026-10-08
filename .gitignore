@@ -45,3 +45,6 @@ _backups/
 *.tmp
 *.bak
 *.log
+.env
+.env.*
+.wrangler/
