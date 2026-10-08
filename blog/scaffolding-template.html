@@ -7,17 +7,50 @@
   <title>{{TITLE}} | {{TYPE_LABEL}} | Ameerul Arif</title>
   <meta name="description" content="{{EXCERPT}}">
 
+  <link rel="canonical" href="https://amee.my/blog/posts/{{FOLDER}}/">
+
   <!-- Open Graph / Link Previews -->
   <meta property="og:type" content="article">
+  <meta property="og:url" content="https://amee.my/blog/posts/{{FOLDER}}/">
   <meta property="og:title" content="{{TITLE}} | Ameerul Arif">
   <meta property="og:description" content="{{EXCERPT}}">
   <meta property="og:image" content="https://amee.my/ameemy-seo.webp">
 
   <!-- Twitter / X / Threads -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://amee.my/blog/posts/{{FOLDER}}/">
   <meta name="twitter:title" content="{{TITLE}} | Ameerul Arif">
   <meta name="twitter:description" content="{{EXCERPT}}">
   <meta name="twitter:image" content="https://amee.my/ameemy-seo.webp">
+
+  <!-- AI & Search Engine Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "{{TITLE}}",
+    "description": "{{EXCERPT}}",
+    "datePublished": "{{DATE}}",
+    "dateModified": "{{DATE}}",
+    "author": {
+      "@type": "Person",
+      "name": "Ameerul Arif",
+      "jobTitle": "Senior Software Engineer & Systems Architect",
+      "url": "https://amee.my/"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Ameerul Arif",
+      "url": "https://amee.my/"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://amee.my/blog/posts/{{FOLDER}}/"
+    },
+    "keywords": {{TAGS_JSON}}
+  }
+  </script>
+
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">

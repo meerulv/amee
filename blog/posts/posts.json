@@ -4,7 +4,7 @@
     "title": "Zero-Downtime Blue/Green Deployments Explained Simply",
     "type": "case-study",
     "date": "2026-10-07",
-    "category": "Cloud Infrastructure & CICD Strategy",
+    "category": "Cloud Infrastructure & High-Density Systems",
     "excerpt": "A down-to-earth breakdown of how modern web apps update in production without taking the system down or disrupting users.",
     "metrics": "Zero Downtime \u2022 100% Traffic Cutover \u2022 Instant Rollback Safety",
     "tags": [

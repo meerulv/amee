@@ -29,6 +29,81 @@ def slugify(text):
     text = re.sub(r'^-+|-+$', '', text)
     return text
 
+def generate_seo_assets():
+    """Generates sitemap.xml and robots.txt dynamically with all published posts."""
+    try:
+        with open(POSTS_JSON_PATH, "r", encoding="utf-8") as f:
+            posts = json.load(f)
+    except Exception:
+        posts = []
+
+    # 1. Generate sitemap.xml
+    urls = [
+        ("https://amee.my/", "1.0", "weekly"),
+    ]
+    for p in posts:
+        if not p.get("draft", False):
+            folder = p.get("folder", "")
+            date = p.get("date", "")
+            if folder:
+                urls.append((f"https://amee.my/blog/posts/{folder}/", "0.8", "monthly", date))
+
+    sitemap_lines = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+    ]
+    for item in urls:
+        loc = item[0]
+        priority = item[1]
+        changefreq = item[2]
+        lastmod = item[3] if len(item) > 3 and item[3] else None
+        
+        sitemap_lines.append("  <url>")
+        sitemap_lines.append(f"    <loc>{loc}</loc>")
+        if lastmod:
+            sitemap_lines.append(f"    <lastmod>{lastmod}</lastmod>")
+        sitemap_lines.append(f"    <changefreq>{changefreq}</changefreq>")
+        sitemap_lines.append(f"    <priority>{priority}</priority>")
+        sitemap_lines.append("  </url>")
+    sitemap_lines.append("</urlset>")
+
+    sitemap_path = os.path.join(BASE_DIR, "sitemap.xml")
+    with open(sitemap_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(sitemap_lines) + "\n")
+
+    # 2. Generate robots.txt with AI bot declarations
+    robots_content = """# robots.txt for amee.my
+User-agent: *
+Allow: /
+Disallow: /editor/
+Disallow: /_backups/
+
+# Allow & welcome AI Search & Answer Engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+Sitemap: https://amee.my/sitemap.xml
+"""
+    robots_path = os.path.join(BASE_DIR, "robots.txt")
+    with open(robots_path, "w", encoding="utf-8") as f:
+        f.write(robots_content)
+
+
 def build_post_html(data):
     """Generates the static index.html using the scaffolding template."""
     with open(SCAFFOLDING_PATH, 'r', encoding='utf-8') as f:
@@ -178,6 +253,9 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
                 with open(os.path.join(target_folder, "index.html"), "w", encoding="utf-8") as f:
                     f.write(full_html)
 
+                # 3. Regenerate sitemap.xml and robots.txt
+                generate_seo_assets()
+
                 self.send_response(200)
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
@@ -217,6 +295,9 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
                 if os.path.exists(target_folder):
                     shutil.rmtree(target_folder)
 
+                # 3. Regenerate sitemap.xml and robots.txt
+                generate_seo_assets()
+
                 self.send_response(200)
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
@@ -237,6 +318,7 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     os.chdir(BASE_DIR)
+    generate_seo_assets()
     socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("", PORT), PortfolioRequestHandler) as httpd:
         print(f"🚀 Ameerul Portfolio & Visual Post Editor running at http://localhost:{PORT}")

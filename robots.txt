@@ -1,0 +1,26 @@
+# robots.txt for amee.my
+User-agent: *
+Allow: /
+Disallow: /editor/
+Disallow: /_backups/
+
+# Allow & welcome AI Search & Answer Engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+Sitemap: https://amee.my/sitemap.xml
