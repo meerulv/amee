@@ -153,8 +153,8 @@
     </button>
     <button @click="mobileView = 'workspace'" :class="mobileView === 'workspace' ? 'active-nav-tab' : 'text-[#8b949e]'"
       class="flex-1 mono text-xs font-bold uppercase py-2 flex items-center justify-center gap-1.5 transition-colors">
-      <span>⚡ Case Studies & Snippets</span>
-      <span class="text-[10px] bg-[#21262d] text-white px-1.5 rounded-full" x-text="posts.length"></span>
+      <span>🚀 Showcases & Studies</span>
+      <span class="text-[10px] bg-[#21262d] text-white px-1.5 rounded-full" x-text="posts.length + showcases.length"></span>
     </button>
   </nav>
 
@@ -382,9 +382,16 @@
           <span>💡 Snippets</span>
         </button>
 
+        <button @click="setTab('showcase')"
+          :class="activeTab === 'showcase' ? 'active-sub-tab' : 'text-[#8b949e] hover:text-[#c9d1d9]'"
+          class="h-full px-3 sm:px-4 mono text-xs font-semibold flex items-center gap-1.5 border-r border-[#30363d] transition-colors shrink-0">
+          <span>🚀 Project Showcases</span>
+          <span class="mono text-[10px] bg-emerald-950/60 border border-emerald-800/50 text-emerald-400 px-1.5 py-0.5 rounded font-bold" x-text="showcases.length"></span>
+        </button>
+
         <!-- Search input -->
         <div class="ml-auto flex items-center gap-2 pl-2">
-          <input type="text" x-model="searchQuery" placeholder="Filter..."
+          <input type="text" x-model="searchQuery" :placeholder="activeTab === 'showcase' ? 'Filter projects...' : 'Filter...'"
             class="mono text-xs bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] placeholder-[#8b949e] px-2 py-0.5 rounded w-24 sm:w-48 focus:outline-none focus:border-[#58a6ff]">
         </div>
       </div>
@@ -392,76 +399,136 @@
       <!-- Split Screen (Responsive: on mobile, modal drawer opens on select, on desktop side-by-side) -->
       <div class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
 
-        <!-- Feed List -->
+        <!-- Feed List (Posts OR Showcases) -->
         <div
           class="w-full lg:w-1/2 border-b lg:border-b-0 lg:border-r border-[#30363d] overflow-y-auto divide-y divide-[#21262d] bg-[#0d1117] h-full">
-          <template x-for="post in filteredPosts" :key="post.folder">
-            <div @click="selectPost(post)"
-              :class="selectedPost && selectedPost.folder === post.folder ? 'bg-[#161b22] border-l-2 border-l-[#58a6ff]' : 'hover:bg-[#161b22]/50'"
-              class="p-3.5 sm:p-4 cursor-pointer transition-colors">
 
-              <div class="flex items-center justify-between gap-2 mb-1.5">
-                <div class="flex items-center gap-2">
-                  <span class="mono text-[10px] font-bold uppercase px-1.5 py-0.5 rounded"
-                    :class="post.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30' : 'bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30'"
-                    x-text="post.type ? post.type.replace('-', ' ') : 'log'">
-                  </span>
-                  <span class="mono text-[11px] text-[#8b949e]" x-text="post.date"></span>
+          <!-- A. SHOWCASE FEED (When activeTab === 'showcase') -->
+          <template x-if="activeTab === 'showcase'">
+            <div>
+              <template x-for="item in filteredShowcases" :key="item.id">
+                <div @click="selectShowcase(item)"
+                  :class="selectedShowcase && selectedShowcase.id === item.id ? 'bg-[#161b22] border-l-2 border-l-[#58a6ff]' : 'hover:bg-[#161b22]/50'"
+                  class="p-3.5 sm:p-4 cursor-pointer transition-colors border-b border-[#21262d]">
+
+                  <div class="flex items-center justify-between gap-2 mb-1.5">
+                    <div class="flex items-center gap-2">
+                      <span class="mono text-[10px] font-bold uppercase px-1.5 py-0.5 rounded"
+                        :class="item.badgeColor === 'emerald' ? 'bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30' : (item.badgeColor === 'purple' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30')"
+                        x-text="item.badge">
+                      </span>
+                      <span class="mono text-[11px] text-[#8b949e]" x-text="item.role"></span>
+                    </div>
+                    <span class="mono text-[11px] text-[#58a6ff] font-semibold">Inspect System →</span>
+                  </div>
+
+                  <h2 class="text-sm font-bold text-white mb-1 leading-snug" x-text="item.name"></h2>
+                  <p class="text-xs text-[#8b949e] line-clamp-2 mb-2 leading-relaxed" x-text="item.tagline"></p>
+
+                  <!-- Impact Metric -->
+                  <template x-if="item.metrics">
+                    <div class="mono text-[11px] text-emerald-400 font-semibold mb-2" x-text="'⚡ ' + item.metrics"></div>
+                  </template>
+
+                  <!-- Stack Badges -->
+                  <div class="flex flex-wrap gap-1">
+                    <template x-for="tech in item.stack" :key="tech">
+                      <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-1.5 py-0.5 rounded" x-text="tech"></span>
+                    </template>
+                  </div>
                 </div>
-                <span class="mono text-[11px] text-[#58a6ff] font-semibold">View Detail →</span>
-              </div>
-
-              <h2 class="text-sm font-bold text-white mb-1 leading-snug" x-text="post.title"></h2>
-              <p class="text-xs text-[#8b949e] line-clamp-2 mb-2 leading-relaxed" x-text="post.excerpt"></p>
-
-              <!-- Metrics -->
-              <template x-if="post.metrics">
-                <div class="mono text-[11px] text-emerald-400 font-semibold mb-2" x-text="'⚡ ' + post.metrics"></div>
               </template>
 
-              <!-- Tags -->
-              <div class="flex flex-wrap gap-1">
-                <template x-for="tag in post.tags" :key="tag">
-                  <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-1.5 py-0.5 rounded" x-text="tag"></span>
-                </template>
+              <!-- Empty state for Showcases search -->
+              <div x-show="showcases.length > 0 && filteredShowcases.length === 0"
+                class="p-8 sm:p-12 text-center flex flex-col items-center justify-center">
+                <div class="w-10 h-10 rounded-full bg-[#161b22] border border-[#30363d] flex items-center justify-center text-base mb-3">
+                  🔍
+                </div>
+                <h3 class="text-xs font-bold text-white mb-1">No matching showcases</h3>
+                <p class="text-xs text-[#8b949e] max-w-xs mb-3 leading-relaxed">
+                  No projects match your current filter query.
+                </p>
+                <button @click="searchQuery = ''"
+                  class="mono text-xs text-[#58a6ff] hover:underline bg-[#21262d] border border-[#30363d] px-3 py-1 rounded transition-colors">
+                  Reset Filter
+                </button>
               </div>
             </div>
           </template>
 
-          <!-- Empty state when no posts exist at all (Guest-friendly) -->
-          <div x-show="posts.length === 0"
-            class="p-8 sm:p-12 text-center border-b border-[#30363d] flex flex-col items-center justify-center">
-            <div
-              class="w-12 h-12 rounded-full bg-[#161b22] border border-[#30363d] flex items-center justify-center text-xl mb-3 shadow-inner">
-              ⚡
-            </div>
-            <h3 class="text-sm font-bold text-white mb-1">Architecture & Engineering Notes Coming Soon</h3>
-            <p class="text-xs text-[#8b949e] max-w-xs mb-3 leading-relaxed">
-              New production post-mortems, high-concurrency benchmarks, and infrastructure case studies are currently
-              being curated.
-            </p>
-            <span
-              class="mono text-[11px] text-[#58a6ff] bg-[#1f6feb]/10 border border-[#388bfd]/20 px-2.5 py-1 rounded">
-              Check back soon or connect on LinkedIn
-            </span>
-          </div>
+          <!-- B. BLOG POSTS FEED (When activeTab !== 'showcase') -->
+          <template x-if="activeTab !== 'showcase'">
+            <div>
+              <template x-for="post in filteredPosts" :key="post.folder">
+                <div @click="selectPost(post)"
+                  :class="selectedPost && selectedPost.folder === post.folder ? 'bg-[#161b22] border-l-2 border-l-[#58a6ff]' : 'hover:bg-[#161b22]/50'"
+                  class="p-3.5 sm:p-4 cursor-pointer transition-colors border-b border-[#21262d]">
 
-          <!-- Empty state when search or tab filter has no matches -->
-          <div x-show="posts.length > 0 && filteredPosts.length === 0"
-            class="p-8 sm:p-12 text-center border-b border-[#30363d] flex flex-col items-center justify-center">
-            <div
-              class="w-10 h-10 rounded-full bg-[#161b22] border border-[#30363d] flex items-center justify-center text-base mb-3">
-              🔍
+                  <div class="flex items-center justify-between gap-2 mb-1.5">
+                    <div class="flex items-center gap-2">
+                      <span class="mono text-[10px] font-bold uppercase px-1.5 py-0.5 rounded"
+                        :class="post.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30' : 'bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30'"
+                        x-text="post.type ? post.type.replace('-', ' ') : 'log'">
+                      </span>
+                      <span class="mono text-[11px] text-[#8b949e]" x-text="post.date"></span>
+                    </div>
+                    <span class="mono text-[11px] text-[#58a6ff] font-semibold">View Detail →</span>
+                  </div>
+
+                  <h2 class="text-sm font-bold text-white mb-1 leading-snug" x-text="post.title"></h2>
+                  <p class="text-xs text-[#8b949e] line-clamp-2 mb-2 leading-relaxed" x-text="post.excerpt"></p>
+
+                  <!-- Metrics -->
+                  <template x-if="post.metrics">
+                    <div class="mono text-[11px] text-emerald-400 font-semibold mb-2" x-text="'⚡ ' + post.metrics"></div>
+                  </template>
+
+                  <!-- Tags -->
+                  <div class="flex flex-wrap gap-1">
+                    <template x-for="tag in post.tags" :key="tag">
+                      <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-1.5 py-0.5 rounded" x-text="tag"></span>
+                    </template>
+                  </div>
+                </div>
+              </template>
+
+              <!-- Empty state when no posts exist at all (Guest-friendly) -->
+              <div x-show="posts.length === 0"
+                class="p-8 sm:p-12 text-center border-b border-[#30363d] flex flex-col items-center justify-center">
+                <div
+                  class="w-12 h-12 rounded-full bg-[#161b22] border border-[#30363d] flex items-center justify-center text-xl mb-3 shadow-inner">
+                  ⚡
+                </div>
+                <h3 class="text-sm font-bold text-white mb-1">Architecture & Engineering Notes Coming Soon</h3>
+                <p class="text-xs text-[#8b949e] max-w-xs mb-3 leading-relaxed">
+                  New production post-mortems, high-concurrency benchmarks, and infrastructure case studies are currently being curated.
+                </p>
+                <span
+                  class="mono text-[11px] text-[#58a6ff] bg-[#1f6feb]/10 border border-[#388bfd]/20 px-2.5 py-1 rounded">
+                  Check back soon or connect on LinkedIn
+                </span>
+              </div>
+
+              <!-- Empty state when search or tab filter has no matches -->
+              <div x-show="posts.length > 0 && filteredPosts.length === 0"
+                class="p-8 sm:p-12 text-center border-b border-[#30363d] flex flex-col items-center justify-center">
+                <div
+                  class="w-10 h-10 rounded-full bg-[#161b22] border border-[#30363d] flex items-center justify-center text-base mb-3">
+                  🔍
+                </div>
+                <h3 class="text-xs font-bold text-white mb-1">No matching entries found</h3>
+                <p class="text-xs text-[#8b949e] max-w-xs mb-3 leading-relaxed">
+                  No posts matched your current search query or category filter.
+                </p>
+                <button @click="searchQuery = ''; activeTab = 'all'"
+                  class="mono text-xs text-[#58a6ff] hover:underline bg-[#21262d] border border-[#30363d] px-3 py-1 rounded transition-colors">
+                  Reset Filters
+                </button>
+              </div>
             </div>
-            <h3 class="text-xs font-bold text-white mb-1">No matching entries found</h3>
-            <p class="text-xs text-[#8b949e] max-w-xs mb-3 leading-relaxed">
-              No posts matched your current search query or category filter.
-            </p>
-            <button @click="searchQuery = ''; activeTab = 'all'"
-              class="mono text-xs text-[#58a6ff] hover:underline bg-[#21262d] border border-[#30363d] px-3 py-1 rounded transition-colors">
-              Reset Filters
-            </button>
-          </div>
+          </template>
+
         </div>
 
         <!-- Detail Preview: Desktop split panel & Mobile slide-up drawer -->
@@ -469,7 +536,110 @@
           :class="mobileDrawerOpen ? 'fixed inset-0 z-50 flex flex-col bg-[#0d1117] lg:static lg:flex-1 lg:z-auto' : 'hidden lg:block lg:flex-1 bg-[#161b22]'"
           class="overflow-y-auto p-4 sm:p-6">
 
-          <template x-if="selectedPost">
+          <!-- 1. SHOWCASE DETAIL VIEW (When activeTab === 'showcase') -->
+          <template x-if="activeTab === 'showcase' && selectedShowcase">
+            <div>
+              <!-- Mobile Back / Close Button Bar -->
+              <div
+                class="flex items-center justify-between gap-2 border-b border-[#30363d] pb-3 mb-4 sticky top-0 bg-[#0d1117] z-10 pt-1">
+                <button @click="mobileDrawerOpen = false"
+                  class="lg:hidden mono text-xs font-bold text-[#58a6ff] bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] px-3 py-1.5 rounded flex items-center gap-1">
+                  <span>← Back to Systems</span>
+                </button>
+
+                <div class="flex items-center gap-2">
+                  <span
+                    class="mono text-[10px] uppercase font-bold px-2 py-0.5 rounded"
+                    :class="selectedShowcase.badgeColor === 'emerald' ? 'bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30' : (selectedShowcase.badgeColor === 'purple' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30')"
+                    x-text="selectedShowcase.badge">
+                  </span>
+                  <span class="mono text-xs text-[#8b949e]" x-text="selectedShowcase.category"></span>
+                </div>
+
+                <a :href="selectedShowcase.liveUrl" target="_blank"
+                  class="mono text-xs font-bold text-[#58a6ff] hover:underline flex items-center gap-1">
+                  <span>Visit Live</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+
+              <!-- Title & Tagline -->
+              <div class="mb-4">
+                <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-1" x-text="selectedShowcase.role"></div>
+                <h2 class="text-xl sm:text-2xl font-black text-white mb-2 leading-tight" x-text="selectedShowcase.name"></h2>
+                <p class="text-xs sm:text-sm text-[#8b949e] leading-relaxed" x-text="selectedShowcase.tagline"></p>
+              </div>
+
+              <!-- Live Impact Bar -->
+              <template x-if="selectedShowcase.metrics">
+                <div class="p-2.5 sm:p-3 bg-[#0d1117] border border-emerald-500/30 rounded mb-4">
+                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact Verified</div>
+                  <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="selectedShowcase.metrics"></div>
+                </div>
+              </template>
+
+              <!-- App UI Screenshot Preview Window -->
+              <div class="mb-5 rounded-lg border border-[#30363d] overflow-hidden bg-[#0d1117] shadow-lg">
+                <div class="h-7 bg-[#21262d] border-b border-[#30363d] px-3 flex items-center justify-between">
+                  <div class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500/60 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500/60 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/60 inline-block"></span>
+                  </div>
+                  <span class="mono text-[10px] text-[#8b949e] truncate max-w-[200px]" x-text="selectedShowcase.liveUrl"></span>
+                  <span class="mono text-[9px] text-[#8b949e]">Production UI</span>
+                </div>
+                <img :src="selectedShowcase.image" :alt="selectedShowcase.name" class="w-full h-56 sm:h-64 object-cover object-center" loading="lazy">
+              </div>
+
+              <!-- Problem & Solution Cards -->
+              <div class="space-y-3 mb-5">
+                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
+                  <div class="mono text-[11px] font-bold uppercase text-amber-400 mb-1 flex items-center gap-1.5">
+                    <span>⚠️ The Challenge</span>
+                  </div>
+                  <p class="text-xs text-[#c9d1d9] leading-relaxed" x-text="selectedShowcase.problem"></p>
+                </div>
+
+                <div class="p-3 bg-[#0d1117] border border-[#30363d] rounded">
+                  <div class="mono text-[11px] font-bold uppercase text-[#58a6ff] mb-1 flex items-center gap-1.5">
+                    <span>💡 Architectural Solution</span>
+                  </div>
+                  <p class="text-xs text-[#c9d1d9] leading-relaxed" x-text="selectedShowcase.solution"></p>
+                </div>
+              </div>
+
+              <!-- Tech Stack Badges -->
+              <div class="border-t border-[#30363d] pt-3 mb-6">
+                <div class="mono text-xs text-[#8b949e] uppercase font-bold mb-2">Core Technologies:</div>
+                <div class="flex flex-wrap gap-1.5">
+                  <template x-for="tech in selectedShowcase.stack" :key="tech">
+                    <span class="mono text-xs bg-[#21262d] text-[#58a6ff] px-2 py-0.5 rounded border border-[#30363d]" x-text="tech"></span>
+                  </template>
+                </div>
+              </div>
+
+              <!-- Action Buttons -->
+              <div class="pt-4 border-t border-[#30363d] flex flex-wrap items-center gap-2">
+                <a :href="selectedShowcase.liveUrl" target="_blank"
+                  class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#1f6feb] hover:bg-[#388bfd] text-white px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">
+                  <span>Visit Production App ↗</span>
+                </a>
+                <template x-if="selectedShowcase.relatedPost">
+                  <a :href="'/blog/posts/' + selectedShowcase.relatedPost + '/'"
+                    class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#58a6ff] px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">
+                    <span>Read Case Study →</span>
+                  </a>
+                </template>
+              </div>
+            </div>
+          </template>
+
+          <!-- 2. BLOG POST DETAIL VIEW (When activeTab !== 'showcase') -->
+          <template x-if="activeTab !== 'showcase' && selectedPost">
             <div>
               <!-- Mobile Back / Close Button Bar -->
               <div
@@ -503,10 +673,8 @@
               <!-- Key Impact Verified -->
               <template x-if="selectedPost.metrics">
                 <div class="p-2.5 sm:p-3 bg-[#0d1117] border border-emerald-500/30 rounded mb-4">
-                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact
-                    Verified</div>
-                  <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="selectedPost.metrics">
-                  </div>
+                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact Verified</div>
+                  <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="selectedPost.metrics"></div>
                 </div>
               </template>
 
@@ -537,11 +705,13 @@
             </div>
           </template>
 
-          <template x-if="!selectedPost">
+          <!-- Fallback when nothing is selected -->
+          <template x-if="(!selectedPost && activeTab !== 'showcase') || (!selectedShowcase && activeTab === 'showcase')">
             <div class="h-full flex flex-col items-center justify-center text-[#8b949e] mono text-xs">
-              Select an entry from the list to preview details.
+              Select an item from the list to preview details.
             </div>
           </template>
+
         </div>
 
       </div>
@@ -554,26 +724,50 @@
     function portfolioWorkspace() {
       return {
         posts: [],
+        showcases: [],
         activeTab: 'all',
         mobileView: 'workspace',
         mobileDrawerOpen: false,
         searchQuery: '',
         selectedPost: null,
+        selectedShowcase: null,
         async init() {
-          this.posts = await BlogData.getPosts("/");
+          const [postsData, showcasesData] = await Promise.all([
+            BlogData.getPosts("/"),
+            BlogData.getShowcases("/")
+          ]);
+          this.posts = postsData;
+          this.showcases = showcasesData;
           if (this.posts.length > 0) {
             this.selectedPost = this.posts[0];
+          }
+          if (this.showcases.length > 0) {
+            this.selectedShowcase = this.showcases[0];
           }
         },
         setTab(tab) {
           this.activeTab = tab;
-          const filtered = this.filteredPosts;
-          if (filtered.length > 0) {
-            this.selectedPost = filtered[0];
+          this.searchQuery = '';
+          if (tab === 'showcase') {
+            const filtered = this.filteredShowcases;
+            if (filtered.length > 0) {
+              this.selectedShowcase = filtered[0];
+            }
+          } else {
+            const filtered = this.filteredPosts;
+            if (filtered.length > 0) {
+              this.selectedPost = filtered[0];
+            }
           }
         },
         selectPost(post) {
           this.selectedPost = post;
+          if (window.innerWidth < 1024) {
+            this.mobileDrawerOpen = true;
+          }
+        },
+        selectShowcase(item) {
+          this.selectedShowcase = item;
           if (window.innerWidth < 1024) {
             this.mobileDrawerOpen = true;
           }
@@ -586,6 +780,17 @@
               p.excerpt.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
               (p.tags && p.tags.some(t => t.toLowerCase().includes(this.searchQuery.toLowerCase())));
             return matchesTab && matchesQuery;
+          });
+        },
+        get filteredShowcases() {
+          return this.showcases.filter(item => {
+            if (!this.searchQuery) return true;
+            const q = this.searchQuery.toLowerCase();
+            return item.name.toLowerCase().includes(q) ||
+              item.tagline.toLowerCase().includes(q) ||
+              item.problem.toLowerCase().includes(q) ||
+              item.solution.toLowerCase().includes(q) ||
+              (item.stack && item.stack.some(s => s.toLowerCase().includes(q)));
           });
         }
       };

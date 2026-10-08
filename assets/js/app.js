@@ -57,6 +57,16 @@ const BlogData = {
             return [];
         }
     },
+    async getShowcases(base = "") {
+        try {
+            const res = await fetch(`${base}projects/showcases.json`);
+            if (!res.ok) throw new Error("Showcases manifest not accessible");
+            return await res.json();
+        } catch (e) {
+            console.warn("Using fallback showcases.", e);
+            return [];
+        }
+    },
     async loadSuggestedPosts(currentFolder = "", tags = [], containerId = "suggested-posts") {
         try {
             const container = document.getElementById(containerId);

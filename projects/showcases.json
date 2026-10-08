@@ -1,0 +1,93 @@
+[
+  {
+    "id": "vetcheck",
+    "name": "VetCheck",
+    "tagline": "AI Veterinary Clinical Management & Telehealth SaaS",
+    "category": "Cloud Architecture & High-Density Systems",
+    "role": "Lead Architect & Senior Systems Engineer",
+    "badge": "Active Production",
+    "badgeColor": "emerald",
+    "image": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&auto=format&fit=crop",
+    "problem": "Veterinary practices across the UK and Australia required unified, high-availability practice management with zero-downtime releases and rapid response times during busy clinic hours.",
+    "solution": "Engineered an automated Blue/Green deployment pipeline on AWS using Laravel Octane, FrankenPHP, and centralized ElastiCache (Redis/ValKey), ensuring sub-100ms consultation response times and seamless rollouts without customer disruption.",
+    "metrics": "Multi-Region UK & AU • Zero-Downtime Deployments • Sub-100ms Response Times",
+    "stack": [
+      "Laravel 11",
+      "Octane / FrankenPHP",
+      "AWS Multi-Region",
+      "ElastiCache (Redis)",
+      "Laravel Reverb",
+      "MySQL RDS"
+    ],
+    "liveUrl": "https://plugin.vetcheck.it",
+    "relatedPost": "Simple-Laravel-Zero-Downtime-AWS-Production-Deployment-Flow-with-No-Docker"
+  },
+  {
+    "id": "ajakme",
+    "name": "AjakMe",
+    "tagline": "Modern Digital Wedding Invitation & Guest RSVP SaaS",
+    "category": "Consumer SaaS & Product-Led Growth",
+    "role": "Founder & Full-Stack Architect",
+    "badge": "Active Production",
+    "badgeColor": "emerald",
+    "image": "https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&auto=format&fit=crop",
+    "problem": "Couples needed an elegant, zero-stress way to design digital invitations, track guest RSVPs in real time, generate physical print-ready card exports, and automate WhatsApp communications.",
+    "solution": "Built a touch-optimized, zero-cognitive-load Livewire 3 + Alpine.js single-page application with automated high-resolution PDF print exports, dynamic QR check-ins, and guest communication funnels.",
+    "metrics": "Production Live • Automated WhatsApp Notifications • Print-Ready PDF Generator",
+    "stack": [
+      "Laravel 12",
+      "Livewire 3.7",
+      "Alpine.js",
+      "Tailwind CSS",
+      "Redis Queue",
+      "MySQL"
+    ],
+    "liveUrl": "https://ajakme.com",
+    "relatedPost": ""
+  },
+  {
+    "id": "accea",
+    "name": "ACCEA Membership & Room Booking",
+    "tagline": "Unified Identity, SSO & Flexible Room Reservation Platform",
+    "category": "Enterprise Identity & Booking Engine",
+    "role": "Lead Software Engineer",
+    "badge": "Enterprise Shipped",
+    "badgeColor": "blue",
+    "image": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&auto=format&fit=crop",
+    "problem": "Enterprise coworking centers needed a single unified identity provider across multiple web properties along with real-time room scheduling to eliminate double bookings.",
+    "solution": "Architected a centralized Single Sign-On (SSO) OAuth2 identity provider and connected reservation engine with concurrency-safe booking calendars, payment gateways, and automated member access.",
+    "metrics": "Unified Single Sign-On • Real-Time Concurrency Calendar • Enterprise Multi-Location",
+    "stack": [
+      "Laravel",
+      "Centralized SSO",
+      "OAuth2 / OIDC",
+      "RESTful APIs",
+      "MySQL",
+      "Redis"
+    ],
+    "liveUrl": "https://account.accea.com.my",
+    "relatedPost": ""
+  },
+  {
+    "id": "althr",
+    "name": "altHR (Digi-X)",
+    "tagline": "Enterprise HR & Workforce Superapp",
+    "category": "Enterprise Mobile & Web Platform",
+    "role": "Senior Software Engineer",
+    "badge": "Commercial Superapp",
+    "badgeColor": "purple",
+    "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop",
+    "problem": "Malaysian enterprises required a centralized digital workforce platform managing employee leaves, automated payroll, time tracking, and staff perks at scale.",
+    "solution": "Contributed to high-volume microservice APIs, payroll calculations, and scalable mobile backend endpoints supporting tens of thousands of corporate employees across Malaysia.",
+    "metrics": "High-Volume Enterprise Scale • Microservices Architecture • Fintech & Payroll Integration",
+    "stack": [
+      "Laravel / PHP",
+      "Microservices",
+      "AWS Cloud",
+      "REST APIs",
+      "Enterprise Scale"
+    ],
+    "liveUrl": "https://www.althr.my",
+    "relatedPost": ""
+  }
+]
