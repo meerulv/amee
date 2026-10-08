@@ -20,6 +20,7 @@
       "MySQL RDS"
     ],
     "liveUrl": "https://plugin.vetcheck.it",
+    "snapshotUrl": "https://archives.amee.my/apps/vetcheck",
     "relatedPost": "Simple-Laravel-Zero-Downtime-AWS-Production-Deployment-Flow-with-No-Docker"
   },
   {
@@ -43,6 +44,7 @@
       "MySQL"
     ],
     "liveUrl": "https://ajakme.com",
+    "snapshotUrl": "https://archives.amee.my/apps/ajakme",
     "relatedPost": ""
   },
   {
@@ -66,6 +68,7 @@
       "Redis"
     ],
     "liveUrl": "https://account.accea.com.my",
+    "snapshotUrl": "https://archives.amee.my/apps/accea",
     "relatedPost": ""
   },
   {
@@ -88,6 +91,7 @@
       "Enterprise Scale"
     ],
     "liveUrl": "https://www.althr.my",
+    "snapshotUrl": "https://archives.amee.my/apps/althr",
     "relatedPost": ""
   }
 ]

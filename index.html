@@ -624,10 +624,18 @@
 
               <!-- Action Buttons -->
               <div class="pt-4 border-t border-[#30363d] flex flex-wrap items-center gap-2">
-                <a :href="selectedShowcase.liveUrl" target="_blank"
-                  class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#1f6feb] hover:bg-[#388bfd] text-white px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">
-                  <span>Visit Production App ↗</span>
-                </a>
+                <template x-if="selectedShowcase.liveUrl">
+                  <a :href="selectedShowcase.liveUrl" target="_blank"
+                    class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#1f6feb] hover:bg-[#388bfd] text-white px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">
+                    <span>Visit Production App ↗</span>
+                  </a>
+                </template>
+                <template x-if="selectedShowcase.snapshotUrl">
+                  <a :href="selectedShowcase.snapshotUrl" target="_blank"
+                    class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#238636] hover:bg-[#2ea043] text-white px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">
+                    <span>Visit Snapshot App ↗</span>
+                  </a>
+                </template>
                 <template x-if="selectedShowcase.relatedPost">
                   <a :href="'/blog/posts/' + selectedShowcase.relatedPost + '/'"
                     class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#58a6ff] px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">

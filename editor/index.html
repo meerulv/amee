@@ -59,46 +59,98 @@
         ← Portfolio
       </a>
       <span class="text-[#30363d] hidden sm:inline">|</span>
+      <!-- Mode Switcher: Articles vs Showcases -->
+      <div class="flex items-center bg-[#0d1117] border border-[#30363d] rounded p-0.5 shrink-0">
+        <button type="button" @click="switchMode('posts')"
+          :class="editorMode === 'posts' ? 'bg-[#21262d] text-[#58a6ff] font-bold' : 'text-[#8b949e] hover:text-[#c9d1d9]'"
+          class="mono text-[11px] px-2.5 py-1 rounded transition-colors flex items-center gap-1">
+          <span>📝 Articles</span>
+          <span class="text-[9px] bg-[#161b22] px-1 rounded text-[#8b949e]" x-text="posts.length"></span>
+        </button>
+        <button type="button" @click="switchMode('showcases')"
+          :class="editorMode === 'showcases' ? 'bg-[#21262d] text-[#58a6ff] font-bold' : 'text-[#8b949e] hover:text-[#c9d1d9]'"
+          class="mono text-[11px] px-2.5 py-1 rounded transition-colors flex items-center gap-1">
+          <span>🚀 Showcases</span>
+          <span class="text-[9px] bg-[#161b22] px-1 rounded text-[#8b949e]" x-text="showcases.length"></span>
+        </button>
+      </div>
+
       <button type="button" @click="showSidebar = !showSidebar"
         class="mono text-xs font-semibold px-2 py-1 rounded border border-[#30363d] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] flex items-center gap-1.5 transition-colors">
         <span>📁</span>
-        <span x-text="showSidebar ? 'Hide Posts' : 'Show Posts'"></span>
+        <span x-text="showSidebar ? 'Hide List' : 'Show List'"></span>
       </button>
     </div>
 
     <!-- Quick Action Controls -->
     <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-      <template x-if="livePostUrl">
-        <a :href="livePostUrl" target="_blank"
-          class="mono text-xs font-semibold border border-[#388bfd]/50 bg-[#1f6feb]/20 hover:bg-[#1f6feb]/30 text-[#58a6ff] px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
-          <span>View Live ↗</span>
-        </a>
+      <!-- Article Mode Actions -->
+      <template x-if="editorMode === 'posts'">
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <template x-if="livePostUrl">
+            <a :href="livePostUrl" target="_blank"
+              class="mono text-xs font-semibold border border-[#388bfd]/50 bg-[#1f6feb]/20 hover:bg-[#1f6feb]/30 text-[#58a6ff] px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
+              <span>View Live ↗</span>
+            </a>
+          </template>
+          <template x-if="isExistingPost">
+            <button @click="deletePost()" :disabled="isDeleting"
+              class="mono text-xs font-semibold border border-rose-500/50 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
+              <span class="hidden sm:inline" x-text="isDeleting ? 'Deleting...' : 'Delete'"></span>
+            </button>
+          </template>
+          <button @click="generateThreadsPost()"
+            class="mono text-xs font-semibold border border-purple-500/50 bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
+            <span>🧵 Threads</span>
+          </button>
+          <button @click="resetForm(); activeTab = 'editor'"
+            class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap">
+            + New Post
+          </button>
+          <button @click="savePost()" :disabled="isSaving"
+            class="mono text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-3 sm:px-4 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
+            <span x-text="isSaving ? 'Saving...' : 'Save & Build'"></span>
+            <svg x-show="!isSaving" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </button>
+        </div>
       </template>
-      <template x-if="isExistingPost">
-        <button @click="deletePost()" :disabled="isDeleting"
-          class="mono text-xs font-semibold border border-rose-500/50 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-          <span class="hidden sm:inline" x-text="isDeleting ? 'Deleting...' : 'Delete'"></span>
-        </button>
+
+      <!-- Showcase Mode Actions -->
+      <template x-if="editorMode === 'showcases'">
+        <div class="flex items-center gap-1.5 sm:gap-2">
+          <template x-if="showcaseForm.liveUrl">
+            <a :href="showcaseForm.liveUrl" target="_blank"
+              class="mono text-xs font-semibold border border-[#388bfd]/50 bg-[#1f6feb]/20 hover:bg-[#1f6feb]/30 text-[#58a6ff] px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
+              <span>Live ↗</span>
+            </a>
+          </template>
+          <template x-if="showcaseForm.snapshotUrl">
+            <a :href="showcaseForm.snapshotUrl" target="_blank"
+              class="mono text-xs font-semibold border border-[#2ea043]/50 bg-[#238636]/20 hover:bg-[#238636]/30 text-[#3fb950] px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
+              <span>Snapshot ↗</span>
+            </a>
+          </template>
+          <template x-if="isExistingShowcase">
+            <button @click="deleteShowcase()" :disabled="isDeleting"
+              class="mono text-xs font-semibold border border-rose-500/50 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
+              <span class="hidden sm:inline" x-text="isDeleting ? 'Deleting...' : 'Delete'"></span>
+            </button>
+          </template>
+          <button @click="resetShowcaseForm(); activeTab = 'editor'"
+            class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap">
+            + New Project
+          </button>
+          <button @click="saveShowcase()" :disabled="isSaving"
+            class="mono text-xs font-bold bg-[#1f6feb] hover:bg-[#388bfd] text-white px-3 sm:px-4 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
+            <span x-text="isSaving ? 'Saving...' : 'Save Showcase'"></span>
+            <svg x-show="!isSaving" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </button>
+        </div>
       </template>
-      <button @click="generateThreadsPost()"
-        class="mono text-xs font-semibold border border-purple-500/50 bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
-        <span>🧵 Threads</span>
-      </button>
-      <button @click="resetForm(); activeTab = 'editor'"
-        class="mono text-xs border border-[#30363d] hover:bg-[#21262d] text-[#c9d1d9] px-2.5 sm:px-3 py-1 rounded transition-colors whitespace-nowrap">
-        + New
-      </button>
-      <button @click="savePost()" :disabled="isSaving"
-        class="mono text-xs font-bold bg-[#238636] hover:bg-[#2ea043] text-white px-3 sm:px-4 py-1 rounded transition-colors inline-flex items-center gap-1 disabled:opacity-50 whitespace-nowrap">
-        <span x-text="isSaving ? 'Saving...' : 'Save & Build'"></span>
-        <svg x-show="!isSaving" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-        </svg>
-      </button>
     </div>
   </header>
 
@@ -108,7 +160,7 @@
     <button @click="showSidebar = true; activeTab = 'sidebar'"
       :class="showSidebar && activeTab === 'sidebar' ? 'bg-[#21262d] text-[#58a6ff]' : 'text-[#8b949e]'"
       class="flex-1 mono text-xs font-bold uppercase py-2 flex items-center justify-center gap-1.5 transition-colors">
-      <span>📁 Posts (<span x-text="posts.length"></span>)</span>
+      <span x-text="editorMode === 'posts' ? `📁 Posts (${posts.length})` : `🚀 Projects (${showcases.length})`"></span>
     </button>
     <button @click="showSidebar = false; activeTab = 'editor'"
       :class="!showSidebar && activeTab === 'editor' ? 'bg-[#21262d] text-[#58a6ff]' : 'text-[#8b949e]'"
@@ -135,136 +187,274 @@
   <!-- Main Grid: 3-column layout on 2xl+, responsive tab/accordion layout on laptops & mobile -->
   <div class="flex-1 min-w-0 flex overflow-hidden relative">
 
-    <!-- Left Sidebar: Existing Posts -->
+    <!-- Left Sidebar: Existing Entries (Posts or Showcases) -->
     <aside :class="showSidebar ? 'flex' : 'hidden'"
       class="border-r border-[#30363d] bg-[#0d1117] flex-col shrink-0 h-full w-full sm:w-60 md:w-64 z-10 transition-all">
       <div class="p-3 border-b border-[#30363d] flex items-center justify-between">
-        <span class="mono text-[11px] font-bold uppercase text-[#8b949e]">Existing Entries</span>
+        <span class="mono text-[11px] font-bold uppercase text-[#8b949e]" x-text="editorMode === 'posts' ? 'Articles' : 'Showcases'"></span>
         <div class="flex items-center gap-2">
-          <span class="mono text-[10px] bg-[#21262d] text-[#58a6ff] px-1.5 py-0.5 rounded" x-text="posts.length"></span>
+          <span class="mono text-[10px] bg-[#21262d] text-[#58a6ff] px-1.5 py-0.5 rounded" x-text="editorMode === 'posts' ? posts.length : showcases.length"></span>
           <button type="button" @click="showSidebar = false" class="text-[#8b949e] hover:text-white mono text-xs p-1" title="Hide Sidebar">✕</button>
         </div>
       </div>
 
-      <div class="flex-1 overflow-y-auto p-2 space-y-1">
-        <template x-for="p in posts" :key="p.folder">
-          <button @click="loadPost(p); if (window.innerWidth < 1280) activeTab = 'editor'"
-            class="w-full text-left p-2.5 rounded transition-colors group block border"
-            :class="form.folder === p.folder ? 'bg-[#161b22] border-[#58a6ff]' : 'border-transparent hover:bg-[#161b22] hover:border-[#30363d]'">
-            <div class="flex items-center justify-between mb-1">
-              <span class="mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded"
-                :class="p.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff]' : 'bg-[#238636]/20 text-[#3fb950]'"
-                x-text="p.type"></span>
-              <span class="mono text-[10px] text-[#8b949e]" x-text="p.date"></span>
-            </div>
-            <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white line-clamp-2" x-text="p.title">
-            </div>
-          </button>
-        </template>
-      </div>
+      <!-- Posts List -->
+      <template x-if="editorMode === 'posts'">
+        <div class="flex-1 overflow-y-auto p-2 space-y-1">
+          <template x-for="p in posts" :key="p.folder">
+            <button @click="loadPost(p); if (window.innerWidth < 1280) activeTab = 'editor'"
+              class="w-full text-left p-2.5 rounded transition-colors group block border"
+              :class="form.folder === p.folder ? 'bg-[#161b22] border-[#58a6ff]' : 'border-transparent hover:bg-[#161b22] hover:border-[#30363d]'">
+              <div class="flex items-center justify-between mb-1">
+                <span class="mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded"
+                  :class="p.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff]' : 'bg-[#238636]/20 text-[#3fb950]'"
+                  x-text="p.type"></span>
+                <span class="mono text-[10px] text-[#8b949e]" x-text="p.date"></span>
+              </div>
+              <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white line-clamp-2" x-text="p.title">
+              </div>
+            </button>
+          </template>
+        </div>
+      </template>
+
+      <!-- Showcases List -->
+      <template x-if="editorMode === 'showcases'">
+        <div class="flex-1 overflow-y-auto p-2 space-y-1">
+          <template x-for="item in showcases" :key="item.id">
+            <button @click="loadShowcase(item); if (window.innerWidth < 1280) activeTab = 'editor'"
+              class="w-full text-left p-2.5 rounded transition-colors group block border"
+              :class="showcaseForm.id === item.id ? 'bg-[#161b22] border-[#58a6ff]' : 'border-transparent hover:bg-[#161b22] hover:border-[#30363d]'">
+              <div class="flex items-center justify-between mb-1">
+                <span class="mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded"
+                  :class="item.badgeColor === 'emerald' ? 'bg-[#238636]/20 text-[#3fb950]' : (item.badgeColor === 'purple' ? 'bg-purple-500/20 text-purple-300' : 'bg-[#1f6feb]/20 text-[#58a6ff]')"
+                  x-text="item.badge"></span>
+                <span class="mono text-[10px] text-[#8b949e]" x-text="item.id"></span>
+              </div>
+              <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white line-clamp-1" x-text="item.name"></div>
+              <div class="text-[11px] text-[#8b949e] line-clamp-1" x-text="item.tagline"></div>
+            </button>
+          </template>
+        </div>
+      </template>
     </aside>
 
     <!-- Center & Right: Form & Live Preview -->
     <main
       class="flex-1 min-w-0 flex flex-col xl:flex-row overflow-hidden divide-y xl:divide-y-0 xl:divide-x divide-[#30363d] h-full">
 
-      <!-- Editor Column -->
+      <!-- Editor Column (Articles OR Showcases) -->
       <section :class="activeTab === 'editor' ? 'flex' : 'hidden xl:flex'"
         class="flex-1 min-w-0 flex-col h-full overflow-y-auto p-4 sm:p-6 space-y-4">
-        <div>
-          <h2 class="mono text-xs uppercase font-bold text-[#58a6ff] tracking-wider mb-1">Post Metadata</h2>
-          <p class="text-xs text-[#8b949e]">Configures how this appears in <code>posts.json</code> and the homepage
-            workspace.</p>
-        </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block mono text-[11px] text-[#8b949e] mb-1">Post Type</label>
-            <select x-model="form.type" class="w-full px-2.5 py-1.5 rounded text-xs">
-              <option value="case-study">Case Study (Architecture / Production)</option>
-              <option value="snippet">Code Snippet (Quick Pattern / Solution)</option>
-              <option value="article">Technical Article / Deep Dive</option>
-            </select>
-          </div>
-          <div>
-            <label class="block mono text-[11px] text-[#8b949e] mb-1">Date (YYYY-MM-DD)</label>
-            <input type="text" x-model="form.date" class="w-full px-2.5 py-1.5 rounded text-xs mono"
-              placeholder="2026-10-03">
-          </div>
-        </div>
+        <!-- 1. ARTICLE EDITOR FORM -->
+        <template x-if="editorMode === 'posts'">
+          <div class="space-y-4">
+            <div>
+              <h2 class="mono text-xs uppercase font-bold text-[#58a6ff] tracking-wider mb-1">Post Metadata</h2>
+              <p class="text-xs text-[#8b949e]">Configures how this appears in <code>posts.json</code> and the homepage workspace.</p>
+            </div>
 
-        <div>
-          <label class="block mono text-[11px] text-[#8b949e] mb-1">Title</label>
-          <input type="text" x-model="form.title" @input="autoSlug()"
-            class="w-full px-2.5 py-2 rounded text-sm font-semibold"
-            placeholder="e.g. AWS Multi-Region Architecture...">
-        </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Post Type</label>
+                <select x-model="form.type" class="w-full px-2.5 py-1.5 rounded text-xs">
+                  <option value="case-study">Case Study (Architecture / Production)</option>
+                  <option value="snippet">Code Snippet (Quick Pattern / Solution)</option>
+                  <option value="article">Technical Article / Deep Dive</option>
+                </select>
+              </div>
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Date (YYYY-MM-DD)</label>
+                <input type="text" x-model="form.date" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+                  placeholder="2026-10-03">
+              </div>
+            </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block mono text-[11px] text-[#8b949e] mb-1">Folder Slug (in blog/posts/)</label>
-            <input type="text" x-model="form.folder" class="w-full px-2.5 py-1.5 rounded text-xs mono"
-              placeholder="aws-multi-region-architecture">
-          </div>
-          <div>
-            <label class="block mono text-[11px] text-[#8b949e] mb-1">Category / Sub-header</label>
-            <input type="text" x-model="form.category" class="w-full px-2.5 py-1.5 rounded text-xs"
-              placeholder="e.g. Cloud Infrastructure & High-Density Compute">
-          </div>
-        </div>
+            <div>
+              <label class="block mono text-[11px] text-[#8b949e] mb-1">Title</label>
+              <input type="text" x-model="form.title" @input="autoSlug()"
+                class="w-full px-2.5 py-2 rounded text-sm font-semibold"
+                placeholder="e.g. AWS Multi-Region Architecture...">
+            </div>
 
-        <div>
-          <label class="block mono text-[11px] text-[#8b949e] mb-1">Executive Metrics / Impact Bar (Bullet
-            Separated)</label>
-          <input type="text" x-model="form.metrics" class="w-full px-2.5 py-1.5 rounded text-xs mono text-emerald-400"
-            placeholder="Multi-Region AU & UK • ARM64 FrankenPHP/Octane • 6 Countries Pennant">
-        </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Folder Slug (in blog/posts/)</label>
+                <input type="text" x-model="form.folder" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+                  placeholder="aws-multi-region-architecture">
+              </div>
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Category / Sub-header</label>
+                <input type="text" x-model="form.category" class="w-full px-2.5 py-1.5 rounded text-xs"
+                  placeholder="e.g. Cloud Infrastructure & High-Density Compute">
+              </div>
+            </div>
 
-        <div>
-          <label class="block mono text-[11px] text-[#8b949e] mb-1">Homepage Excerpt</label>
-          <textarea x-model="form.excerpt" rows="2" class="w-full p-2.5 rounded text-xs leading-relaxed"
-            placeholder="Short description summarizing architecture decisions and verified numbers..."></textarea>
-        </div>
+            <div>
+              <label class="block mono text-[11px] text-[#8b949e] mb-1">Impact Bar (Bullet Separated)</label>
+              <input type="text" x-model="form.metrics" class="w-full px-2.5 py-1.5 rounded text-xs mono text-emerald-400"
+                placeholder="Zero Downtime • 100% Traffic Cutover • Instant Rollback Safety">
+            </div>
 
-        <div>
-          <label class="block mono text-[11px] text-[#8b949e] mb-1">Tags (Comma-separated)</label>
-          <input type="text" x-model="form.tagsInput" class="w-full px-2.5 py-1.5 rounded text-xs mono"
-            placeholder="AWS, Laravel Octane, FrankenPHP, DevOps">
-        </div>
+            <div>
+              <label class="block mono text-[11px] text-[#8b949e] mb-1">Homepage Excerpt</label>
+              <textarea x-model="form.excerpt" rows="2" class="w-full p-2.5 rounded text-xs leading-relaxed"
+                placeholder="Short description summarizing architecture decisions and verified numbers..."></textarea>
+            </div>
 
-        <div class="pt-3 border-t border-[#30363d]">
-          <div class="flex items-center justify-between mb-2">
-            <label class="mono text-xs font-bold uppercase text-[#58a6ff]">Body Content (HTML & Code Blocks)</label>
-            <div class="flex flex-wrap gap-1.5">
-              <button type="button" @click="insertSection()"
-                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
-                + Section
-              </button>
-              <button type="button" @click="insertCodeBlock()"
-                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
-                + Code Block
-              </button>
-              <button type="button" @click="insertMermaid()"
-                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
-                + Diagram
-              </button>
-              <button type="button" @click="insertImage()"
-                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
-                + Image
-              </button>
-              <button type="button" @click="insertVideo()"
-                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
-                + Video
-              </button>
-              <button type="button" @click="insertLink()"
-                class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
-                + URL Link
-              </button>
+            <div>
+              <label class="block mono text-[11px] text-[#8b949e] mb-1">Tags (Comma-separated)</label>
+              <input type="text" x-model="form.tagsInput" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+                placeholder="AWS, Laravel Octane, FrankenPHP, DevOps">
+            </div>
+
+            <div class="pt-3 border-t border-[#30363d]">
+              <div class="flex items-center justify-between mb-2">
+                <label class="mono text-xs font-bold uppercase text-[#58a6ff]">Body Content (HTML & Code Blocks)</label>
+                <div class="flex flex-wrap gap-1.5">
+                  <button type="button" @click="insertSection()"
+                    class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+                    + Section
+                  </button>
+                  <button type="button" @click="insertCodeBlock()"
+                    class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+                    + Code Block
+                  </button>
+                  <button type="button" @click="insertMermaid()"
+                    class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+                    + Diagram
+                  </button>
+                  <button type="button" @click="insertImage()"
+                    class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+                    + Image
+                  </button>
+                  <button type="button" @click="insertVideo()"
+                    class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+                    + Video
+                  </button>
+                  <button type="button" @click="insertLink()"
+                    class="mono text-[10px] bg-[#21262d] hover:bg-[#30363d] text-[#c9d1d9] px-2 py-0.5 rounded border border-[#30363d]">
+                    + URL Link
+                  </button>
+                </div>
+              </div>
+              <textarea x-model="form.content_html" rows="16" class="w-full p-3 rounded text-xs mono leading-relaxed"
+                placeholder="Write article content using <h2>, <p>, <ul>, <div class='technical-block'>..."></textarea>
             </div>
           </div>
-          <textarea x-model="form.content_html" rows="16" class="w-full p-3 rounded text-xs mono leading-relaxed"
-            placeholder="Write article content using <h2>, <p>, <ul>, <div class='technical-block'>..."></textarea>
-        </div>
+        </template>
+
+        <!-- 2. SHOWCASE EDITOR FORM -->
+        <template x-if="editorMode === 'showcases'">
+          <div class="space-y-4">
+            <div>
+              <h2 class="mono text-xs uppercase font-bold text-[#58a6ff] tracking-wider mb-1">Project Showcase Details</h2>
+              <p class="text-xs text-[#8b949e]">Configures entries in <code>projects/showcases.json</code> rendered in the Project Showcases tab.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Project ID / Slug</label>
+                <input type="text" x-model="showcaseForm.id" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+                  placeholder="vetcheck">
+              </div>
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Project Name</label>
+                <input type="text" x-model="showcaseForm.name" class="w-full px-2.5 py-1.5 rounded text-xs font-semibold"
+                  placeholder="VetCheck">
+              </div>
+            </div>
+
+            <div>
+              <label class="block mono text-[11px] text-[#8b949e] mb-1">Tagline</label>
+              <input type="text" x-model="showcaseForm.tagline" class="w-full px-2.5 py-1.5 rounded text-xs"
+                placeholder="AI Veterinary Clinical Management & Telehealth SaaS">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Category / Domain</label>
+                <input type="text" x-model="showcaseForm.category" class="w-full px-2.5 py-1.5 rounded text-xs"
+                  placeholder="Cloud Architecture & High-Density Systems">
+              </div>
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Your Role</label>
+                <input type="text" x-model="showcaseForm.role" class="w-full px-2.5 py-1.5 rounded text-xs"
+                  placeholder="Lead Architect & Senior Systems Engineer">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Status Badge Text</label>
+                <input type="text" x-model="showcaseForm.badge" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+                  placeholder="Active Production">
+              </div>
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Badge Color Theme</label>
+                <select x-model="showcaseForm.badgeColor" class="w-full px-2.5 py-1.5 rounded text-xs">
+                  <option value="emerald">Emerald (Green - Active Production)</option>
+                  <option value="blue">Blue (Enterprise Shipped)</option>
+                  <option value="purple">Purple (Commercial Superapp)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block mono text-[11px] text-[#8b949e] mb-1">Screenshot / Hero Image URL</label>
+              <input type="text" x-model="showcaseForm.image" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+                placeholder="https://images.unsplash.com/... or /assets/img/showcase/app.webp">
+            </div>
+
+            <div>
+              <label class="block mono text-[11px] text-[#8b949e] mb-1">⚡ Key Impact Verified</label>
+              <input type="text" x-model="showcaseForm.metrics" class="w-full px-2.5 py-1.5 rounded text-xs mono text-emerald-400"
+                placeholder="Multi-Region UK & AU • Zero-Downtime Deployments • Sub-100ms Response Times">
+            </div>
+
+            <div>
+              <label class="block mono text-[11px] text-amber-400 mb-1">⚠️ The Challenge / Problem</label>
+              <textarea x-model="showcaseForm.problem" rows="3" class="w-full p-2.5 rounded text-xs leading-relaxed"
+                placeholder="What was the business and technical bottleneck? (1-2 sentences)"></textarea>
+            </div>
+
+            <div>
+              <label class="block mono text-[11px] text-[#58a6ff] mb-1">💡 Architectural Solution</label>
+              <textarea x-model="showcaseForm.solution" rows="3" class="w-full p-2.5 rounded text-xs leading-relaxed"
+                placeholder="How did you solve it technically with high performance?"></textarea>
+            </div>
+
+            <div>
+              <label class="block mono text-[11px] text-[#8b949e] mb-1">Core Tech Stack (Comma-separated)</label>
+              <input type="text" x-model="showcaseForm.stackInput" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+                placeholder="Laravel 11, Octane / FrankenPHP, AWS Multi-Region, ElastiCache, Reverb">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Live Application URL (Production)</label>
+                <input type="text" x-model="showcaseForm.liveUrl" class="w-full px-2.5 py-1.5 rounded text-xs mono"
+                  placeholder="https://plugin.vetcheck.it">
+              </div>
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Snapshot / Archive URL (Optional)</label>
+                <input type="text" x-model="showcaseForm.snapshotUrl" class="w-full px-2.5 py-1.5 rounded text-xs mono text-[#58a6ff]"
+                  placeholder="https://archives.amee.my/apps/vetcheck">
+              </div>
+            </div>
+
+            <div>
+              <label class="block mono text-[11px] text-[#8b949e] mb-1">Related Blueprint / Case Study (Optional)</label>
+              <select x-model="showcaseForm.relatedPost" class="w-full px-2.5 py-1.5 rounded text-xs mono">
+                <option value="">None</option>
+                <template x-for="p in posts" :key="p.folder">
+                  <option :value="p.folder" x-text="p.title"></option>
+                </template>
+              </select>
+            </div>
+          </div>
+        </template>
       </section>
 
       <!-- Live Scaffolding Preview Column -->
@@ -277,57 +467,175 @@
             identical to production index.html</span>
         </div>
 
-        <!-- Rendered Post Scaffolding -->
-        <div class="w-full max-w-2xl mx-auto py-6">
-          <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#30363d]">
-            <span class="mono text-xs text-[#58a6ff]">← Back to Workspace</span>
-            <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded"
-              :class="form.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30' : 'bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30'"
-              x-text="form.type === 'case-study' ? 'Case Study' : 'Code Snippet'"></span>
+        <!-- Rendered Post Scaffolding (Articles Mode) -->
+        <template x-if="editorMode === 'posts'">
+          <div class="w-full max-w-2xl mx-auto py-6">
+            <div class="flex items-center justify-between mb-6 pb-3 border-b border-[#30363d]">
+              <span class="mono text-xs text-[#58a6ff]">← Back to Workspace</span>
+              <span class="mono text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded"
+                :class="form.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30' : 'bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30'"
+                x-text="form.type === 'case-study' ? 'Case Study' : 'Code Snippet'"></span>
+            </div>
+
+            <header class="mb-8 min-w-0">
+              <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-2 truncate"
+                x-text="form.category || 'Architecture & Systems'"></div>
+              <h1 class="text-2xl sm:text-3xl font-black text-white mb-4 break-words" x-text="form.title || 'Untitled Post'"></h1>
+
+              <template x-if="form.metrics">
+                <div class="p-3 bg-[#161b22] border border-emerald-500/30 rounded mb-4">
+                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact</div>
+                  <div class="mono text-xs text-emerald-300 font-semibold break-words" x-text="form.metrics"></div>
+                </div>
+              </template>
+
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="mono text-xs text-[#8b949e]" x-text="'Date: ' + (form.date || 'Today')"></span>
+                <span class="mono text-xs text-[#30363d]">|</span>
+                <template x-for="tag in computedTags" :key="tag">
+                  <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded"
+                    x-text="tag"></span>
+                </template>
+              </div>
+            </header>
+
+            <article class="prose max-w-none text-[#c9d1d9] leading-relaxed break-words overflow-hidden" x-html="form.content_html">
+            </article>
+
+            <!-- Suggested Posts Preview in Scaffolding -->
+            <div class="mt-12 pt-6 border-t border-[#30363d]">
+              <div class="flex items-center justify-between mb-3">
+                <span class="mono text-[11px] uppercase font-bold text-white flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#58a6ff]"></span>
+                  Related Case Studies & Snippets (Auto-calculated via tags)
+                </span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 opacity-75">
+                <div class="p-3.5 rounded border border-[#30363d] bg-[#161b22]">
+                  <div class="mono text-[9px] uppercase font-bold text-[#58a6ff] mb-1">Related Article</div>
+                  <div class="text-xs font-semibold text-white mb-1">Related engineering articles matching tags...</div>
+                  <div class="text-[11px] text-[#8b949e]">Automatically populated on publication</div>
+                </div>
+              </div>
+            </div>
           </div>
+        </template>
 
-          <header class="mb-8 min-w-0">
-            <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-2 truncate"
-              x-text="form.category || 'Architecture & Systems'"></div>
-            <h1 class="text-2xl sm:text-3xl font-black text-white mb-4 break-words" x-text="form.title || 'Untitled Post'"></h1>
+        <!-- Rendered Showcase Mockup (Showcases Mode) -->
+        <template x-if="editorMode === 'showcases'">
+          <div class="w-full max-w-2xl mx-auto py-6">
+            <div class="flex items-center justify-between gap-2 border-b border-[#30363d] pb-3 mb-4">
+              <div class="flex items-center gap-2">
+                <span
+                  class="mono text-[10px] uppercase font-bold px-2 py-0.5 rounded"
+                  :class="showcaseForm.badgeColor === 'emerald' ? 'bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30' : (showcaseForm.badgeColor === 'purple' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30')"
+                  x-text="showcaseForm.badge || 'Status'">
+                </span>
+                <span class="mono text-xs text-[#8b949e]" x-text="showcaseForm.category || 'Category'"></span>
+              </div>
 
-            <template x-if="form.metrics">
-              <div class="p-3 bg-[#161b22] border border-emerald-500/30 rounded mb-4">
-                <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact</div>
-                <div class="mono text-xs text-emerald-300 font-semibold break-words" x-text="form.metrics"></div>
+              <template x-if="showcaseForm.liveUrl">
+                <a :href="showcaseForm.liveUrl" target="_blank"
+                  class="mono text-xs font-bold text-[#58a6ff] hover:underline flex items-center gap-1">
+                  <span>Visit Live</span>
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </template>
+            </div>
+
+            <!-- Title & Tagline -->
+            <div class="mb-4">
+              <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-1" x-text="showcaseForm.role || 'Role'"></div>
+              <h2 class="text-xl sm:text-2xl font-black text-white mb-2 leading-tight" x-text="showcaseForm.name || 'Project Name'"></h2>
+              <p class="text-xs sm:text-sm text-[#8b949e] leading-relaxed" x-text="showcaseForm.tagline || 'Tagline / Short description'"></p>
+            </div>
+
+            <!-- Live Impact Bar -->
+            <template x-if="showcaseForm.metrics">
+              <div class="p-2.5 sm:p-3 bg-[#161b22] border border-emerald-500/30 rounded mb-4">
+                <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact Verified</div>
+                <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="showcaseForm.metrics"></div>
               </div>
             </template>
 
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="mono text-xs text-[#8b949e]" x-text="'Date: ' + (form.date || 'Today')"></span>
-              <span class="mono text-xs text-[#30363d]">|</span>
-              <template x-for="tag in computedTags" :key="tag">
-                <span class="mono text-[11px] bg-[#161b22] border border-[#30363d] text-[#8b949e] px-2 py-0.5 rounded"
-                  x-text="tag"></span>
+            <!-- App UI Screenshot Preview Window -->
+            <div class="mb-5 rounded-lg border border-[#30363d] overflow-hidden bg-[#161b22] shadow-lg">
+              <div class="h-7 bg-[#21262d] border-b border-[#30363d] px-3 flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <span class="w-2.5 h-2.5 rounded-full bg-rose-500/60 inline-block"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-amber-500/60 inline-block"></span>
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/60 inline-block"></span>
+                </div>
+                <span class="mono text-[10px] text-[#8b949e] truncate max-w-[200px]" x-text="showcaseForm.liveUrl || 'Production URL'"></span>
+                <span class="mono text-[9px] text-[#8b949e]">Production UI</span>
+              </div>
+              <template x-if="showcaseForm.image">
+                <img :src="showcaseForm.image" :alt="showcaseForm.name" class="w-full h-56 sm:h-64 object-cover object-center" loading="lazy">
+              </template>
+              <template x-if="!showcaseForm.image">
+                <div class="w-full h-48 flex items-center justify-center text-center p-4 bg-[#161b22] text-[#8b949e] mono text-xs">
+                  No image URL specified yet
+                </div>
               </template>
             </div>
-          </header>
 
-          <article class="prose max-w-none text-[#c9d1d9] leading-relaxed break-words overflow-hidden" x-html="form.content_html">
-          </article>
+            <!-- Problem & Solution Cards -->
+            <div class="space-y-3 mb-5">
+              <template x-if="showcaseForm.problem">
+                <div class="p-3 bg-[#161b22] border border-[#30363d] rounded">
+                  <div class="mono text-[11px] font-bold uppercase text-amber-400 mb-1 flex items-center gap-1.5">
+                    <span>⚠️ The Challenge</span>
+                  </div>
+                  <p class="text-xs text-[#c9d1d9] leading-relaxed whitespace-pre-line" x-text="showcaseForm.problem"></p>
+                </div>
+              </template>
 
-          <!-- Suggested Posts Preview in Scaffolding -->
-          <div class="mt-12 pt-6 border-t border-[#30363d]">
-            <div class="flex items-center justify-between mb-3">
-              <span class="mono text-[11px] uppercase font-bold text-white flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-[#58a6ff]"></span>
-                Related Case Studies & Snippets (Auto-calculated via tags)
-              </span>
+              <template x-if="showcaseForm.solution">
+                <div class="p-3 bg-[#161b22] border border-[#30363d] rounded">
+                  <div class="mono text-[11px] font-bold uppercase text-[#58a6ff] mb-1 flex items-center gap-1.5">
+                    <span>💡 Architectural Solution</span>
+                  </div>
+                  <p class="text-xs text-[#c9d1d9] leading-relaxed whitespace-pre-line" x-text="showcaseForm.solution"></p>
+                </div>
+              </template>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 opacity-75">
-              <div class="p-3.5 rounded border border-[#30363d] bg-[#161b22]">
-                <div class="mono text-[9px] uppercase font-bold text-[#58a6ff] mb-1">Related Article</div>
-                <div class="text-xs font-semibold text-white mb-1">Related engineering articles matching tags...</div>
-                <div class="text-[11px] text-[#8b949e]">Automatically populated on publication</div>
+
+            <!-- Tech Stack Badges -->
+            <div class="border-t border-[#30363d] pt-3 mb-6">
+              <div class="mono text-xs text-[#8b949e] uppercase font-bold mb-2">Core Technologies:</div>
+              <div class="flex flex-wrap gap-1.5">
+                <template x-for="tech in computedShowcaseStack" :key="tech">
+                  <span class="mono text-xs bg-[#21262d] text-[#58a6ff] px-2 py-0.5 rounded border border-[#30363d]" x-text="tech"></span>
+                </template>
               </div>
             </div>
+
+            <!-- Action Buttons Preview -->
+            <div class="pt-4 border-t border-[#30363d] flex flex-wrap items-center gap-2">
+              <template x-if="showcaseForm.liveUrl">
+                <a :href="showcaseForm.liveUrl" target="_blank"
+                  class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#1f6feb] hover:bg-[#388bfd] text-white px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">
+                  <span>Visit Production App ↗</span>
+                </a>
+              </template>
+              <template x-if="showcaseForm.snapshotUrl">
+                <a :href="showcaseForm.snapshotUrl" target="_blank"
+                  class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#238636] hover:bg-[#2ea043] text-white px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">
+                  <span>Visit Snapshot App ↗</span>
+                </a>
+              </template>
+              <template x-if="showcaseForm.relatedPost">
+                <a :href="'/blog/posts/' + showcaseForm.relatedPost + '/'" target="_blank"
+                  class="w-full sm:w-auto mono text-xs font-bold uppercase bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] text-[#58a6ff] px-4 py-2.5 rounded transition-colors inline-flex items-center justify-center gap-2">
+                  <span>Read Case Study →</span>
+                </a>
+              </template>
+            </div>
           </div>
-        </div>
+        </template>
       </section>
 
     </main>
@@ -510,7 +818,9 @@
     <script>
       function postEditorStudio() {
         return {
+          editorMode: 'posts', // 'posts' or 'showcases'
           posts: [],
+          showcases: [],
           showSidebar: window.innerWidth >= 1536, // default open only on extra wide screens
           activeTab: window.innerWidth < 1280 ? 'editor' : 'editor', // 'sidebar', 'editor', 'preview'
           isSaving: false,
@@ -539,12 +849,48 @@
             draft: false,
             content_html: ''
           },
+          showcaseForm: {
+            id: '',
+            name: '',
+            tagline: '',
+            category: 'Veterinary SaaS & Cloud Architecture',
+            role: 'Lead Architect & Systems Engineer',
+            badge: 'Active Production',
+            badgeColor: 'emerald',
+            image: '',
+            problem: '',
+            solution: '',
+            metrics: '',
+            stackInput: '',
+            liveUrl: '',
+            relatedPost: ''
+          },
           async init() {
-            await this.loadPostsList();
+            await Promise.all([
+              this.loadPostsList(),
+              this.loadShowcasesList()
+            ]);
             if (this.posts.length > 0) {
               await this.loadPost(this.posts[0]);
             } else {
               this.resetForm();
+            }
+            if (this.showcases.length > 0) {
+              this.loadShowcase(this.showcases[0]);
+            } else {
+              this.resetShowcaseForm();
+            }
+          },
+          switchMode(mode) {
+            this.editorMode = mode;
+            if (mode === 'showcases') {
+              if (this.showcases.length > 0 && !this.showcaseForm.id) {
+                this.loadShowcase(this.showcases[0]);
+              }
+            } else {
+              if (this.posts.length > 0 && !this.form.folder) {
+                this.loadPost(this.posts[0]);
+              }
             }
           },
           async loadPostsList() {
@@ -731,6 +1077,146 @@
               }
             } catch (e) {
               this.showToast('Network error while deleting post: ' + e.message, 'error');
+            } finally {
+              this.isDeleting = false;
+            }
+          },
+
+          // --- SHOWCASES CRUD & LOGIC ---
+          async loadShowcasesList() {
+            try {
+              const res = await fetch('/api/showcases');
+              if (res.ok) {
+                this.showcases = await res.json();
+              }
+            } catch (e) {
+              console.error("Failed to load showcases", e);
+            }
+          },
+          loadShowcase(item) {
+            this.showcaseForm.id = item.id || '';
+            this.showcaseForm.name = item.name || '';
+            this.showcaseForm.tagline = item.tagline || '';
+            this.showcaseForm.category = item.category || 'Veterinary SaaS & Cloud Architecture';
+            this.showcaseForm.role = item.role || 'Lead Architect & Systems Engineer';
+            this.showcaseForm.badge = item.badge || 'Active Production';
+            this.showcaseForm.badgeColor = item.badgeColor || 'emerald';
+            this.showcaseForm.image = item.image || '';
+            this.showcaseForm.problem = item.problem || '';
+            this.showcaseForm.solution = item.solution || '';
+            this.showcaseForm.metrics = item.metrics || '';
+            this.showcaseForm.stackInput = Array.isArray(item.stack) ? item.stack.join(', ') : '';
+            this.showcaseForm.liveUrl = item.liveUrl || '';
+            this.showcaseForm.snapshotUrl = item.snapshotUrl || '';
+            this.showcaseForm.relatedPost = item.relatedPost || '';
+          },
+          resetShowcaseForm() {
+            this.showcaseForm = {
+              id: '',
+              name: '',
+              tagline: '',
+              category: 'Veterinary SaaS & Cloud Architecture',
+              role: 'Lead Architect & Systems Engineer',
+              badge: 'Active Production',
+              badgeColor: 'emerald',
+              image: 'https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=1200&auto=format&fit=crop',
+              problem: '',
+              solution: '',
+              metrics: 'Zero Downtime • High Performance • Production Verified',
+              stackInput: 'Laravel 11, Octane / FrankenPHP, AWS Multi-Region, Redis, Livewire',
+              liveUrl: '',
+              snapshotUrl: '',
+              relatedPost: ''
+            };
+          },
+          autoSlugShowcase() {
+            if (!this.showcaseForm.id || this.showcaseForm.id.trim() === '') {
+              this.showcaseForm.id = (this.showcaseForm.name || 'project').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+            }
+          },
+          get computedShowcaseStack() {
+            return (this.showcaseForm.stackInput || '').split(',').map(s => s.trim()).filter(Boolean);
+          },
+          get isExistingShowcase() {
+            return this.showcases.some(s => s.id === this.showcaseForm.id);
+          },
+          async saveShowcase() {
+            if (!this.showcaseForm.name.trim()) {
+              alert('Please enter a project name.');
+              return;
+            }
+            if (!this.showcaseForm.id.trim()) {
+              this.autoSlugShowcase();
+            }
+
+            this.isSaving = true;
+            const payload = {
+              id: this.showcaseForm.id.trim(),
+              name: this.showcaseForm.name.trim(),
+              tagline: this.showcaseForm.tagline.trim(),
+              category: this.showcaseForm.category.trim(),
+              role: this.showcaseForm.role.trim(),
+              badge: this.showcaseForm.badge.trim(),
+              badgeColor: this.showcaseForm.badgeColor,
+              image: this.showcaseForm.image.trim(),
+              problem: this.showcaseForm.problem.trim(),
+              solution: this.showcaseForm.solution.trim(),
+              metrics: this.showcaseForm.metrics.trim(),
+              stack: this.computedShowcaseStack,
+              liveUrl: this.showcaseForm.liveUrl.trim(),
+              snapshotUrl: (this.showcaseForm.snapshotUrl || '').trim(),
+              relatedPost: this.showcaseForm.relatedPost ? this.showcaseForm.relatedPost.trim() : null
+            };
+
+            try {
+              const res = await fetch('/api/save-showcase', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+
+              const result = await res.json();
+              if (res.ok && result.status === 'success') {
+                this.showToast(`Showcase "${payload.name}" saved successfully!`, 'success');
+                await this.loadShowcasesList();
+                const updated = this.showcases.find(s => s.id === payload.id);
+                if (updated) this.loadShowcase(updated);
+              } else {
+                this.showToast(result.message || 'Failed to save showcase.', 'error');
+              }
+            } catch (e) {
+              this.showToast('Network error while saving showcase: ' + e.message, 'error');
+            } finally {
+              this.isSaving = false;
+            }
+          },
+          async deleteShowcase() {
+            if (!this.showcaseForm.id) return;
+            const confirmDelete = confirm(`Are you sure you want to delete showcase "${this.showcaseForm.name || this.showcaseForm.id}"?\n\nThis will remove it from projects/showcases.json.`);
+            if (!confirmDelete) return;
+
+            this.isDeleting = true;
+            try {
+              const res = await fetch('/api/delete-showcase', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: this.showcaseForm.id })
+              });
+
+              const result = await res.json();
+              if (res.ok && result.status === 'success') {
+                this.showToast(`Showcase "${this.showcaseForm.name || this.showcaseForm.id}" deleted.`, 'success');
+                await this.loadShowcasesList();
+                if (this.showcases.length > 0) {
+                  this.loadShowcase(this.showcases[0]);
+                } else {
+                  this.resetShowcaseForm();
+                }
+              } else {
+                this.showToast(result.message || 'Failed to delete showcase.', 'error');
+              }
+            } catch (e) {
+              this.showToast('Network error while deleting showcase: ' + e.message, 'error');
             } finally {
               this.isDeleting = false;
             }

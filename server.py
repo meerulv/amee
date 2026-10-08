@@ -19,6 +19,7 @@ from urllib.parse import urlparse
 PORT = 8000
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 POSTS_JSON_PATH = os.path.join(BASE_DIR, "blog", "posts", "posts.json")
+SHOWCASES_JSON_PATH = os.path.join(BASE_DIR, "projects", "showcases.json")
 POSTS_DIR = os.path.join(BASE_DIR, "blog", "posts")
 SCAFFOLDING_PATH = os.path.join(BASE_DIR, "blog", "scaffolding-template.html")
 
@@ -181,6 +182,20 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"error": str(e)}).encode("utf-8"))
             return
 
+        if parsed.path == "/api/showcases":
+            try:
+                with open(SHOWCASES_JSON_PATH, "r", encoding="utf-8") as f:
+                    content = f.read()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(content.encode("utf-8"))
+            except Exception as e:
+                self.send_response(500)
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode("utf-8"))
+            return
+
         if parsed.path.startswith("/api/post/"):
             folder = parsed.path.replace("/api/post/", "").strip("/")
             file_path = os.path.join(POSTS_DIR, folder, "index.html")
@@ -305,6 +320,110 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "status": "success",
                     "folder": folder,
                     "message": f"Successfully deleted post {folder}"
+                }).encode("utf-8"))
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode("utf-8"))
+            return
+
+        if parsed.path == "/api/save-showcase":
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_body = self.rfile.read(content_length).decode('utf-8')
+            try:
+                data = json.loads(post_body)
+                showcase_id = data.get('id', '').strip() or slugify(data.get('name', 'project'))
+                name = data.get('name', '').strip()
+                tagline = data.get('tagline', '').strip()
+                category = data.get('category', '').strip()
+                role = data.get('role', '').strip()
+                badge = data.get('badge', 'Active Production').strip()
+                badgeColor = data.get('badgeColor', 'emerald').strip()
+                image = data.get('image', '').strip()
+                problem = data.get('problem', '').strip()
+                solution = data.get('solution', '').strip()
+                metrics = data.get('metrics', '').strip()
+                stack = [s.strip() for s in data.get('stack', []) if s.strip()]
+                liveUrl = data.get('liveUrl', '').strip()
+                snapshotUrl = data.get('snapshotUrl', '').strip()
+                relatedPost = data.get('relatedPost', '').strip()
+
+                try:
+                    with open(SHOWCASES_JSON_PATH, "r", encoding="utf-8") as f:
+                        showcases = json.load(f)
+                except Exception:
+                    showcases = []
+
+                entry = {
+                    "id": showcase_id,
+                    "name": name,
+                    "tagline": tagline,
+                    "category": category,
+                    "role": role,
+                    "badge": badge,
+                    "badgeColor": badgeColor,
+                    "image": image,
+                    "problem": problem,
+                    "solution": solution,
+                    "metrics": metrics,
+                    "stack": stack,
+                    "liveUrl": liveUrl,
+                    "snapshotUrl": snapshotUrl,
+                    "relatedPost": relatedPost
+                }
+
+                existing_idx = next((i for i, s in enumerate(showcases) if s.get('id') == showcase_id), None)
+                if existing_idx is not None:
+                    showcases[existing_idx] = entry
+                else:
+                    showcases.append(entry)
+
+                with open(SHOWCASES_JSON_PATH, "w", encoding="utf-8") as f:
+                    json.dump(showcases, f, indent=2)
+
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "status": "success",
+                    "id": showcase_id,
+                    "message": f"Successfully saved showcase for {name}"
+                }).encode("utf-8"))
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode("utf-8"))
+            return
+
+        if parsed.path == "/api/delete-showcase":
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_body = self.rfile.read(content_length).decode('utf-8')
+            try:
+                data = json.loads(post_body)
+                showcase_id = data.get('id', '').strip()
+                if not showcase_id:
+                    raise ValueError("Showcase ID is required.")
+
+                try:
+                    with open(SHOWCASES_JSON_PATH, "r", encoding="utf-8") as f:
+                        showcases = json.load(f)
+                except Exception:
+                    showcases = []
+
+                showcases = [s for s in showcases if s.get('id') != showcase_id]
+
+                with open(SHOWCASES_JSON_PATH, "w", encoding="utf-8") as f:
+                    json.dump(showcases, f, indent=2)
+
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "status": "success",
+                    "id": showcase_id,
+                    "message": f"Successfully deleted showcase {showcase_id}"
                 }).encode("utf-8"))
             except Exception as e:
                 self.send_response(500)
