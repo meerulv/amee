@@ -14,7 +14,8 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://amee.my/">
   <meta property="og:title" content="Ameerul Arif | Senior Software Engineer, DevOps & Systems Architect">
-  <meta property="og:description" content="Senior Fullstack Engineer & Systems Architect (10+ yrs, CKA Certified) specializing in Laravel Octane, Multi-Region AWS, high-concurrency Redis queues, and cloud platforms.">
+  <meta property="og:description"
+    content="Senior Fullstack Engineer & Systems Architect (10+ yrs, CKA Certified) specializing in Laravel Octane, Multi-Region AWS, high-concurrency Redis queues, and cloud platforms.">
   <meta property="og:image" content="https://amee.my/ameemy-seo.webp">
   <meta property="og:image:type" content="image/webp">
   <meta property="og:image:alt" content="Ameerul Arif - Senior Software Engineer & Systems Architect">
@@ -23,10 +24,12 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://amee.my/">
   <meta name="twitter:title" content="Ameerul Arif | Senior Software Engineer, DevOps & Systems Architect">
-  <meta name="twitter:description" content="Senior Fullstack Engineer & Systems Architect (10+ yrs, CKA Certified) specializing in Laravel Octane, Multi-Region AWS, high-concurrency Redis queues, and cloud platforms.">
+  <meta name="twitter:description"
+    content="Senior Fullstack Engineer & Systems Architect (10+ yrs, CKA Certified) specializing in Laravel Octane, Multi-Region AWS, high-concurrency Redis queues, and cloud platforms.">
   <meta name="twitter:image" content="https://amee.my/ameemy-seo.webp">
 
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <script src="/assets/js/marked.min.js"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,6 +91,46 @@
     .no-scrollbar {
       -ms-overflow-style: none;
       scrollbar-width: none;
+    }
+
+    .chat-markdown p {
+      margin-bottom: 0.65rem;
+    }
+    .chat-markdown p:last-child {
+      margin-bottom: 0;
+    }
+    .chat-markdown strong {
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .chat-markdown em {
+      color: #58a6ff;
+      font-style: italic;
+    }
+    .chat-markdown ul {
+      list-style-type: disc;
+      padding-left: 1.25rem;
+      margin-bottom: 0.65rem;
+      space-y: 0.25rem;
+    }
+    .chat-markdown li {
+      margin-bottom: 0.25rem;
+    }
+    .chat-markdown code {
+      font-family: var(--font-mono);
+      background-color: #161b22;
+      border: 1px solid #30363d;
+      padding: 0.1rem 0.35rem;
+      border-radius: 0.25rem;
+      color: #58a6ff;
+      font-size: 0.75rem;
+    }
+    .chat-markdown a {
+      color: #58a6ff;
+      text-decoration: underline;
+    }
+    .chat-markdown a:hover {
+      color: #79c0ff;
     }
 
     [x-cloak] {
@@ -154,7 +197,8 @@
     <button @click="mobileView = 'workspace'" :class="mobileView === 'workspace' ? 'active-nav-tab' : 'text-[#8b949e]'"
       class="flex-1 mono text-xs font-bold uppercase py-2 flex items-center justify-center gap-1.5 transition-colors">
       <span>🚀 Showcases & Studies</span>
-      <span class="text-[10px] bg-[#21262d] text-white px-1.5 rounded-full" x-text="posts.length + showcases.length"></span>
+      <span class="text-[10px] bg-[#21262d] text-white px-1.5 rounded-full"
+        x-text="posts.length + showcases.length"></span>
     </button>
   </nav>
 
@@ -178,7 +222,8 @@
             Remote</span>
           <span class="text-[#30363d] hidden sm:inline">•</span>
           <a href="https://www.credly.com/badges/6bb0019c-3134-4570-ae54-966f738643c5" target="_blank"
-            class="mono text-[10px] bg-[#1f6feb]/20 text-[#58a6ff] hover:bg-[#1f6feb]/30 hover:underline border border-[#388bfd]/30 px-1.5 py-0.5 rounded font-bold inline-flex items-center gap-1 transition-colors" title="Verify CKA on Credly">
+            class="mono text-[10px] bg-[#1f6feb]/20 text-[#58a6ff] hover:bg-[#1f6feb]/30 hover:underline border border-[#388bfd]/30 px-1.5 py-0.5 rounded font-bold inline-flex items-center gap-1 transition-colors"
+            title="Verify CKA on Credly">
             <span>CKA Certified ↗</span>
           </a>
         </div>
@@ -284,17 +329,21 @@
 
       <!-- Professional Accreditations & Credentials -->
       <div class="mb-4 pt-3 border-t border-[#30363d]">
-        <div class="mono text-[10px] uppercase font-bold text-[#8b949e] tracking-wider mb-2">Accreditations & Credentials</div>
+        <div class="mono text-[10px] uppercase font-bold text-[#8b949e] tracking-wider mb-2">Accreditations &
+          Credentials</div>
         <div class="space-y-2">
           <!-- CKA Credly -->
           <a href="https://www.credly.com/badges/6bb0019c-3134-4570-ae54-966f738643c5" target="_blank"
             class="flex items-start gap-2.5 p-2 rounded bg-[#161b22] border border-[#30363d] hover:border-[#388bfd]/50 hover:bg-[#1c2128] transition-all group">
-            <div class="w-7 h-7 rounded bg-[#1f6feb]/15 border border-[#388bfd]/30 flex items-center justify-center shrink-0 text-[#58a6ff] text-xs font-black mono mt-0.5">
+            <div
+              class="w-7 h-7 rounded bg-[#1f6feb]/15 border border-[#388bfd]/30 flex items-center justify-center shrink-0 text-[#58a6ff] text-xs font-black mono mt-0.5">
               ⎈
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-1">
-                <span class="text-xs font-bold text-white group-hover:text-[#58a6ff] transition-colors leading-tight">CKA: Certified Kubernetes Administrator</span>
+                <span
+                  class="text-xs font-bold text-white group-hover:text-[#58a6ff] transition-colors leading-tight">CKA:
+                  Certified Kubernetes Administrator</span>
                 <span class="mono text-[10px] text-[#58a6ff] shrink-0 font-bold">Credly ↗</span>
               </div>
               <p class="text-[11px] text-[#8b949e] leading-tight mt-0.5">The Linux Foundation & CNCF • Issued 2024</p>
@@ -304,15 +353,19 @@
           <!-- MBOT Graduate Technologist -->
           <a href="/MBOT.png" target="_blank"
             class="flex items-start gap-2.5 p-2 rounded bg-[#161b22] border border-[#30363d] hover:border-[#388bfd]/50 hover:bg-[#1c2128] transition-all group">
-            <div class="w-7 h-7 rounded bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-400 text-xs font-black mono mt-0.5">
+            <div
+              class="w-7 h-7 rounded bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 text-emerald-400 text-xs font-black mono mt-0.5">
               Ts
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center justify-between gap-1">
-                <span class="text-xs font-bold text-white group-hover:text-[#58a6ff] transition-colors leading-tight">Graduate Technologist (Information & Computing)</span>
+                <span
+                  class="text-xs font-bold text-white group-hover:text-[#58a6ff] transition-colors leading-tight">Graduate
+                  Technologist (Information & Computing)</span>
                 <span class="mono text-[10px] text-[#58a6ff] shrink-0 font-bold">Verify ↗</span>
               </div>
-              <p class="text-[11px] text-[#8b949e] leading-tight mt-0.5">Malaysia Board of Technologists (MBOT) • GT17120176</p>
+              <p class="text-[11px] text-[#8b949e] leading-tight mt-0.5">Malaysia Board of Technologists (MBOT) •
+                GT17120176</p>
             </div>
           </a>
         </div>
@@ -362,10 +415,34 @@
 
       <!-- Sub-Tab Header Bar -->
       <div
-        class="h-10 border-b border-[#30363d] bg-[#161b22] flex items-center px-2 shrink-0 select-none overflow-x-auto">
+        class="h-10 border-b border-[#30363d] bg-[#161b22] flex items-center px-2 shrink-0 select-none overflow-x-auto no-scrollbar gap-1.5 sm:gap-2">
+        <!-- 1. AI Q&A Tab -->
+        <button @click="setTab('ai')"
+          :class="activeTab === 'ai' ? 'active-sub-tab bg-[#161b22] text-[#58a6ff]' : 'text-[#8b949e] hover:text-[#c9d1d9]'"
+          class="h-full px-3 sm:px-4 mono text-xs font-semibold flex items-center gap-1.5 border-r border-[#30363d] transition-colors shrink-0">
+          <span class="w-2 h-2 rounded-full bg-[#58a6ff] animate-pulse"></span>
+          <span>💬 Ask Amee</span>
+        </button>
+
+        <!-- 2. Search / Filter Bar (Placed between AI and All Entries) -->
+        <div class="flex items-center shrink-0 pr-1 sm:pr-2">
+          <div class="relative flex items-center">
+            <span class="absolute left-2.5 text-[#8b949e] text-xs pointer-events-none">🔍</span>
+            <input type="text" x-model="searchQuery"
+              @focus="if (activeTab === 'ai') setTab('all')"
+              :placeholder="activeTab === 'showcase' ? 'Filter projects...' : (activeTab === 'ai' ? 'Search entries...' : 'Filter entries...')"
+              class="mono text-xs bg-[#0d1117] hover:bg-[#0d1117]/80 focus:bg-[#0d1117] border border-[#30363d] focus:border-[#58a6ff] text-[#c9d1d9] placeholder-[#8b949e] pl-7 pr-6 py-1 rounded w-32 sm:w-48 transition-all focus:outline-none focus:ring-1 focus:ring-[#58a6ff]/40">
+            <button x-show="searchQuery" @click="searchQuery = ''"
+              class="absolute right-2 text-[#8b949e] hover:text-white text-xs font-bold transition-colors">
+              ✕
+            </button>
+          </div>
+        </div>
+
+        <!-- 3. All Entries Tab -->
         <button @click="setTab('all')"
           :class="activeTab === 'all' ? 'active-sub-tab' : 'text-[#8b949e] hover:text-[#c9d1d9]'"
-          class="h-full px-3 sm:px-4 mono text-xs font-semibold flex items-center gap-1.5 border-r border-[#30363d] transition-colors shrink-0">
+          class="h-full px-3 sm:px-4 mono text-xs font-semibold flex items-center gap-1.5 border-l border-r border-[#30363d] transition-colors shrink-0">
           <span>All Entries</span>
           <span class="mono text-[10px] bg-[#21262d] px-1.5 py-0.5 rounded text-[#8b949e]" x-text="posts.length"></span>
         </button>
@@ -386,14 +463,10 @@
           :class="activeTab === 'showcase' ? 'active-sub-tab' : 'text-[#8b949e] hover:text-[#c9d1d9]'"
           class="h-full px-3 sm:px-4 mono text-xs font-semibold flex items-center gap-1.5 border-r border-[#30363d] transition-colors shrink-0">
           <span>🚀 Project Showcases</span>
-          <span class="mono text-[10px] bg-emerald-950/60 border border-emerald-800/50 text-emerald-400 px-1.5 py-0.5 rounded font-bold" x-text="showcases.length"></span>
+          <span
+            class="mono text-[10px] bg-emerald-950/60 border border-emerald-800/50 text-emerald-400 px-1.5 py-0.5 rounded font-bold"
+            x-text="showcases.length"></span>
         </button>
-
-        <!-- Search input -->
-        <div class="ml-auto flex items-center gap-2 pl-2">
-          <input type="text" x-model="searchQuery" :placeholder="activeTab === 'showcase' ? 'Filter projects...' : 'Filter...'"
-            class="mono text-xs bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] placeholder-[#8b949e] px-2 py-0.5 rounded w-24 sm:w-48 focus:outline-none focus:border-[#58a6ff]">
-        </div>
       </div>
 
       <!-- Split Screen (Responsive: on mobile, modal drawer opens on select, on desktop side-by-side) -->
@@ -427,13 +500,15 @@
 
                   <!-- Impact Metric -->
                   <template x-if="item.metrics">
-                    <div class="mono text-[11px] text-emerald-400 font-semibold mb-2" x-text="'⚡ ' + item.metrics"></div>
+                    <div class="mono text-[11px] text-emerald-400 font-semibold mb-2" x-text="'⚡ ' + item.metrics">
+                    </div>
                   </template>
 
                   <!-- Stack Badges -->
                   <div class="flex flex-wrap gap-1">
                     <template x-for="tech in item.stack" :key="tech">
-                      <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-1.5 py-0.5 rounded" x-text="tech"></span>
+                      <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-1.5 py-0.5 rounded"
+                        x-text="tech"></span>
                     </template>
                   </div>
                 </div>
@@ -442,7 +517,8 @@
               <!-- Empty state for Showcases search -->
               <div x-show="showcases.length > 0 && filteredShowcases.length === 0"
                 class="p-8 sm:p-12 text-center flex flex-col items-center justify-center">
-                <div class="w-10 h-10 rounded-full bg-[#161b22] border border-[#30363d] flex items-center justify-center text-base mb-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-[#161b22] border border-[#30363d] flex items-center justify-center text-base mb-3">
                   🔍
                 </div>
                 <h3 class="text-xs font-bold text-white mb-1">No matching showcases</h3>
@@ -457,8 +533,87 @@
             </div>
           </template>
 
-          <!-- B. BLOG POSTS FEED (When activeTab !== 'showcase') -->
-          <template x-if="activeTab !== 'showcase'">
+          <!-- B. ASK ARCHITECTURE AI QUESTIONS DIRECTORY (When activeTab === 'ai') -->
+          <template x-if="activeTab === 'ai'">
+            <div class="p-3 sm:p-4 space-y-4">
+              <div>
+                <div class="mono text-[10px] uppercase font-bold text-[#58a6ff] tracking-wider mb-1">Interactive Q&amp;A</div>
+                <p class="text-xs text-[#8b949e]">Ask me directly about my architecture, systems, or tech stack:</p>
+              </div>
+
+              <!-- Category 1: Systems & Architecture -->
+              <div class="space-y-1.5">
+                <div class="mono text-[10px] text-[#8b949e] uppercase font-bold flex items-center gap-1.5">
+                  <span>⚡</span>
+                  <span>Systems &amp; AWS Infrastructure</span>
+                </div>
+                <button @click="askAi('How do you design Zero-Downtime Blue/Green Deployments on AWS?')"
+                  class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">How do you handle Zero-Downtime Blue/Green on AWS?</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">ALB target weights, Octane/FrankenPHP cutovers, and rollback safety.</div>
+                </button>
+                <button @click="askAi('What is your daily primary tech stack and experience?')"
+                  class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">What is your daily primary tech stack &amp; expertise?</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Laravel 11/12, Livewire 3/4, Alpine.js, Redis, ElastiCache, AWS.</div>
+                </button>
+              </div>
+
+              <!-- Category 2: Shipped Systems -->
+              <div class="space-y-1.5 pt-2 border-t border-[#21262d]">
+                <div class="mono text-[10px] text-[#8b949e] uppercase font-bold flex items-center gap-1.5">
+                  <span>🚀</span>
+                  <span>Shipped Applications</span>
+                </div>
+                <button @click="askAi('What did you build and architect at VetCheck?')"
+                  class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">What did you build and architect at VetCheck?</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">AI Veterinary clinical SaaS in UK &amp; AU, Blue/Green deployment pipeline.</div>
+                </button>
+                <button @click="askAi('Tell me about AjakMe and how you use Telegram bot notifications.')"
+                  class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">Tell me about AjakMe and your Telegram bot setup</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Livewire 3 single-page app, automated PDF print exports, Telegram alerts.</div>
+                </button>
+                <button @click="askAi('What was your contribution at altHR and ACCEA?')"
+                  class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">What did you engineer at altHR (Digi-X) and ACCEA?</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Enterprise HR microservices, payroll APIs, and SSO OAuth2 reservation engine.</div>
+                </button>
+              </div>
+
+              <!-- Category 3: Certifications & Availability -->
+              <div class="space-y-1.5 pt-2 border-t border-[#21262d]">
+                <div class="mono text-[10px] text-[#8b949e] uppercase font-bold flex items-center gap-1.5">
+                  <span>📜</span>
+                  <span>Certifications &amp; Credentials</span>
+                </div>
+                <button @click="askAi('Tell me about your CKA certification and MBOT Technologist credential.')"
+                  class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">Tell me about your CKA &amp; MBOT accreditations</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Certified Kubernetes Administrator (CNCF) and Graduate Technologist (MBOT).</div>
+                </button>
+              </div>
+
+              <!-- Mobile Quick Jump Bar to Open Chat Drawer -->
+              <div class="lg:hidden pt-3 border-t border-[#21262d]">
+                <button @click="mobileDrawerOpen = true"
+                  class="w-full py-2.5 px-3 rounded bg-[#1f6feb] hover:bg-[#388bfd] text-white mono text-xs font-bold flex items-center justify-between shadow-lg transition-colors active:scale-98">
+                  <span class="flex items-center gap-2">
+                    <span>💬 View Active Chat</span>
+                    <span x-show="aiMessages.length > 0" class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded" x-text="aiMessages.length + ' answer' + (aiMessages.length > 1 ? 's' : '')"></span>
+                  </span>
+                  <span class="flex items-center gap-1.5 text-xs">
+                    <span>Open →</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </template>
+
+          <!-- C. BLOG POSTS FEED (When activeTab !== 'showcase' && activeTab !== 'ai') -->
+          <template x-if="activeTab !== 'showcase' && activeTab !== 'ai'">
             <div>
               <template x-for="post in filteredPosts" :key="post.folder">
                 <div @click="selectPost(post)"
@@ -481,13 +636,15 @@
 
                   <!-- Metrics -->
                   <template x-if="post.metrics">
-                    <div class="mono text-[11px] text-emerald-400 font-semibold mb-2" x-text="'⚡ ' + post.metrics"></div>
+                    <div class="mono text-[11px] text-emerald-400 font-semibold mb-2" x-text="'⚡ ' + post.metrics">
+                    </div>
                   </template>
 
                   <!-- Tags -->
                   <div class="flex flex-wrap gap-1">
                     <template x-for="tag in post.tags" :key="tag">
-                      <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-1.5 py-0.5 rounded" x-text="tag"></span>
+                      <span class="mono text-[10px] bg-[#21262d] text-[#8b949e] px-1.5 py-0.5 rounded"
+                        x-text="tag"></span>
                     </template>
                   </div>
                 </div>
@@ -502,7 +659,8 @@
                 </div>
                 <h3 class="text-sm font-bold text-white mb-1">Architecture & Engineering Notes Coming Soon</h3>
                 <p class="text-xs text-[#8b949e] max-w-xs mb-3 leading-relaxed">
-                  New production post-mortems, high-concurrency benchmarks, and infrastructure case studies are currently being curated.
+                  New production post-mortems, high-concurrency benchmarks, and infrastructure case studies are
+                  currently being curated.
                 </p>
                 <span
                   class="mono text-[11px] text-[#58a6ff] bg-[#1f6feb]/10 border border-[#388bfd]/20 px-2.5 py-1 rounded">
@@ -534,11 +692,11 @@
         <!-- Detail Preview: Desktop split panel & Mobile slide-up drawer -->
         <div
           :class="mobileDrawerOpen ? 'fixed inset-0 z-50 flex flex-col bg-[#0d1117] lg:static lg:flex-1 lg:z-auto' : 'hidden lg:block lg:flex-1 bg-[#161b22]'"
-          class="overflow-y-auto p-4 sm:p-6">
+          class="p-4 sm:p-6 overflow-hidden flex flex-col">
 
           <!-- 1. SHOWCASE DETAIL VIEW (When activeTab === 'showcase') -->
           <template x-if="activeTab === 'showcase' && selectedShowcase">
-            <div>
+            <div class="h-full overflow-y-auto pr-1">
               <!-- Mobile Back / Close Button Bar -->
               <div
                 class="flex items-center justify-between gap-2 border-b border-[#30363d] pb-3 mb-4 sticky top-0 bg-[#0d1117] z-10 pt-1">
@@ -548,8 +706,7 @@
                 </button>
 
                 <div class="flex items-center gap-2">
-                  <span
-                    class="mono text-[10px] uppercase font-bold px-2 py-0.5 rounded"
+                  <span class="mono text-[10px] uppercase font-bold px-2 py-0.5 rounded"
                     :class="selectedShowcase.badgeColor === 'emerald' ? 'bg-[#238636]/20 text-[#3fb950] border border-[#2ea043]/30' : (selectedShowcase.badgeColor === 'purple' ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-[#1f6feb]/20 text-[#58a6ff] border border-[#388bfd]/30')"
                     x-text="selectedShowcase.badge">
                   </span>
@@ -568,16 +725,20 @@
 
               <!-- Title & Tagline -->
               <div class="mb-4">
-                <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-1" x-text="selectedShowcase.role"></div>
-                <h2 class="text-xl sm:text-2xl font-black text-white mb-2 leading-tight" x-text="selectedShowcase.name"></h2>
+                <div class="mono text-xs text-[#8b949e] uppercase tracking-wider mb-1" x-text="selectedShowcase.role">
+                </div>
+                <h2 class="text-xl sm:text-2xl font-black text-white mb-2 leading-tight" x-text="selectedShowcase.name">
+                </h2>
                 <p class="text-xs sm:text-sm text-[#8b949e] leading-relaxed" x-text="selectedShowcase.tagline"></p>
               </div>
 
               <!-- Live Impact Bar -->
               <template x-if="selectedShowcase.metrics">
                 <div class="p-2.5 sm:p-3 bg-[#0d1117] border border-emerald-500/30 rounded mb-4">
-                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact Verified</div>
-                  <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="selectedShowcase.metrics"></div>
+                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact
+                    Verified</div>
+                  <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="selectedShowcase.metrics">
+                  </div>
                 </div>
               </template>
 
@@ -589,10 +750,12 @@
                     <span class="w-2.5 h-2.5 rounded-full bg-amber-500/60 inline-block"></span>
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/60 inline-block"></span>
                   </div>
-                  <span class="mono text-[10px] text-[#8b949e] truncate max-w-[200px]" x-text="selectedShowcase.liveUrl"></span>
+                  <span class="mono text-[10px] text-[#8b949e] truncate max-w-[200px]"
+                    x-text="selectedShowcase.liveUrl"></span>
                   <span class="mono text-[9px] text-[#8b949e]">Production UI</span>
                 </div>
-                <img :src="selectedShowcase.image" :alt="selectedShowcase.name" class="w-full h-56 sm:h-64 object-cover object-center" loading="lazy">
+                <img :src="selectedShowcase.image" :alt="selectedShowcase.name"
+                  class="w-full h-56 sm:h-64 object-cover object-center" loading="lazy">
               </div>
 
               <!-- Problem & Solution Cards -->
@@ -617,7 +780,8 @@
                 <div class="mono text-xs text-[#8b949e] uppercase font-bold mb-2">Core Technologies:</div>
                 <div class="flex flex-wrap gap-1.5">
                   <template x-for="tech in selectedShowcase.stack" :key="tech">
-                    <span class="mono text-xs bg-[#21262d] text-[#58a6ff] px-2 py-0.5 rounded border border-[#30363d]" x-text="tech"></span>
+                    <span class="mono text-xs bg-[#21262d] text-[#58a6ff] px-2 py-0.5 rounded border border-[#30363d]"
+                      x-text="tech"></span>
                   </template>
                 </div>
               </div>
@@ -646,9 +810,9 @@
             </div>
           </template>
 
-          <!-- 2. BLOG POST DETAIL VIEW (When activeTab !== 'showcase') -->
-          <template x-if="activeTab !== 'showcase' && selectedPost">
-            <div>
+          <!-- 2. BLOG POST DETAIL VIEW (When activeTab !== 'showcase' && activeTab !== 'ai') -->
+          <template x-if="activeTab !== 'showcase' && activeTab !== 'ai' && selectedPost">
+            <div class="h-full overflow-y-auto pr-1">
               <!-- Mobile Back / Close Button Bar -->
               <div
                 class="flex items-center justify-between gap-2 border-b border-[#30363d] pb-3 mb-4 sticky top-0 bg-[#0d1117] z-10 pt-1">
@@ -681,8 +845,10 @@
               <!-- Key Impact Verified -->
               <template x-if="selectedPost.metrics">
                 <div class="p-2.5 sm:p-3 bg-[#0d1117] border border-emerald-500/30 rounded mb-4">
-                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact Verified</div>
-                  <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="selectedPost.metrics"></div>
+                  <div class="mono text-[10px] text-emerald-400 font-bold uppercase tracking-wider mb-1">Key Impact
+                    Verified</div>
+                  <div class="mono text-xs sm:text-sm text-emerald-300 font-semibold" x-text="selectedPost.metrics">
+                  </div>
                 </div>
               </template>
 
@@ -713,8 +879,136 @@
             </div>
           </template>
 
+          <!-- 3. ASK ARCHITECTURE AI TERMINAL & RESPONSE (When activeTab === 'ai') -->
+          <template x-if="activeTab === 'ai'">
+            <div class="h-full flex flex-col min-w-0 overflow-hidden">
+              <!-- Terminal Window Header (Fixed at top) -->
+              <div class="flex items-center justify-between border-b border-[#30363d] pb-3 mb-3 shrink-0">
+                <div class="flex items-center gap-2">
+                  <!-- Mobile Back Button to Question Directory -->
+                  <button @click="mobileDrawerOpen = false"
+                    class="lg:hidden mono text-xs font-bold text-[#58a6ff] bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] px-2.5 py-1.5 rounded flex items-center gap-1.5 active:scale-95 transition-all">
+                    <span>← Questions</span>
+                  </button>
+
+                  <div class="hidden sm:flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500/60 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500/60 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500/60 inline-block"></span>
+                  </div>
+                  <span class="mono text-xs font-bold text-white ml-1 truncate">amee --direct-qa</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <!-- Discreet Provider Dot Indicator -->
+                  <template x-if="aiProvider">
+                    <span class="w-2 h-2 rounded-full inline-block"
+                      :class="aiProvider === 'gemini' ? 'bg-[#58a6ff]' : (aiProvider === 'cloudflare-workers-ai' ? 'bg-[#f38020]' : 'bg-[#8b949e]')">
+                    </span>
+                  </template>
+                  <!-- Mobile Close X Button -->
+                  <button @click="mobileDrawerOpen = false"
+                    class="lg:hidden mono text-xs font-bold text-[#8b949e] hover:text-white bg-[#21262d] hover:bg-[#30363d] border border-[#30363d] w-7 h-7 rounded flex items-center justify-center transition-colors"
+                    title="Close Chat">
+                    ✕
+                  </button>
+                </div>
+              </div>
+
+              <!-- Chat Output Container (Scrollable) -->
+              <div id="aiChatScrollContainer" class="flex-1 overflow-y-auto space-y-4 pr-1 min-h-0">
+                <!-- Welcome intro bubble -->
+                <div class="p-4 bg-[#0d1117] border border-[#30363d] rounded-lg">
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                      <span class="text-sm">💬</span>
+                      <span class="mono text-xs font-bold text-[#58a6ff]">Hey, I'm Amee. Ask me anything!</span>
+                    </div>
+                    <template x-if="aiMessages.length > 0">
+                      <button @click="clearAiChat()"
+                        class="mono text-[10px] text-[#8b949e] hover:text-[#f85149] transition-colors">
+                        Clear Thread ✕
+                      </button>
+                    </template>
+                  </div>
+                  <p class="text-xs text-[#c9d1d9] leading-relaxed mb-2">
+                    Feel free to query how I design zero-downtime systems, run multi-region deployments, or build production SaaS products like VetCheck and AjakMe.
+                  </p>
+                  <p class="text-xs text-[#8b949e] leading-relaxed">
+                    💡 <em>Click any curated topic on the left, or type your own question below.</em>
+                  </p>
+                </div>
+
+                <!-- Chat History Thread (Preserves all questions & answers) -->
+                <template x-for="(msg, idx) in aiMessages" :key="idx">
+                  <div class="space-y-3">
+                    <!-- User Prompt -->
+                    <div class="p-3 bg-[#1f6feb]/10 border border-[#388bfd]/30 rounded-lg flex items-start gap-2.5">
+                      <span class="mono text-xs text-[#58a6ff] font-bold shrink-0 mt-0.5">YOU &gt;</span>
+                      <div class="text-xs font-semibold text-white leading-relaxed" x-text="msg.question"></div>
+                    </div>
+
+                    <!-- Direct Answer from Amee -->
+                    <div class="p-4 bg-[#0d1117] border border-[#30363d] rounded-lg relative">
+                      <div class="flex items-center justify-between mb-2 pb-2 border-b border-[#21262d]">
+                        <div class="flex items-center gap-2">
+                          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                          <span class="mono text-[11px] font-bold text-emerald-400 uppercase">Amee's Answer</span>
+                        </div>
+                        <!-- Discreet provider indicator dot -->
+                        <span class="w-1.5 h-1.5 rounded-full inline-block"
+                          :class="msg.provider === 'gemini' ? 'bg-[#58a6ff]' : (msg.provider === 'cloudflare-workers-ai' ? 'bg-[#f38020]' : 'bg-[#8b949e]')">
+                        </span>
+                      </div>
+
+                      <div class="chat-markdown prose prose-invert max-w-none text-xs text-[#c9d1d9] leading-relaxed space-y-2.5"
+                        x-html="renderMarkdown(msg.answer)"></div>
+                    </div>
+                  </div>
+                </template>
+
+                <!-- Currently loading question indicator -->
+                <template x-if="aiLoading">
+                  <div class="space-y-3">
+                    <div class="p-3 bg-[#1f6feb]/10 border border-[#388bfd]/30 rounded-lg flex items-start gap-2.5">
+                      <span class="mono text-xs text-[#58a6ff] font-bold shrink-0 mt-0.5">YOU &gt;</span>
+                      <div class="text-xs font-semibold text-white leading-relaxed" x-text="aiActiveQuestion"></div>
+                    </div>
+                    <div class="p-4 bg-[#0d1117] border border-[#30363d] rounded-lg">
+                      <div class="py-4 flex items-center justify-center gap-2 text-xs mono text-[#58a6ff]">
+                        <svg class="animate-spin h-4 w-4 text-[#58a6ff]" xmlns="http://www.w3.org/2000/svg" fill="none"
+                          viewBox="0 0 24 24">
+                          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                          </circle>
+                          <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                          </path>
+                        </svg>
+                        <span>Gathering production notes...</span>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+
+              <!-- Input Form & Action Bar (Fixed at bottom) -->
+              <div class="pt-3 pb-2 sm:pb-3 border-t border-[#30363d] mt-2 sm:mt-3 shrink-0 bg-[#161b22]/95 backdrop-blur-sm">
+                <form @submit.prevent="askAi(customAiInput)" class="flex gap-2">
+                  <input type="text" x-model="customAiInput"
+                    placeholder="Ask about zero-downtime, AWS, VetCheck, AjakMe, CKA..."
+                    class="flex-1 mono text-xs bg-[#0d1117] border border-[#30363d] focus:border-[#58a6ff] text-white px-3 py-2 rounded focus:outline-none placeholder-[#8b949e]">
+                  <button type="submit" :disabled="aiLoading || !customAiInput.trim()"
+                    class="mono text-xs font-bold bg-[#1f6feb] hover:bg-[#388bfd] disabled:opacity-50 text-white px-3.5 sm:px-4 py-2 rounded transition-colors flex items-center gap-1.5 shrink-0">
+                    <span>Send</span>
+                    <span class="hidden sm:inline">↵</span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </template>
+
           <!-- Fallback when nothing is selected -->
-          <template x-if="(!selectedPost && activeTab !== 'showcase') || (!selectedShowcase && activeTab === 'showcase')">
+          <template
+            x-if="activeTab !== 'ai' && ((!selectedPost && activeTab !== 'showcase') || (!selectedShowcase && activeTab === 'showcase'))">
             <div class="h-full flex flex-col items-center justify-center text-[#8b949e] mono text-xs">
               Select an item from the list to preview details.
             </div>
@@ -733,12 +1027,18 @@
       return {
         posts: [],
         showcases: [],
-        activeTab: 'all',
-        mobileView: 'workspace',
+        activeTab: 'ai',
+        mobileView: 'profile',
         mobileDrawerOpen: false,
         searchQuery: '',
         selectedPost: null,
         selectedShowcase: null,
+        aiActiveQuestion: 'How does you design Zero-Downtime Blue/Green Deployments on AWS?',
+        aiAnswer: '',
+        aiLoading: false,
+        aiProvider: '',
+        customAiInput: '',
+        aiMessages: [],
         async init() {
           const [postsData, showcasesData] = await Promise.all([
             BlogData.getPosts("/"),
@@ -752,20 +1052,103 @@
           if (this.showcases.length > 0) {
             this.selectedShowcase = this.showcases[0];
           }
+          if (this.activeTab === 'ai' && this.aiMessages.length === 0 && !this.aiLoading) {
+            // Preload answer for desktop, but keep drawer closed on mobile so questions list is accessible first
+            this.askAi(this.aiActiveQuestion, false);
+          }
         },
         setTab(tab) {
           this.activeTab = tab;
           this.searchQuery = '';
+          this.mobileDrawerOpen = false; // Reset drawer on tab switch
           if (tab === 'showcase') {
             const filtered = this.filteredShowcases;
             if (filtered.length > 0) {
               this.selectedShowcase = filtered[0];
+            }
+          } else if (tab === 'ai') {
+            if (this.aiMessages.length === 0 && !this.aiLoading) {
+              this.askAi(this.aiActiveQuestion, false);
             }
           } else {
             const filtered = this.filteredPosts;
             if (filtered.length > 0) {
               this.selectedPost = filtered[0];
             }
+          }
+        },
+        clearAiChat() {
+          this.aiMessages = [];
+          this.aiActiveQuestion = '';
+          this.aiAnswer = '';
+        },
+        async askAi(questionText, openDrawerOnMobile = true) {
+          if (!questionText || !questionText.trim()) return;
+          const cleanQ = questionText.trim();
+          this.aiActiveQuestion = cleanQ;
+          this.aiLoading = true;
+          this.customAiInput = '';
+
+          if (window.innerWidth < 1024 && openDrawerOnMobile) {
+            this.mobileDrawerOpen = true;
+          }
+
+          let responseText = '';
+          let providerType = 'gemini';
+
+          try {
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const endpoint = isLocal ? '/api/chat' : 'https://ai.amee.my/chat';
+
+            const res = await fetch(endpoint, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ question: this.aiActiveQuestion })
+            });
+
+            if (res.ok) {
+              const data = await res.json();
+              responseText = data.answer || 'No response returned.';
+              providerType = data.provider || 'gemini';
+            } else {
+              throw new Error(`Status ${res.status}`);
+            }
+          } catch (e) {
+            console.warn('AI endpoint unavailable, falling back to client-side grounded response.', e);
+            providerType = 'client-fallback';
+            // Client-side grounded fallback for pure static GitHub Pages preview
+            const q = this.aiActiveQuestion.toLowerCase();
+            if (q.includes('vetcheck') || q.includes('veterinary')) {
+              responseText = "I serve as **Lead Architect & Senior Systems Engineer** for **VetCheck**, an AI Veterinary Clinical Management & Telehealth SaaS in the UK & Australia.\n\nI engineered an automated **Blue/Green deployment pipeline on AWS** using Laravel Octane, FrankenPHP, and centralized ElastiCache (Redis/ValKey), ensuring continuous uptime and seamless cutovers during busy clinic consultation hours without customer disruption.";
+            } else if (q.includes('ajakme') || q.includes('wedding') || q.includes('telegram')) {
+              responseText = "I'm the **Founder & Full-Stack Architect** of **AjakMe**, a modern digital wedding invitation & RSVP SaaS in Malaysia.\n\nKey highlights:\n- Touch-optimized single-page architecture built with **Livewire 3.7 + Alpine.js**\n- Automated high-resolution **PDF print-card generator**\n- Real-time guest RSVP tracking\n- **Automated Telegram Bot notifications** (note: AjakMe uses Telegram, not WhatsApp).";
+            } else if (q.includes('zero') || q.includes('downtime') || q.includes('aws') || q.includes('deploy')) {
+              responseText = "I specialize in **Zero-Downtime Blue/Green Deployments** on AWS without Docker complexity.\n\nMy architecture uses AWS Application Load Balancers, Target Group weight shifting, Laravel Octane/FrankenPHP workers, and centralized ElastiCache to ensure 100% traffic cutover safety and instant rollback without dropping customer sessions.\n\nYou can read the full case study directly in the **Case Studies** tab!";
+            } else if (q.includes('cka') || q.includes('cert') || q.includes('k8s') || q.includes('kubernetes')) {
+              responseText = "I'm a **CKA: Certified Kubernetes Administrator**, certified by The Linux Foundation & CNCF in 2024 (Credly verified).\n\nI am also officially recognized as a **Graduate Technologist (Information & Computing)** by the Malaysia Board of Technologists (MBOT).";
+            } else if (q.includes('name') || q.includes('who') || q.includes('amee')) {
+              responseText = "My full name is **Ameerul Arif Bin Mohd Azni**, though friends and colleagues across the industry call me **Amee**.\n\nI'm a Malaysia-based Lead Systems Architect and Senior Software Engineer specializing in zero-downtime AWS infrastructure, high-density Laravel systems, and cloud deployments.";
+            } else {
+              responseText = "Hi! I'm **Ameerul Arif** (known as **Amee**). I specialize in high-density cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures.\n\nFeel free to explore my case studies, project showcases, or connect with me directly on [LinkedIn](https://linkedin.com/in/ameerularif) to collaborate!";
+            }
+          } finally {
+            this.aiLoading = false;
+            // Append Q&A to thread history so user can scroll back and reread anytime
+            this.aiMessages.push({
+              question: cleanQ,
+              answer: responseText,
+              provider: providerType
+            });
+            this.aiAnswer = responseText;
+            this.aiProvider = providerType;
+
+            // Auto-scroll chat container to the newest message
+            this.$nextTick(() => {
+              const el = document.getElementById('aiChatScrollContainer');
+              if (el) {
+                el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+              }
+            });
           }
         },
         selectPost(post) {
@@ -780,8 +1163,24 @@
             this.mobileDrawerOpen = true;
           }
         },
+        renderMarkdown(rawText) {
+          if (!rawText) return '';
+          try {
+            if (window.marked && typeof window.marked.parse === 'function') {
+              return window.marked.parse(rawText, { breaks: true, gfm: true });
+            }
+          } catch (e) {
+            console.warn('Markdown parsing fallback', e);
+          }
+          // Simple fallback if CDN fails
+          return rawText
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/\n/g, '<br>');
+        },
         get filteredPosts() {
           return this.posts.filter(p => {
+            if (p.draft === true || p.hidden === true || p.hide === true) return false;
             const matchesTab = this.activeTab === 'all' || p.type === this.activeTab;
             const matchesQuery = !this.searchQuery ||
               p.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -792,6 +1191,7 @@
         },
         get filteredShowcases() {
           return this.showcases.filter(item => {
+            if (item.draft === true || item.hidden === true || item.hide === true) return false;
             if (!this.searchQuery) return true;
             const q = this.searchQuery.toLowerCase();
             return item.name.toLowerCase().includes(q) ||

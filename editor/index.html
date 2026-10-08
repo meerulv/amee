@@ -87,6 +87,14 @@
       <!-- Article Mode Actions -->
       <template x-if="editorMode === 'posts'">
         <div class="flex items-center gap-1.5 sm:gap-2">
+          <!-- Visibility / Hide Status Toggle Button -->
+          <button type="button" @click="form.hidden = !form.hidden"
+            :class="form.hidden ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-[#30363d] bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+            class="mono text-xs font-semibold px-2.5 sm:px-3 py-1 rounded border transition-colors inline-flex items-center gap-1.5 whitespace-nowrap"
+            :title="form.hidden ? 'Currently hidden from portfolio' : 'Currently visible on portfolio'">
+            <span x-text="form.hidden ? '🙈 Hidden (Draft)' : '👁️ Published'"></span>
+          </button>
+
           <template x-if="livePostUrl">
             <a :href="livePostUrl" target="_blank"
               class="mono text-xs font-semibold border border-[#388bfd]/50 bg-[#1f6feb]/20 hover:bg-[#1f6feb]/30 text-[#58a6ff] px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
@@ -120,6 +128,14 @@
       <!-- Showcase Mode Actions -->
       <template x-if="editorMode === 'showcases'">
         <div class="flex items-center gap-1.5 sm:gap-2">
+          <!-- Visibility / Hide Status Toggle Button -->
+          <button type="button" @click="showcaseForm.hidden = !showcaseForm.hidden"
+            :class="showcaseForm.hidden ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-[#30363d] bg-[#21262d] text-[#c9d1d9] hover:bg-[#30363d]'"
+            class="mono text-xs font-semibold px-2.5 sm:px-3 py-1 rounded border transition-colors inline-flex items-center gap-1.5 whitespace-nowrap"
+            :title="showcaseForm.hidden ? 'Currently hidden from portfolio' : 'Currently visible on portfolio'">
+            <span x-text="showcaseForm.hidden ? '🙈 Hidden' : '👁️ Published'"></span>
+          </button>
+
           <template x-if="showcaseForm.liveUrl">
             <a :href="showcaseForm.liveUrl" target="_blank"
               class="mono text-xs font-semibold border border-[#388bfd]/50 bg-[#1f6feb]/20 hover:bg-[#1f6feb]/30 text-[#58a6ff] px-2.5 sm:px-3 py-1 rounded transition-colors inline-flex items-center gap-1 whitespace-nowrap">
@@ -206,9 +222,15 @@
               class="w-full text-left p-2.5 rounded transition-colors group block border"
               :class="form.folder === p.folder ? 'bg-[#161b22] border-[#58a6ff]' : 'border-transparent hover:bg-[#161b22] hover:border-[#30363d]'">
               <div class="flex items-center justify-between mb-1">
-                <span class="mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded"
-                  :class="p.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff]' : 'bg-[#238636]/20 text-[#3fb950]'"
-                  x-text="p.type"></span>
+                <div class="flex items-center gap-1">
+                  <span class="mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded"
+                    :class="p.type === 'case-study' ? 'bg-[#1f6feb]/20 text-[#58a6ff]' : 'bg-[#238636]/20 text-[#3fb950]'"
+                    x-text="p.type"></span>
+                  <span x-show="p.hidden || p.hide || p.draft"
+                    class="mono text-[8px] uppercase font-bold px-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    HIDDEN
+                  </span>
+                </div>
                 <span class="mono text-[10px] text-[#8b949e]" x-text="p.date"></span>
               </div>
               <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white line-clamp-2" x-text="p.title">
@@ -226,9 +248,15 @@
               class="w-full text-left p-2.5 rounded transition-colors group block border"
               :class="showcaseForm.id === item.id ? 'bg-[#161b22] border-[#58a6ff]' : 'border-transparent hover:bg-[#161b22] hover:border-[#30363d]'">
               <div class="flex items-center justify-between mb-1">
-                <span class="mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded"
-                  :class="item.badgeColor === 'emerald' ? 'bg-[#238636]/20 text-[#3fb950]' : (item.badgeColor === 'purple' ? 'bg-purple-500/20 text-purple-300' : 'bg-[#1f6feb]/20 text-[#58a6ff]')"
-                  x-text="item.badge"></span>
+                <div class="flex items-center gap-1">
+                  <span class="mono text-[9px] uppercase font-bold px-1.5 py-0.5 rounded"
+                    :class="item.badgeColor === 'emerald' ? 'bg-[#238636]/20 text-[#3fb950]' : (item.badgeColor === 'purple' ? 'bg-purple-500/20 text-purple-300' : 'bg-[#1f6feb]/20 text-[#58a6ff]')"
+                    x-text="item.badge"></span>
+                  <span x-show="item.hidden || item.hide || item.draft"
+                    class="mono text-[8px] uppercase font-bold px-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    HIDDEN
+                  </span>
+                </div>
                 <span class="mono text-[10px] text-[#8b949e]" x-text="item.id"></span>
               </div>
               <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white line-clamp-1" x-text="item.name"></div>
@@ -255,7 +283,7 @@
               <p class="text-xs text-[#8b949e]">Configures how this appears in <code>posts.json</code> and the homepage workspace.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label class="block mono text-[11px] text-[#8b949e] mb-1">Post Type</label>
                 <select x-model="form.type" class="w-full px-2.5 py-1.5 rounded text-xs">
@@ -268,6 +296,14 @@
                 <label class="block mono text-[11px] text-[#8b949e] mb-1">Date (YYYY-MM-DD)</label>
                 <input type="text" x-model="form.date" class="w-full px-2.5 py-1.5 rounded text-xs mono"
                   placeholder="2026-10-03">
+              </div>
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Visibility Status</label>
+                <button type="button" @click="form.hidden = !form.hidden"
+                  :class="form.hidden ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-[#30363d] bg-[#161b22] text-[#3fb950] border-[#2ea043]/30'"
+                  class="w-full px-2.5 py-1.5 rounded text-xs mono font-bold border transition-colors flex items-center justify-center gap-1.5">
+                  <span x-text="form.hidden ? '🙈 Hidden / WIP' : '👁️ Published (Live)'"></span>
+                </button>
               </div>
             </div>
 
@@ -385,7 +421,7 @@
               </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label class="block mono text-[11px] text-[#8b949e] mb-1">Status Badge Text</label>
                 <input type="text" x-model="showcaseForm.badge" class="w-full px-2.5 py-1.5 rounded text-xs mono"
@@ -398,6 +434,14 @@
                   <option value="blue">Blue (Enterprise Shipped)</option>
                   <option value="purple">Purple (Commercial Superapp)</option>
                 </select>
+              </div>
+              <div>
+                <label class="block mono text-[11px] text-[#8b949e] mb-1">Visibility Status</label>
+                <button type="button" @click="showcaseForm.hidden = !showcaseForm.hidden"
+                  :class="showcaseForm.hidden ? 'border-amber-500/50 bg-amber-500/15 text-amber-300' : 'border-[#30363d] bg-[#161b22] text-[#3fb950] border-[#2ea043]/30'"
+                  class="w-full px-2.5 py-1.5 rounded text-xs mono font-bold border transition-colors flex items-center justify-center gap-1.5">
+                  <span x-text="showcaseForm.hidden ? '🙈 Hidden / WIP' : '👁️ Published (Live)'"></span>
+                </button>
               </div>
             </div>
 
@@ -913,6 +957,7 @@
             this.form.tagsInput = Array.isArray(p.tags) ? p.tags.join(', ') : '';
             this.form.category = p.category || 'Systems Architecture & Performance';
             this.form.draft = !!p.draft;
+            this.form.hidden = !!(p.hidden || p.hide || p.draft);
 
             // Fetch full article HTML body from API
             try {
@@ -937,6 +982,7 @@
               excerpt: '',
               tagsInput: 'Laravel, AWS, Redis',
               draft: false,
+              hidden: false,
               content_html: `<h2>01. Executive Overview</h2>
 <p>Summary of the problem, architectural context, and technical mandate for this implementation.</p>
 
@@ -1017,6 +1063,7 @@
               metrics: this.form.metrics.trim(),
               tags: this.computedTags,
               draft: this.form.draft,
+              hidden: !!this.form.hidden,
               content_html: this.form.content_html
             };
 
@@ -1109,6 +1156,7 @@
             this.showcaseForm.liveUrl = item.liveUrl || '';
             this.showcaseForm.snapshotUrl = item.snapshotUrl || '';
             this.showcaseForm.relatedPost = item.relatedPost || '';
+            this.showcaseForm.hidden = !!(item.hidden || item.hide || item.draft);
           },
           resetShowcaseForm() {
             this.showcaseForm = {
@@ -1126,7 +1174,8 @@
               stackInput: 'Laravel 11, Octane / FrankenPHP, AWS Multi-Region, Redis, Livewire',
               liveUrl: '',
               snapshotUrl: '',
-              relatedPost: ''
+              relatedPost: '',
+              hidden: false
             };
           },
           autoSlugShowcase() {
@@ -1165,7 +1214,8 @@
               stack: this.computedShowcaseStack,
               liveUrl: this.showcaseForm.liveUrl.trim(),
               snapshotUrl: (this.showcaseForm.snapshotUrl || '').trim(),
-              relatedPost: this.showcaseForm.relatedPost ? this.showcaseForm.relatedPost.trim() : null
+              relatedPost: this.showcaseForm.relatedPost ? this.showcaseForm.relatedPost.trim() : null,
+              hidden: !!this.showcaseForm.hidden
             };
 
             try {

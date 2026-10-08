@@ -43,7 +43,7 @@ def generate_seo_assets():
         ("https://amee.my/", "1.0", "weekly"),
     ]
     for p in posts:
-        if not p.get("draft", False):
+        if not p.get("draft", False) and not p.get("hidden", False) and not p.get("hide", False):
             folder = p.get("folder", "")
             date = p.get("date", "")
             if folder:
@@ -225,15 +225,15 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
             post_body = self.rfile.read(content_length).decode('utf-8')
             try:
                 data = json.loads(post_body)
-                title = data.get('title', '').strip()
-                folder = data.get('folder', '').strip() or slugify(title)
-                post_type = data.get('type', 'case-study')
-                date_str = data.get('date', '')
-                excerpt = data.get('excerpt', '')
-                metrics = data.get('metrics', '')
-                tags = [t.strip() for t in data.get('tags', []) if t.strip()]
+                title = (data.get('title') or '').strip()
+                folder = (data.get('folder') or '').strip() or slugify(title)
+                post_type = data.get('type') or 'case-study'
+                date_str = (data.get('date') or '').strip()
+                excerpt = (data.get('excerpt') or '').strip()
+                metrics = (data.get('metrics') or '').strip()
+                tags = [str(t).strip() for t in (data.get('tags') or []) if str(t).strip()]
                 draft = bool(data.get('draft', False))
-                content_html = data.get('content_html', '')
+                content_html = data.get('content_html') or ''
 
                 # 1. Update/Add entry in posts.json
                 with open(POSTS_JSON_PATH, "r", encoding="utf-8") as f:
@@ -244,11 +244,12 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "title": title,
                     "type": post_type,
                     "date": date_str,
-                    "category": data.get('category', '').strip(),
+                    "category": (data.get('category') or '').strip(),
                     "excerpt": excerpt,
                     "metrics": metrics,
                     "tags": tags,
-                    "draft": draft
+                    "draft": draft,
+                    "hidden": bool(data.get('hidden', False))
                 }
 
                 existing_idx = next((i for i, p in enumerate(posts) if p.get('folder') == folder), None)
@@ -333,21 +334,21 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
             post_body = self.rfile.read(content_length).decode('utf-8')
             try:
                 data = json.loads(post_body)
-                showcase_id = data.get('id', '').strip() or slugify(data.get('name', 'project'))
-                name = data.get('name', '').strip()
-                tagline = data.get('tagline', '').strip()
-                category = data.get('category', '').strip()
-                role = data.get('role', '').strip()
-                badge = data.get('badge', 'Active Production').strip()
-                badgeColor = data.get('badgeColor', 'emerald').strip()
-                image = data.get('image', '').strip()
-                problem = data.get('problem', '').strip()
-                solution = data.get('solution', '').strip()
-                metrics = data.get('metrics', '').strip()
-                stack = [s.strip() for s in data.get('stack', []) if s.strip()]
-                liveUrl = data.get('liveUrl', '').strip()
-                snapshotUrl = data.get('snapshotUrl', '').strip()
-                relatedPost = data.get('relatedPost', '').strip()
+                showcase_id = (data.get('id') or '').strip() or slugify(data.get('name') or 'project')
+                name = (data.get('name') or '').strip()
+                tagline = (data.get('tagline') or '').strip()
+                category = (data.get('category') or '').strip()
+                role = (data.get('role') or '').strip()
+                badge = (data.get('badge') or 'Active Production').strip()
+                badgeColor = (data.get('badgeColor') or 'emerald').strip()
+                image = (data.get('image') or '').strip()
+                problem = (data.get('problem') or '').strip()
+                solution = (data.get('solution') or '').strip()
+                metrics = (data.get('metrics') or '').strip()
+                stack = [str(s).strip() for s in (data.get('stack') or []) if str(s).strip()]
+                liveUrl = (data.get('liveUrl') or '').strip()
+                snapshotUrl = (data.get('snapshotUrl') or '').strip()
+                relatedPost = (data.get('relatedPost') or '').strip()
 
                 try:
                     with open(SHOWCASES_JSON_PATH, "r", encoding="utf-8") as f:
@@ -370,7 +371,8 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "stack": stack,
                     "liveUrl": liveUrl,
                     "snapshotUrl": snapshotUrl,
-                    "relatedPost": relatedPost
+                    "relatedPost": relatedPost,
+                    "hidden": bool(data.get('hidden', False))
                 }
 
                 existing_idx = next((i for i, s in enumerate(showcases) if s.get('id') == showcase_id), None)
@@ -430,6 +432,100 @@ class PortfolioRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.send_header("Content-Type", "application/json")
                 self.end_headers()
                 self.wfile.write(json.dumps({"status": "error", "message": str(e)}).encode("utf-8"))
+            return
+
+        if parsed.path == "/api/chat":
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_body = self.rfile.read(content_length).decode('utf-8')
+            try:
+                import urllib.request
+                import random
+                req_data = json.loads(post_body)
+                question = req_data.get('question', '').strip()
+
+                if not question:
+                    self.send_response(400)
+                    self.send_header("Content-Type", "application/json")
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"error": "Empty question"}).encode("utf-8"))
+                    return
+
+                # Load context facts
+                context_path = os.path.join(BASE_DIR, "data", "ameerul-context.json")
+                facts_text = ""
+                if os.path.exists(context_path):
+                    with open(context_path, "r", encoding="utf-8") as f:
+                        facts_text = f.read()
+
+                system_prompt = f"""You are Ameerul Arif (known as "Amee" in the software engineering industry) responding directly in first person ("I", "my", "we").
+You are a Lead Systems Architect & Senior Software Engineer based in Malaysia, certified as CKA (Certified Kubernetes Administrator) and MBOT Graduate Technologist.
+
+STRICT RULES & PERSONA:
+1. Speak directly as Ameerul / Amee ("I engineered...", "My architecture uses...", "In my daily work..."). Do NOT talk in the third person (never say "Ameerul does" or "As an AI assistant").
+2. ONLY answer using my verified facts below. If something is not covered, politely state that it's not documented here and invite them to connect with me on LinkedIn (https://linkedin.com/in/ameerularif) or drop me an email at hey@amee.my.
+3. DO NOT invent or hallucinate metrics or benchmarks (e.g., do not claim sub-100ms unless verified).
+4. AjakMe uses TELEGRAM BOT notifications. It does NOT use WhatsApp.
+5. Tone: Pragmatic, direct, approachable, senior engineering mindset, grounded in real production systems.
+
+VERIFIED FACTS:
+{facts_text}"""
+
+                # Check for Gemini API keys in environment
+                gemini_keys_env = os.environ.get("GEMINI_API_KEYS", os.environ.get("GEMINI_API_KEY", ""))
+                keys = [k.strip() for k in gemini_keys_env.split(",") if k.strip()]
+
+                answer = None
+                used_provider = "gemini"
+
+                if keys:
+                    start_idx = random.randint(0, len(keys) - 1)
+                    for i in range(len(keys)):
+                        current_key = keys[(start_idx + i) % len(keys)]
+                        try:
+                            gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={current_key}"
+                            payload = json.dumps({
+                                "systemInstruction": {"parts": [{"text": system_prompt}]},
+                                "contents": [{"role": "user", "parts": [{"text": question}]}],
+                                "generationConfig": {"temperature": 0.3, "maxOutputTokens": 600}
+                            }).encode("utf-8")
+
+                            req = urllib.request.Request(gemini_url, data=payload, headers={"Content-Type": "application/json"})
+                            with urllib.request.urlopen(req, timeout=10) as resp:
+                                resp_data = json.loads(resp.read().decode("utf-8"))
+                                text = resp_data.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text")
+                                if text:
+                                    answer = text
+                                    break
+                        except Exception as gemini_err:
+                            continue
+
+                if not answer:
+                    # Grounded local fallback matching queries if no external key is active yet (First-Person)
+                    q_lower = question.lower()
+                    if "vetcheck" in q_lower or "veterinary" in q_lower:
+                        answer = "I serve as **Lead Architect & Senior Systems Engineer** for **VetCheck**, an AI Veterinary Clinical Management & Telehealth SaaS in the UK & Australia.\n\nI engineered an automated **Blue/Green deployment pipeline on AWS** using Laravel Octane, FrankenPHP, and centralized ElastiCache (Redis/ValKey), ensuring continuous uptime and seamless cutovers during busy clinic consultation hours without disrupting appointments."
+                    elif "ajakme" in q_lower or "wedding" in q_lower or "telegram" in q_lower:
+                        answer = "I founded and architected **AjakMe**, a modern digital wedding invitation and guest RSVP SaaS tailored for the Malaysian market.\n\nKey highlights:\n- Touch-optimized single-page architecture built with **Livewire 3.7 + Alpine.js**\n- Automated high-resolution **PDF print-card generator**\n- Real-time guest RSVP tracking\n- **Automated Telegram Bot notifications** (I chose Telegram for speed and reliability, avoiding WhatsApp API overhead)."
+                    elif "zero" in q_lower or "downtime" in q_lower or "aws" in q_lower or "deploy" in q_lower:
+                        answer = "In my infrastructure designs, I specialize in **Zero-Downtime Blue/Green Deployments** on AWS without Docker complexity.\n\nMy approach uses AWS Application Load Balancers, Target Group weight shifting, Laravel Octane/FrankenPHP workers, and centralized ElastiCache to ensure 100% traffic cutover safety and instant rollback without dropping active sessions.\n\nYou can read my complete breakdown in the **Case Studies** tab: *Zero-Downtime Blue/Green Deployments Explained Simply*."
+                    elif "cka" in q_lower or "cert" in q_lower or "k8s" in q_lower or "kubernetes" in q_lower:
+                        answer = "I hold the **CKA: Certified Kubernetes Administrator** certification from The Linux Foundation & CNCF (issued 2024, verified on Credly).\n\nAdditionally, I am accredited as a **Graduate Technologist (Information & Computing)** by the Malaysia Board of Technologists (MBOT)."
+                    elif "stack" in q_lower or "laravel" in q_lower or "php" in q_lower:
+                        answer = "My daily production stack centers on:\n- **Backend:** PHP (Laravel 11 / 12), Laravel Octane / FrankenPHP\n- **Frontend & Interaction:** Livewire 3 / 4, Alpine.js, Tailwind CSS\n- **Data & Caching:** MySQL, Redis / ValKey, AWS ElastiCache\n- **Cloud & DevOps:** AWS (EC2, Auto Scaling, ALB, RDS Aurora), CI/CD Automation\n- **Current Focus:** Concurrency in Go (Golang) and Kubernetes (CKA)."
+                    elif "name" in q_lower or "who" in q_lower or "amee" in q_lower:
+                        answer = "My full name is **Ameerul Arif Bin Mohd Azni**, though friends and colleagues across the tech community call me **Amee**.\n\nI'm a Malaysia-based Lead Systems Architect and Senior Software Engineer specializing in cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures. I hold both the **CKA (Certified Kubernetes Administrator)** and **Graduate Technologist (MBOT)** credentials.\n\nFeel free to ask about any of my setups or code architectures!"
+                    else:
+                        answer = "Hi! I'm **Ameerul Arif** (known as **Amee**). I specialize in high-density cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures.\n\nYou can explore my case studies and live project showcases directly in the tabs above, or feel free to connect with me on [LinkedIn](https://linkedin.com/in/ameerularif) or drop me an email at hey@amee.my!"
+
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"answer": answer, "provider": used_provider}).encode("utf-8"))
+            except Exception as e:
+                self.send_response(500)
+                self.send_header("Content-Type", "application/json")
+                self.end_headers()
+                self.wfile.write(json.dumps({"error": str(e)}).encode("utf-8"))
             return
 
         self.send_response(404)

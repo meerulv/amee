@@ -1,0 +1,117 @@
+{
+  "profile": {
+    "name": "Ameerul Arif",
+    "full_name": "Ameerul Arif Bin Mohd Azni",
+    "known_as": "Amee",
+    "handle": "ameerularif",
+    "site": "https://amee.my",
+    "roles": [
+      "Lead Systems Architect",
+      "Senior Software Engineer",
+      "Cloud Infrastructure Specialist"
+    ],
+    "location": "Malaysia",
+    "focus": "High-density cloud architectures, zero-downtime deployment pipelines, multi-region setups, and resilient web applications.",
+    "credentials": [
+      {
+        "title": "CKA: Certified Kubernetes Administrator",
+        "issuer": "The Linux Foundation & CNCF",
+        "year": "2024",
+        "verification": "https://credly.com/badges/6bb0019c-3134-4570-ae54-966f738643c5"
+      },
+      {
+        "title": "Graduate Technologist (Information & Computing)",
+        "issuer": "Malaysia Board of Technologists (MBOT)",
+        "id": "GT17120176"
+      }
+    ],
+    "contact": {
+      "github": "https://github.com/ameerularif",
+      "linkedin": "https://linkedin.com/in/ameerularif",
+      "email": "ameerularif@example.com"
+    }
+  },
+  "technical_stack": {
+    "primary_daily_production": [
+      "PHP (Laravel 11 / 12)",
+      "Livewire 3 / 4 & Alpine.js",
+      "Laravel Octane / FrankenPHP",
+      "ValKey / Redis / ElastiCache",
+      "AWS Cloud (EC2, Auto Scaling, ALB, RDS Aurora)",
+      "CI/CD Automation",
+      "MySQL"
+    ],
+    "secondary_and_learning": [
+      "Go (Golang - Microservices & High-Concurrency Systems)",
+      "Kubernetes (CKA Certified)",
+      "Docker & Container Orchestration",
+      "Tailwind CSS"
+    ],
+    "deployment_philosophy": "Zero-Downtime Blue/Green cutovers, zero disruption to active users, central caching, automated rollback safety."
+  },
+  "shipped_systems": [
+    {
+      "id": "vetcheck",
+      "name": "VetCheck",
+      "role": "Lead Architect & Senior Systems Engineer",
+      "category": "Cloud Architecture & High-Density Systems",
+      "badge": "Active Production",
+      "summary": "AI Veterinary Clinical Management & Telehealth SaaS serving veterinary practices across the UK and Australia.",
+      "challenge": "Clinics needed unified, high-availability practice management with zero-downtime releases and reliable performance during busy clinic consultation hours.",
+      "solution": "Engineered an automated Blue/Green deployment pipeline on AWS using Laravel Octane, FrankenPHP, and centralized ElastiCache (Redis/ValKey), ensuring continuous uptime and seamless cutover without clinic disruption.",
+      "verified_impact": "Multi-Region UK & AU • Zero-Downtime Deployments • 100% Traffic Cutover Safety",
+      "stack": ["Laravel 11", "Octane / FrankenPHP", "AWS Multi-Region", "ElastiCache (Redis)", "Laravel Reverb", "MySQL RDS"],
+      "live_url": "https://plugin.vetcheck.it",
+      "snapshot_url": "https://archives.amee.my/apps/vetcheck",
+      "case_study": "Simple-Laravel-Zero-Downtime-AWS-Production-Deployment-Flow-with-No-Docker"
+    },
+    {
+      "id": "ajakme",
+      "name": "AjakMe",
+      "role": "Founder & Full-Stack Architect",
+      "category": "Consumer SaaS & Product-Led Growth",
+      "badge": "Active Production",
+      "summary": "Modern Digital Wedding Invitation & Guest RSVP SaaS in Malaysia.",
+      "challenge": "Couples needed an elegant, straightforward way to design digital invitations, collect RSVPs in real time, generate physical print-ready card exports, and send Telegram guest notifications.",
+      "solution": "Built a touch-optimized, clean Livewire 3 + Alpine.js single-page application with automated high-resolution PDF print exports, dynamic QR check-ins, and automated Telegram bot notifications (no WhatsApp integration).",
+      "verified_impact": "Production Live • Telegram Bot Notifications • Print-Ready PDF Generator",
+      "stack": ["Laravel 12", "Livewire 3.7", "Alpine.js", "Tailwind CSS", "Redis Queue", "MySQL", "Telegram Bot API"],
+      "live_url": "https://ajakme.com",
+      "snapshot_url": "https://archives.amee.my/apps/ajakme"
+    },
+    {
+      "id": "accea",
+      "name": "ACCEA Membership & Room Booking",
+      "role": "Lead Software Engineer",
+      "category": "Enterprise Identity & Booking Engine",
+      "badge": "Enterprise Shipped",
+      "summary": "Unified Identity, SSO & Flexible Room Reservation Platform for coworking spaces.",
+      "challenge": "Enterprise coworking centers needed a single unified identity provider across multiple web properties along with real-time room scheduling to eliminate double bookings.",
+      "solution": "Architected a centralized Single Sign-On (SSO) OAuth2 identity provider and connected reservation engine with concurrency-safe booking calendars, payment gateways, and automated member access.",
+      "verified_impact": "Unified Single Sign-On • Real-Time Concurrency Calendar • Enterprise Multi-Location",
+      "stack": ["Laravel", "Centralized SSO", "OAuth2 / OIDC", "RESTful APIs", "MySQL", "Redis"],
+      "live_url": "https://account.accea.com.my",
+      "snapshot_url": "https://archives.amee.my/apps/accea"
+    },
+    {
+      "id": "althr",
+      "name": "altHR (Digi-X)",
+      "role": "Senior Software Engineer",
+      "category": "Enterprise Mobile & Web Platform",
+      "badge": "Commercial Superapp",
+      "summary": "Enterprise HR & Workforce Superapp used by corporate enterprises across Malaysia.",
+      "challenge": "Malaysian enterprises required a centralized digital workforce platform managing employee leaves, automated payroll, time tracking, and staff perks at scale.",
+      "solution": "Contributed to high-volume microservice APIs, payroll calculations, and scalable mobile backend endpoints supporting tens of thousands of corporate employees across Malaysia.",
+      "verified_impact": "High-Volume Enterprise Scale • Microservices Architecture • Fintech & Payroll Integration",
+      "stack": ["Laravel / PHP", "Microservices", "AWS Cloud", "REST APIs", "Enterprise Scale"],
+      "live_url": "https://www.althr.my",
+      "snapshot_url": "https://archives.amee.my/apps/althr"
+    }
+  ],
+  "guardrails": [
+    "Never invent or hallucinate metrics, latency benchmarks, or partnerships that are not in this file.",
+    "Do NOT mention WhatsApp integration for AjakMe; AjakMe uses Telegram Bot notifications.",
+    "Keep answers grounded, concise, relatable to Malaysian managers and engineers, and technically accurate.",
+    "Always provide direct links to the relevant case study (e.g. /blog/posts/.../) or production app when asked."
+  ]
+}

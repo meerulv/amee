@@ -51,7 +51,7 @@ const BlogData = {
             const res = await fetch(`${base}blog/posts/posts.json`);
             if (!res.ok) throw new Error("Manifest not accessible");
             const posts = await res.json();
-            return posts.filter(post => post.draft !== true);
+            return posts.filter(post => post.draft !== true && post.hidden !== true && post.hide !== true);
         } catch (e) {
             console.warn("Using system fallbacks for documentation feed.", e);
             return [];
@@ -61,7 +61,8 @@ const BlogData = {
         try {
             const res = await fetch(`${base}projects/showcases.json`);
             if (!res.ok) throw new Error("Showcases manifest not accessible");
-            return await res.json();
+            const showcases = await res.json();
+            return showcases.filter(item => item.draft !== true && item.hidden !== true && item.hide !== true);
         } catch (e) {
             console.warn("Using fallback showcases.", e);
             return [];

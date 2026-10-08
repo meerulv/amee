@@ -1,0 +1,12 @@
+name = "amee-ai-router"
+main = "index.js"
+compatibility_date = "2024-09-23"
+
+# Built-in Cloudflare Workers AI binding (10,000 free requests / day)
+[ai]
+binding = "AI"
+
+# Optional environment variables for local testing
+[vars]
+# GEMINI_API_KEYS can be added here or set as a Cloudflare secret:
+# wrangler secret put GEMINI_API_KEYS
