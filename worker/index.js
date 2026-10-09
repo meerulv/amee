@@ -117,9 +117,10 @@ export default {
 
       // 4. Fallback to Cloudflare Workers AI if Gemini pool is exhausted or unavailable
       if (!answer && env.AI) {
+        usedProvider = "cloudflare-workers-ai";
         try {
-          usedProvider = "cloudflare-workers-ai";
-          const aiResponse = await env.AI.run("@cf/meta/llama-3.3-70b-instruct", {
+          // Use standard Llama 3.1 8B Instruct (fastest and most reliable on Cloudflare free tier)
+          const aiResponse = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
             messages: [
               { role: "system", content: SYSTEM_PROMPT },
               { role: "user", content: question.trim() },
@@ -129,7 +130,19 @@ export default {
           });
           answer = aiResponse?.response || "I could not retrieve a response at this time.";
         } catch (cfErr) {
-          console.error("Workers AI fallback error:", cfErr);
+          console.error("Workers AI 8B error, trying llama-3-8b-instruct:", cfErr);
+          try {
+            const aiResponse2 = await env.AI.run("@cf/meta/llama-3-8b-instruct", {
+              messages: [
+                { role: "system", content: SYSTEM_PROMPT },
+                { role: "user", content: question.trim() },
+              ],
+              max_tokens: 600,
+            });
+            answer = aiResponse2?.response || null;
+          } catch (cfErr2) {
+            console.error("Workers AI second fallback error:", cfErr2);
+          }
         }
       }
 

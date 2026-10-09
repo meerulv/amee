@@ -78,8 +78,12 @@ AIzaSyKeyOne...,AIzaSyKeyTwo...,AIzaSyKeyThree...
 Run the deployment command:
 
 ```bash
-wrangler deploy
+cd worker
+npx wrangler deploy
 ```
+
+> [!IMPORTANT]
+> Make sure you are inside the **`worker`** directory (`cd worker`). If you run `wrangler deploy` from the root directory, Wrangler won't find `wrangler.toml` and will mistakenly prompt you with interactive questions (framework, project name, etc.).
 
 Once deployed, Cloudflare will output your public endpoint URL:
 ```text
