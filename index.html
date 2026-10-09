@@ -96,26 +96,32 @@
     .chat-markdown p {
       margin-bottom: 0.65rem;
     }
+
     .chat-markdown p:last-child {
       margin-bottom: 0;
     }
+
     .chat-markdown strong {
       color: #ffffff;
       font-weight: 700;
     }
+
     .chat-markdown em {
       color: #58a6ff;
       font-style: italic;
     }
+
     .chat-markdown ul {
       list-style-type: disc;
       padding-left: 1.25rem;
       margin-bottom: 0.65rem;
       space-y: 0.25rem;
     }
+
     .chat-markdown li {
       margin-bottom: 0.25rem;
     }
+
     .chat-markdown code {
       font-family: var(--font-mono);
       background-color: #161b22;
@@ -125,10 +131,12 @@
       color: #58a6ff;
       font-size: 0.75rem;
     }
+
     .chat-markdown a {
       color: #58a6ff;
       text-decoration: underline;
     }
+
     .chat-markdown a:hover {
       color: #79c0ff;
     }
@@ -428,8 +436,7 @@
         <div class="flex items-center shrink-0 pr-1 sm:pr-2">
           <div class="relative flex items-center">
             <span class="absolute left-2.5 text-[#8b949e] text-xs pointer-events-none">🔍</span>
-            <input type="text" x-model="searchQuery"
-              @focus="if (activeTab === 'ai') setTab('all')"
+            <input type="text" x-model="searchQuery" @focus="if (activeTab === 'ai') setTab('all')"
               :placeholder="activeTab === 'showcase' ? 'Filter projects...' : (activeTab === 'ai' ? 'Search entries...' : 'Filter entries...')"
               class="mono text-xs bg-[#0d1117] hover:bg-[#0d1117]/80 focus:bg-[#0d1117] border border-[#30363d] focus:border-[#58a6ff] text-[#c9d1d9] placeholder-[#8b949e] pl-7 pr-6 py-1 rounded w-32 sm:w-48 transition-all focus:outline-none focus:ring-1 focus:ring-[#58a6ff]/40">
             <button x-show="searchQuery" @click="searchQuery = ''"
@@ -537,7 +544,8 @@
           <template x-if="activeTab === 'ai'">
             <div class="p-3 sm:p-4 space-y-4">
               <div>
-                <div class="mono text-[10px] uppercase font-bold text-[#58a6ff] tracking-wider mb-1">Interactive Q&amp;A</div>
+                <div class="mono text-[10px] uppercase font-bold text-[#58a6ff] tracking-wider mb-1">Interactive Q&amp;A
+                </div>
                 <p class="text-xs text-[#8b949e]">Ask me directly about my architecture, systems, or tech stack:</p>
               </div>
 
@@ -549,13 +557,17 @@
                 </div>
                 <button @click="askAi('How do you design Zero-Downtime Blue/Green Deployments on AWS?')"
                   class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
-                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">How do you handle Zero-Downtime Blue/Green on AWS?</div>
-                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">ALB target weights, Octane/FrankenPHP cutovers, and rollback safety.</div>
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">How do you handle
+                    Zero-Downtime Blue/Green on AWS?</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">ALB target weights, Octane/FrankenPHP cutovers,
+                    and rollback safety.</div>
                 </button>
                 <button @click="askAi('What is your daily primary tech stack and experience?')"
                   class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
-                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">What is your daily primary tech stack &amp; expertise?</div>
-                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Laravel 11/12, Livewire 3/4, Alpine.js, Redis, ElastiCache, AWS.</div>
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">What is your daily primary
+                    tech stack &amp; expertise?</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Laravel 11/12, Livewire 3/4, Alpine.js, Redis,
+                    ElastiCache, AWS.</div>
                 </button>
               </div>
 
@@ -567,18 +579,24 @@
                 </div>
                 <button @click="askAi('What did you build and architect at VetCheck?')"
                   class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
-                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">What did you build and architect at VetCheck?</div>
-                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">AI Veterinary clinical SaaS in UK &amp; AU, Blue/Green deployment pipeline.</div>
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">What did you build and
+                    architect at VetCheck?</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">AI Veterinary clinical SaaS in UK &amp; AU,
+                    Blue/Green deployment pipeline.</div>
                 </button>
                 <button @click="askAi('Tell me about AjakMe and how you use Telegram bot notifications.')"
                   class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
-                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">Tell me about AjakMe and your Telegram bot setup</div>
-                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Livewire 3 single-page app, automated PDF print exports, Telegram alerts.</div>
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">Tell me about AjakMe and your
+                    Telegram bot setup</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Livewire 3 single-page app, automated PDF print
+                    exports, Telegram alerts.</div>
                 </button>
                 <button @click="askAi('What was your contribution at altHR and ACCEA?')"
                   class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
-                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">What did you engineer at altHR (Digi-X) and ACCEA?</div>
-                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Enterprise HR microservices, payroll APIs, and SSO OAuth2 reservation engine.</div>
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">What did you engineer at
+                    altHR (Digi-X) and ACCEA?</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Enterprise HR microservices, payroll APIs, and SSO
+                    OAuth2 reservation engine.</div>
                 </button>
               </div>
 
@@ -590,8 +608,10 @@
                 </div>
                 <button @click="askAi('Tell me about your CKA certification and MBOT Technologist credential.')"
                   class="w-full text-left p-2.5 rounded bg-[#161b22] hover:bg-[#21262d] border border-[#30363d] hover:border-[#58a6ff] transition-all group">
-                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">Tell me about your CKA &amp; MBOT accreditations</div>
-                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Certified Kubernetes Administrator (CNCF) and Graduate Technologist (MBOT).</div>
+                  <div class="text-xs font-semibold text-[#c9d1d9] group-hover:text-white">Tell me about your CKA &amp;
+                    MBOT accreditations</div>
+                  <div class="mono text-[10px] text-[#8b949e] mt-0.5">Certified Kubernetes Administrator (CNCF) and
+                    Graduate Technologist (MBOT).</div>
                 </button>
               </div>
 
@@ -601,7 +621,8 @@
                   class="w-full py-2.5 px-3 rounded bg-[#1f6feb] hover:bg-[#388bfd] text-white mono text-xs font-bold flex items-center justify-between shadow-lg transition-colors active:scale-98">
                   <span class="flex items-center gap-2">
                     <span>💬 View Active Chat</span>
-                    <span x-show="aiMessages.length > 0" class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded" x-text="aiMessages.length + ' answer' + (aiMessages.length > 1 ? 's' : '')"></span>
+                    <span x-show="aiMessages.length > 0" class="text-[10px] bg-white/20 px-1.5 py-0.5 rounded"
+                      x-text="aiMessages.length + ' answer' + (aiMessages.length > 1 ? 's' : '')"></span>
                   </span>
                   <span class="flex items-center gap-1.5 text-xs">
                     <span>Open →</span>
@@ -931,7 +952,8 @@
                     </template>
                   </div>
                   <p class="text-xs text-[#c9d1d9] leading-relaxed mb-2">
-                    Feel free to query how I design zero-downtime systems, run multi-region deployments, or build production SaaS products like VetCheck and AjakMe.
+                    Feel free to query how I design zero-downtime systems, run multi-region deployments, or build
+                    production SaaS products like VetCheck and AjakMe.
                   </p>
                   <p class="text-xs text-[#8b949e] leading-relaxed">
                     💡 <em>Click any curated topic on the left, or type your own question below.</em>
@@ -960,7 +982,8 @@
                         </span>
                       </div>
 
-                      <div class="chat-markdown prose prose-invert max-w-none text-xs text-[#c9d1d9] leading-relaxed space-y-2.5"
+                      <div
+                        class="chat-markdown prose prose-invert max-w-none text-xs text-[#c9d1d9] leading-relaxed space-y-2.5"
                         x-html="renderMarkdown(msg.answer)"></div>
                     </div>
                   </div>
@@ -991,7 +1014,8 @@
               </div>
 
               <!-- Input Form & Action Bar (Fixed at bottom) -->
-              <div class="pt-3 pb-2 sm:pb-3 border-t border-[#30363d] mt-2 sm:mt-3 shrink-0 bg-[#161b22]/95 backdrop-blur-sm">
+              <div
+                class="pt-3 pb-2 sm:pb-3 border-t border-[#30363d] mt-2 sm:mt-3 shrink-0 bg-[#161b22]/95 backdrop-blur-sm">
                 <form @submit.prevent="askAi(customAiInput)" class="flex gap-2">
                   <input type="text" x-model="customAiInput"
                     placeholder="Ask about zero-downtime, AWS, VetCheck, AjakMe, CKA..."
@@ -1052,10 +1076,6 @@
           if (this.showcases.length > 0) {
             this.selectedShowcase = this.showcases[0];
           }
-          if (this.activeTab === 'ai' && this.aiMessages.length === 0 && !this.aiLoading) {
-            // Preload answer for desktop, but keep drawer closed on mobile so questions list is accessible first
-            this.askAi(this.aiActiveQuestion, false);
-          }
         },
         setTab(tab) {
           this.activeTab = tab;
@@ -1067,9 +1087,7 @@
               this.selectedShowcase = filtered[0];
             }
           } else if (tab === 'ai') {
-            if (this.aiMessages.length === 0 && !this.aiLoading) {
-              this.askAi(this.aiActiveQuestion, false);
-            }
+            // Tab switched to AI: Keep ready for user-initiated questions (zero auto-fetch waste)
           } else {
             const filtered = this.filteredPosts;
             if (filtered.length > 0) {
@@ -1098,7 +1116,7 @@
 
           try {
             const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            const endpoint = isLocal ? '/api/chat' : 'https://ai.amee.my/chat';
+            const endpoint = !isLocal ? '/api/chat' : 'https://ai.amee.my/chat';
 
             const res = await fetch(endpoint, {
               method: 'POST',
@@ -1129,7 +1147,7 @@
             } else if (q.includes('name') || q.includes('who') || q.includes('amee')) {
               responseText = "My full name is **Ameerul Arif Bin Mohd Azni**, though friends and colleagues across the industry call me **Amee**.\n\nI'm a Malaysia-based Lead Systems Architect and Senior Software Engineer specializing in zero-downtime AWS infrastructure, high-density Laravel systems, and cloud deployments.";
             } else {
-              responseText = "Hi! I'm **Ameerul Arif** (known as **Amee**). I specialize in high-density cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures.\n\nFeel free to explore my case studies, project showcases, or connect with me directly on [LinkedIn](https://linkedin.com/in/ameerularif) to collaborate!";
+              responseText = "Hi! I'm **Ameerul Arif** (known as **Amee**). I specialize in high-density cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures.\n\nFeel free to explore my case studies, project showcases, or connect with me directly on [LinkedIn](https://www.linkedin.com/in/ameerul-arif-mohd-azni/) to collaborate!";
             }
           } finally {
             this.aiLoading = false;

@@ -462,7 +462,7 @@ You are a Lead Systems Architect & Senior Software Engineer based in Malaysia, c
 
 STRICT RULES & PERSONA:
 1. Speak directly as Ameerul / Amee ("I engineered...", "My architecture uses...", "In my daily work..."). Do NOT talk in the third person (never say "Ameerul does" or "As an AI assistant").
-2. ONLY answer using my verified facts below. If something is not covered, politely state that it's not documented here and invite them to connect with me on LinkedIn (https://linkedin.com/in/ameerularif) or drop me an email at hey@amee.my.
+2. ONLY answer using my verified facts below. If something is not covered, politely state that it's not documented here and invite them to connect with me on LinkedIn (https://www.linkedin.com/in/ameerul-arif-mohd-azni/) or drop me an email at hey@amee.my.
 3. DO NOT invent or hallucinate metrics or benchmarks (e.g., do not claim sub-100ms unless verified).
 4. AjakMe uses TELEGRAM BOT notifications. It does NOT use WhatsApp.
 5. Tone: Pragmatic, direct, approachable, senior engineering mindset, grounded in real production systems.
@@ -515,7 +515,7 @@ VERIFIED FACTS:
                     elif "name" in q_lower or "who" in q_lower or "amee" in q_lower:
                         answer = "My full name is **Ameerul Arif Bin Mohd Azni**, though friends and colleagues across the tech community call me **Amee**.\n\nI'm a Malaysia-based Lead Systems Architect and Senior Software Engineer specializing in cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures. I hold both the **CKA (Certified Kubernetes Administrator)** and **Graduate Technologist (MBOT)** credentials.\n\nFeel free to ask about any of my setups or code architectures!"
                     else:
-                        answer = "Hi! I'm **Ameerul Arif** (known as **Amee**). I specialize in high-density cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures.\n\nYou can explore my case studies and live project showcases directly in the tabs above, or feel free to connect with me on [LinkedIn](https://linkedin.com/in/ameerularif) or drop me an email at hey@amee.my!"
+                        answer = "Hi! I'm **Ameerul Arif** (known as **Amee**). I specialize in high-density cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures.\n\nYou can explore my case studies and live project showcases directly in the tabs above, or feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/ameerul-arif-mohd-azni/) or drop me an email at hey@amee.my!"
 
                 self.send_response(200)
                 self.send_header("Content-Type", "application/json")

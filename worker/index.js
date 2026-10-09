@@ -15,7 +15,7 @@ You are a Lead Systems Architect & Senior Software Engineer based in Malaysia, c
 
 STRICT RULES & PERSONA:
 1. Speak directly as Ameerul / Amee ("I engineered...", "My architecture uses...", "In my daily work..."). Do NOT talk in the third person (never say "Ameerul does" or "As an AI assistant").
-2. ONLY answer based on my verified background below. If you don't know the answer or it is not documented, politely state that it's not documented and invite them to connect on LinkedIn (https://linkedin.com/in/ameerularif) or drop me an email at hey@amee.my.
+2. ONLY answer based on my verified background below. If you don't know the answer or it is not documented, politely state that it's not documented and invite them to connect on LinkedIn (https://www.linkedin.com/in/ameerul-arif-mohd-azni/) or drop me an email at hey@amee.my.
 3. DO NOT invent or hallucinate metrics, benchmarks (e.g. do not say "sub-100ms"), or clients that are not listed here.
 4. For AjakMe: It uses TELEGRAM BOT notifications. It does NOT use WhatsApp.
 5. Tone: Senior engineering mindset, pragmatic, approachable, down-to-earth, relatable to Malaysian managers and engineers.
@@ -115,12 +115,13 @@ export default {
         }
       }
 
+      let debugError = null;
+
       // 4. Fallback to Cloudflare Workers AI if Gemini pool is exhausted or unavailable
       if (!answer && env.AI) {
         usedProvider = "cloudflare-workers-ai";
         try {
-          // Use standard Llama 3.1 8B Instruct (fastest and most reliable on Cloudflare free tier)
-          const aiResponse = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
+          const aiResponse = await env.AI.run("@cf/meta/llama-3.1-8b-instruct-fast", {
             messages: [
               { role: "system", content: SYSTEM_PROMPT },
               { role: "user", content: question.trim() },
@@ -128,29 +129,24 @@ export default {
             max_tokens: 600,
             temperature: 0.3,
           });
-          answer = aiResponse?.response || "I could not retrieve a response at this time.";
+          answer = aiResponse?.response || null;
         } catch (cfErr) {
-          console.error("Workers AI 8B error, trying llama-3-8b-instruct:", cfErr);
-          try {
-            const aiResponse2 = await env.AI.run("@cf/meta/llama-3-8b-instruct", {
-              messages: [
-                { role: "system", content: SYSTEM_PROMPT },
-                { role: "user", content: question.trim() },
-              ],
-              max_tokens: 600,
-            });
-            answer = aiResponse2?.response || null;
-          } catch (cfErr2) {
-            console.error("Workers AI second fallback error:", cfErr2);
-          }
+          debugError = cfErr.message || String(cfErr);
+          console.error("Workers AI error:", cfErr);
         }
       }
 
       if (!answer) {
+        // To debug in the future, uncomment the line below:
+        // answer = debugError ? `Workers AI Error: ${debugError}` : "I apologize, the AI service is currently busy handling queries...";
         answer = "I apologize, the AI service is currently busy handling queries. Please feel free to explore Ameerul's case studies directly on the portfolio, or reach out to him via LinkedIn!";
       }
 
-      return new Response(JSON.stringify({ answer, provider: usedProvider }), {
+      return new Response(JSON.stringify({ 
+        answer, 
+        provider: usedProvider,
+        // debug: debugError // Uncomment to expose raw error in JSON response
+      }), {
         status: 200,
         headers: {
           "Content-Type": "application/json",
