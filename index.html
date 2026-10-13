@@ -28,6 +28,12 @@
     content="Senior Fullstack Engineer & Systems Architect (10+ yrs, CKA Certified) specializing in Laravel Octane, Multi-Region AWS, high-concurrency Redis queues, and cloud platforms.">
   <meta name="twitter:image" content="https://amee.my/ameemy-seo.webp">
 
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <script src="/assets/js/marked.min.js"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -1111,43 +1117,63 @@
             this.mobileDrawerOpen = true;
           }
 
-          let responseText = '';
-          let providerType = 'gemini';
+          // Pre-cached answers for curated questions to save tokens and provide instant response
+          const PRE_CACHED_ANSWERS = {
+            'how do you design zero-downtime blue/green deployments on aws?': "I specialize in **Zero-Downtime Blue/Green Deployments** on AWS without Docker complexity.\n\nKey architectural pillars:\n- **Dual Target Groups**: Shift traffic via ALB target weight percentages (e.g. 10% canary → 50% → 100%).\n- **Continuous Caching**: Centralized ElastiCache (Redis/ValKey) for persistent user sessions and job queues during cutovers.\n- **Application Workers**: Laravel Octane / FrankenPHP workers reloaded gracefully across target EC2 instances.\n- **Instant Rollback**: If health checks or metrics degrade, target weights immediately revert to Blue within seconds without dropped customer sessions.\n\nCheck out the full case study under the **Case Studies** tab!",
+            'what is your daily primary tech stack and experience?': "My primary daily production stack centers on:\n- **Backend**: PHP (Laravel 11 / 12), Laravel Octane / FrankenPHP\n- **Frontend & Interaction**: Livewire 3 / 4, Alpine.js, Tailwind CSS\n- **Data & Caching**: MySQL, Redis / ValKey, AWS ElastiCache\n- **Cloud & DevOps**: AWS (EC2, Auto Scaling, ALB, RDS Aurora), CI/CD Automation\n- **Current Focus**: Microservice concurrency in Go (Golang) and Kubernetes (CKA).",
+            'what did you build and architect at vetcheck?': "For **VetCheck** (AI Veterinary Clinical Management & Telehealth SaaS in the UK & Australia):\n\n- Engineered the **automated Blue/Green deployment pipeline on AWS** using Laravel Octane, FrankenPHP, and centralized ElastiCache.\n- Guaranteed continuous clinic uptime and smooth cutovers during busy consultation hours across multiple international time zones.\n- Integrated high-performance Redis caching and queue processing for real-time SOAP clinical notes.",
+            'tell me about ajakme and how you use telegram bot notifications.': "I built **AjakMe** (https://ajakme.com) as a modern digital wedding invitation & RSVP SaaS in Malaysia.\n\nHighlights:\n- Single-page reactive architecture powered by **Livewire 3.7 + Alpine.js** (zero page reloads)\n- High-resolution dynamic **PDF print invitation generation**\n- Real-time guest RSVP tracking\n- **Automated Telegram Bot alerts** for hosts whenever guests RSVP or submit wishes (AjakMe uses Telegram bots for instant, cost-effective alerts instead of WhatsApp).",
+            'what was your contribution at althr and accea?': "At **altHR (Digi-X)** and **ACCEA**:\n\n- **altHR**: Engineered high-volume HR & workforce microservices and payroll calculation APIs for Digi's enterprise HR superapp in Malaysia.\n- **ACCEA**: Built a unified OAuth2 SSO identity provider and real-time room reservation engine with concurrency-safe booking calendars.",
+            'tell me about your cka certification and mbot technologist credential.': "My technical credentials include:\n\n- **CKA: Certified Kubernetes Administrator** (The Linux Foundation & CNCF, 2024, verified on Credly).\n- **Graduate Technologist (Information & Computing)**: Officially accredited by the Malaysia Board of Technologists (MBOT, GT17120176).",
+            'why should we hire you?': "As a **Senior Software, DevOps & Cloud Infrastructure Engineer** with 10+ years of building production SaaS and enterprise systems, I bring:\n\n- **Production-proven reliability**: CKA-certified Kubernetes skills and battle-tested zero-downtime AWS deployment patterns.\n- **Fullstack velocity**: Deep mastery of Laravel 11/12, Livewire 3/4, Alpine.js, Octane, and Go.\n- **Product ownership**: Founder experience building and scaling AjakMe and leading core systems for VetCheck.\n\nLet's connect on [LinkedIn](https://www.linkedin.com/in/ameerul-arif-mohd-azni/) or email me at hey@amee.my!"
+          };
 
           try {
-            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            const endpoint = !isLocal ? '/api/chat' : 'https://ai.amee.my/chat';
-
-            const res = await fetch(endpoint, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ question: this.aiActiveQuestion })
-            });
-
-            if (res.ok) {
-              const data = await res.json();
-              responseText = data.answer || 'No response returned.';
-              providerType = data.provider || 'gemini';
+            const normalizedQ = cleanQ.toLowerCase();
+            if (PRE_CACHED_ANSWERS[normalizedQ]) {
+              responseText = PRE_CACHED_ANSWERS[normalizedQ];
+              providerType = 'cached-grounded';
             } else {
-              throw new Error(`Status ${res.status}`);
-            }
-          } catch (e) {
-            console.warn('AI endpoint unavailable, falling back to client-side grounded response.', e);
-            providerType = 'client-fallback';
-            // Client-side grounded fallback for pure static GitHub Pages preview
-            const q = this.aiActiveQuestion.toLowerCase();
-            if (q.includes('vetcheck') || q.includes('veterinary')) {
-              responseText = "I serve as **Lead Architect & Senior Systems Engineer** for **VetCheck**, an AI Veterinary Clinical Management & Telehealth SaaS in the UK & Australia.\n\nI engineered an automated **Blue/Green deployment pipeline on AWS** using Laravel Octane, FrankenPHP, and centralized ElastiCache (Redis/ValKey), ensuring continuous uptime and seamless cutovers during busy clinic consultation hours without customer disruption.";
-            } else if (q.includes('ajakme') || q.includes('wedding') || q.includes('telegram')) {
-              responseText = "I'm the **Founder & Full-Stack Architect** of **AjakMe**, a modern digital wedding invitation & RSVP SaaS in Malaysia.\n\nKey highlights:\n- Touch-optimized single-page architecture built with **Livewire 3.7 + Alpine.js**\n- Automated high-resolution **PDF print-card generator**\n- Real-time guest RSVP tracking\n- **Automated Telegram Bot notifications** (note: AjakMe uses Telegram, not WhatsApp).";
-            } else if (q.includes('zero') || q.includes('downtime') || q.includes('aws') || q.includes('deploy')) {
-              responseText = "I specialize in **Zero-Downtime Blue/Green Deployments** on AWS without Docker complexity.\n\nMy architecture uses AWS Application Load Balancers, Target Group weight shifting, Laravel Octane/FrankenPHP workers, and centralized ElastiCache to ensure 100% traffic cutover safety and instant rollback without dropping customer sessions.\n\nYou can read the full case study directly in the **Case Studies** tab!";
-            } else if (q.includes('cka') || q.includes('cert') || q.includes('k8s') || q.includes('kubernetes')) {
-              responseText = "I'm a **CKA: Certified Kubernetes Administrator**, certified by The Linux Foundation & CNCF in 2024 (Credly verified).\n\nI am also officially recognized as a **Graduate Technologist (Information & Computing)** by the Malaysia Board of Technologists (MBOT).";
-            } else if (q.includes('name') || q.includes('who') || q.includes('amee')) {
-              responseText = "My full name is **Ameerul Arif Bin Mohd Azni**, though friends and colleagues across the industry call me **Amee**.\n\nI'm a Malaysia-based Lead Systems Architect and Senior Software Engineer specializing in zero-downtime AWS infrastructure, high-density Laravel systems, and cloud deployments.";
-            } else {
-              responseText = "Hi! I'm **Ameerul Arif** (known as **Amee**). I specialize in high-density cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures.\n\nFeel free to explore my case studies, project showcases, or connect with me directly on [LinkedIn](https://www.linkedin.com/in/ameerul-arif-mohd-azni/) to collaborate!";
+              try {
+                const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const endpoint = isLocal ? '/api/chat' : 'https://ai.amee.my/chat';
+
+                const res = await fetch(endpoint, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ question: this.aiActiveQuestion })
+                });
+
+                if (res.ok) {
+                  const data = await res.json();
+                  responseText = data.answer || 'No response returned.';
+                  providerType = data.provider || 'gemini';
+                } else {
+                  throw new Error(`Status ${res.status}`);
+                }
+              } catch (e) {
+                console.warn('AI endpoint unavailable, falling back to client-side grounded response.', e);
+                providerType = 'client-fallback';
+
+                // Guardrail: Personal Privacy Deflection in client-side fallback
+                const personalKeywords = ['wife', 'husband', 'spouse', 'partner', 'married', 'marriage', 'girlfriend', 'boyfriend', 'dating', 'children', 'kids', 'son', 'daughter', 'family', 'parents', 'salary', 'religion'];
+                const queryWords = normalizedQ.split(/[^a-z0-9_]+/);
+                if (personalKeywords.some(kw => queryWords.includes(kw) || normalizedQ.includes(kw + "'s") || normalizedQ.includes(kw + "s"))) {
+                  responseText = "I keep my personal and family life completely private. I am only here to discuss my software engineering portfolio, cloud architecture, and technical projects. Feel free to ask about my work on VetCheck, AjakMe, or AWS infrastructure!";
+                } else if (normalizedQ.includes('vetcheck') || normalizedQ.includes('veterinary')) {
+                  responseText = "I worked on **VetCheck**, an AI Veterinary Clinical Management & Telehealth SaaS in the UK & Australia, engineering an automated **Blue/Green deployment pipeline on AWS** using Laravel Octane, FrankenPHP, and centralized ElastiCache.";
+                } else if (normalizedQ.includes('ajakme') || normalizedQ.includes('wedding') || normalizedQ.includes('telegram')) {
+                  responseText = "I built **AjakMe**, a modern digital wedding invitation & RSVP SaaS in Malaysia featuring Livewire 3.7 + Alpine.js, automated PDF print cards, and Telegram bot RSVP notifications.";
+                } else if (normalizedQ.includes('zero') || normalizedQ.includes('downtime') || normalizedQ.includes('aws') || normalizedQ.includes('deploy')) {
+                  responseText = "I specialize in **Zero-Downtime Blue/Green Deployments** on AWS using ALB target weight shifting, Laravel Octane/FrankenPHP workers, and centralized ElastiCache.";
+                } else if (normalizedQ.includes('cka') || normalizedQ.includes('cert') || normalizedQ.includes('k8s') || normalizedQ.includes('kubernetes')) {
+                  responseText = "I'm a **CKA: Certified Kubernetes Administrator** (CNCF, 2024) and **Graduate Technologist (Information & Computing)** accredited by MBOT.";
+                } else if (normalizedQ.includes('name') || normalizedQ.includes('who') || normalizedQ.includes('amee')) {
+                  responseText = "My full name is **Ameerul Arif Bin Mohd Azni** (known as **Amee**). I'm a Malaysia-based Senior Software Engineer and Cloud Infrastructure Specialist specializing in zero-downtime AWS infrastructure, high-density Laravel systems, and cloud deployments.";
+                } else {
+                  responseText = "Hi! I'm **Ameerul Arif** (known as **Amee**). I specialize in cloud infrastructure, zero-downtime AWS deployments, and scalable Laravel + Go architectures.\n\nFeel free to explore my case studies, project showcases, or connect with me directly on [LinkedIn](https://www.linkedin.com/in/ameerul-arif-mohd-azni/) to collaborate!";
+                }
+              }
             }
           } finally {
             this.aiLoading = false;
