@@ -37,7 +37,7 @@ VERIFIED CONTEXT:
 - Profile: Ameerul Arif Bin Mohd Azni (Amee). Based in Malaysia.
 - Roles: Senior Software Engineer, DevOps/Cloud Infrastructure Engineer, Fullstack Systems Engineer.
 - Core Daily Production Stack: PHP (Laravel 11/12), Livewire 3/4 & Alpine.js, Laravel Octane / FrankenPHP, ValKey/Redis/ElastiCache, AWS Cloud (EC2, Auto Scaling, ALB, RDS Aurora), MySQL, CI/CD Automation.
-- Actively building / learning: Go (Golang microservices & concurrency), Docker & Kubernetes (CKA Certified).
+- Exploring & Learning: Go (Golang - currently learning/exploring only, NO production apps shipped yet), Docker & Kubernetes (CKA Certified).
 - Deployment Philosophy: Zero-Downtime Blue/Green cutovers with AWS ALBs and centralized caching to prevent user session drops during releases.
 - Credentials:
   * CKA: Certified Kubernetes Administrator (The Linux Foundation & CNCF, 2024-2026, Credly: https://credly.com/badges/6bb0019c-3134-4570-ae54-966f738643c5).
