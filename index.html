@@ -1155,12 +1155,7 @@
                 console.warn('AI endpoint unavailable, falling back to client-side grounded response.', e);
                 providerType = 'client-fallback';
 
-                // Guardrail: Personal Privacy Deflection in client-side fallback
-                const personalKeywords = ['wife', 'husband', 'spouse', 'partner', 'married', 'marriage', 'girlfriend', 'boyfriend', 'dating', 'children', 'kids', 'son', 'daughter', 'family', 'parents', 'salary', 'religion'];
-                const queryWords = normalizedQ.split(/[^a-z0-9_]+/);
-                if (personalKeywords.some(kw => queryWords.includes(kw) || normalizedQ.includes(kw + "'s") || normalizedQ.includes(kw + "s"))) {
-                  responseText = "I keep my personal and family life completely private. I am only here to discuss my software engineering portfolio, cloud architecture, and technical projects. Feel free to ask about my work on VetCheck, AjakMe, or AWS infrastructure!";
-                } else if (normalizedQ.includes('vetcheck') || normalizedQ.includes('veterinary')) {
+                if (normalizedQ.includes('vetcheck') || normalizedQ.includes('veterinary')) {
                   responseText = "I worked on **VetCheck**, an AI Veterinary Clinical Management & Telehealth SaaS in the UK & Australia, engineering an automated **Blue/Green deployment pipeline on AWS** using Laravel Octane, FrankenPHP, and centralized ElastiCache.";
                 } else if (normalizedQ.includes('ajakme') || normalizedQ.includes('wedding') || normalizedQ.includes('telegram')) {
                   responseText = "I built **AjakMe**, a modern digital wedding invitation & RSVP SaaS in Malaysia featuring Livewire 3.7 + Alpine.js, automated PDF print cards, and Telegram bot RSVP notifications.";

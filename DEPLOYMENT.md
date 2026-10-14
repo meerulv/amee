@@ -12,7 +12,7 @@ This guide outlines how to deploy **amee.my** on **100% Free GitHub Pages** and 
                       │    Hosted on: GitHub Pages (100% Free)   │
                       └────────────────────┬─────────────────────┘
                                            │
-                                           │ POST /api/chat
+                                           │ POST /api/chat (or https://ai.amee.my/chat)
                                            ▼
                       ┌──────────────────────────────────────────┐
                       │    2. AI Router (Cloudflare Worker)      │
@@ -23,10 +23,44 @@ This guide outlines how to deploy **amee.my** on **100% Free GitHub Pages** and 
                                     ▼                  ▼
               ┌───────────────────────────┐   ┌───────────────────────────┐
               │ Google Gemini 2.0 Flash   │   │ Cloudflare Workers AI     │
-              │ Free Tier: 1,500 req/day  │   │ @cf/meta/llama-3.3-70b    │
+              │ Free Tier: 1,500 req/day  │   │ @cf/meta/llama-3.1-8b     │
               │ Multi-Key Auto-Rotation   │   │ 10,000 free neurons/day   │
               └───────────────────────────┘   └───────────────────────────┘
 ```
+
+---
+
+## 🚦 Deployment Decision Matrix: When to Deploy What?
+
+| What Did You Change? | Files Involved | Where & How to Deploy |
+| :--- | :--- | :--- |
+| **Worker AI logic / Prompts** | `worker/index.js`, `worker/wrangler.toml` | **Deploy to Cloudflare:**<br>`cd worker && npx wrangler deploy` |
+| **API Keys / Secrets** | `GEMINI_API_KEYS` in Cloudflare | **Update via Wrangler CLI:**<br>`cd worker && wrangler secret put GEMINI_API_KEYS` |
+| **Portfolio Frontend / HTML / CSS** | `index.html`, `assets/`, `blog/`, `projects/` | **Deploy to GitHub Pages:**<br>`git add . && git commit -m "..." && git push origin main` |
+| **Local dev server / Studio** | `server.py`, `editor/` | **Zero deploy needed:**<br>Restart your local `python3 server.py` process. |
+
+> [!IMPORTANT]
+> **Cloudflare Worker vs GitHub Pages separation:**
+> GitHub Pages only hosts static client files (`index.html`, CSS, JS). It does **not** run or compile the Cloudflare Worker. Any changes to `worker/index.js` or system prompts must be deployed via `npx wrangler deploy` from inside the `worker` directory.
+
+---
+
+## 🛡️ Dynamic AI Guardrails Architecture
+
+The AI guardrail architecture follows a **zero-hardcoding, closed-world principle**:
+
+1. **Single Source of Truth (`data/ameerul-context.json`):**
+   - Verified engineering systems, roles, certifications (CKA, MBOT), and spoken languages (Malay native, English professional).
+   - Any updates in `ameerul-context.json` automatically inform both the local server and the edge router.
+2. **Closed-World Grounding (Zero Hallucination):**
+   - The model is instructed under a strict closed-world constraint. It cannot extrapolate, speculate, or draw from outside world trivia to fabricate personal details (no invented languages like Japanese/Arabic, no fictional hobbies, no fake SLAs or benchmarks).
+   - Unverified attributes produce an honest acknowledgment:
+     > *"That specific detail is not documented in my public portfolio notes. Feel free to connect with me on LinkedIn or email me at hey@amee.my."*
+3. **Semantic Scope & Personal Privacy Boundary:**
+   - The system is restricted strictly to Ameerul's professional software engineering, cloud architecture, and systems engineering career.
+   - Non-technical questions and personal/family/romantic life inquiries are naturally rejected by the model rather than relying on brittle, hardcoded keyword blocklists.
+4. **Input Length Bounding:**
+   - User inputs are capped at 500 characters to prevent prompt stuffing and excess token consumption.
 
 ---
 
