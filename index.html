@@ -1136,7 +1136,7 @@
             } else {
               try {
                 const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-                const endpoint = isLocal ? '/api/chat' : 'https://ai.amee.my/chat';
+                const endpoint = !isLocal ? '/api/chat' : 'https://ai.amee.my/chat';
 
                 const res = await fetch(endpoint, {
                   method: 'POST',
