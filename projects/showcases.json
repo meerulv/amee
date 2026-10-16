@@ -85,7 +85,7 @@
     "badgeColor": "purple",
     "image": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200&auto=format&fit=crop",
     "problem": "Malaysian enterprises required a centralized digital workforce platform managing employee leaves, automated payroll, time tracking, and staff perks at scale.",
-    "solution": "Contributed to high-volume microservice APIs, payroll calculations, and scalable mobile backend endpoints supporting tens of thousands of corporate employees across Malaysia.",
+    "solution": "Core contributor to the ground-up development of the altHR superapp, spanning backend services, API development, web applications, and mobile apps across People, Performance, Helpdesk, and Time-Tracking modules.",
     "metrics": "High-Volume Enterprise Scale \u2022 Microservices Architecture \u2022 Fintech & Payroll Integration",
     "stack": [
       "Laravel / PHP",

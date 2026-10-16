@@ -25,6 +25,20 @@
         "id": "GT17120176"
       }
     ],
+    "education": [
+      {
+        "degree": "Master of Science in Information Technology",
+        "institution": "Universiti Teknologi MARA (UiTM)"
+      },
+      {
+        "degree": "Bachelor's Degree, Computer Science (Hons.) Netcentric Computing",
+        "institution": "Universiti Teknologi MARA (UiTM)"
+      },
+      {
+        "degree": "Diploma of Computer Science",
+        "institution": "Universiti Teknologi MARA (UiTM)"
+      }
+    ],
     "contact": {
       "github": "https://github.com/arifamee",
       "linkedin": "https://www.linkedin.com/in/ameerul-arif-mohd-azni/",
@@ -127,7 +141,7 @@
       "badge": "Commercial Superapp",
       "summary": "Enterprise HR & Workforce Superapp used by corporate enterprises across Malaysia.",
       "challenge": "Malaysian enterprises required a centralized digital workforce platform managing employee leaves, automated payroll, time tracking, and staff perks at scale.",
-      "solution": "Contributed to high-volume microservice APIs, payroll calculations, and scalable mobile backend endpoints supporting tens of thousands of corporate employees across Malaysia.",
+      "solution": "Core contributor to the ground-up development of the altHR superapp, spanning backend services, API development, web applications, and mobile apps across People, Performance, Helpdesk, and Time-Tracking modules.",
       "verified_impact": "High-Volume Enterprise Scale • Microservices Architecture • Fintech & Payroll Integration",
       "stack": [
         "Laravel / PHP",
